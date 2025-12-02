@@ -1,0 +1,364 @@
+{
+    "books": [
+        {
+            "title": "Book 1",
+            "author": "Author 1",
+            "price": 10.99,
+            "image": "https://example.com/images/book1.jpg"
+        },
+        {
+            "title": "Book 2",
+            "author": "Author 2",
+            "price": 11.49,
+            "image": "https://example.com/images/book2.jpg"
+        },
+        {
+            "title": "Book 3",
+            "author": "Author 3",
+            "price": 12.99,
+            "image": "https://example.com/images/book3.jpg"
+        },
+        {
+            "title": "Book 4",
+            "author": "Author 4",
+            "price": 9.99,
+            "image": "https://example.com/images/book4.jpg"
+        },
+        {
+            "title": "Book 5",
+            "author": "Author 5",
+            "price": 8.49,
+            "image": "https://example.com/images/book5.jpg"
+        },
+        {
+            "title": "Book 6",
+            "author": "Author 6",
+            "price": 13.50,
+            "image": "https://example.com/images/book6.jpg"
+        },
+        {
+            "title": "Book 7",
+            "author": "Author 7",
+            "price": 7.99,
+            "image": "https://example.com/images/book7.jpg"
+        },
+        {
+            "title": "Book 8",
+            "author": "Author 8",
+            "price": 14.25,
+            "image": "https://example.com/images/book8.jpg"
+        },
+        {
+            "title": "Book 9",
+            "author": "Author 9",
+            "price": 6.99,
+            "image": "https://example.com/images/book9.jpg"
+        },
+        {
+            "title": "Book 10",
+            "author": "Author 10",
+            "price": 15.00,
+            "image": "https://example.com/images/book10.jpg"
+        },
+        {
+            "title": "Book 11",
+            "author": "Author 11",
+            "price": 10.25,
+            "image": "https://example.com/images/book11.jpg"
+        },
+        {
+            "title": "Book 12",
+            "author": "Author 12",
+            "price": 11.10,
+            "image": "https://example.com/images/book12.jpg"
+        },
+        {
+            "title": "Book 13",
+            "author": "Author 13",
+            "price": 7.49,
+            "image": "https://example.com/images/book13.jpg"
+        },
+        {
+            "title": "Book 14",
+            "author": "Author 14",
+            "price": 9.75,
+            "image": "https://example.com/images/book14.jpg"
+        },
+        {
+            "title": "Book 15",
+            "author": "Author 15",
+            "price": 16.20,
+            "image": "https://example.com/images/book15.jpg"
+        },
+        {
+            "title": "Book 16",
+            "author": "Author 16",
+            "price": 8.10,
+            "image": "https://example.com/images/book16.jpg"
+        },
+        {
+            "title": "Book 17",
+            "author": "Author 17",
+            "price": 12.40,
+            "image": "https://example.com/images/book17.jpg"
+        },
+        {
+            "title": "Book 18",
+            "author": "Author 18",
+            "price": 6.89,
+            "image": "https://example.com/images/book18.jpg"
+        },
+        {
+            "title": "Book 19",
+            "author": "Author 19",
+            "price": 13.99,
+            "image": "https://example.com/images/book19.jpg"
+        },
+        {
+            "title": "Book 20",
+            "author": "Author 20",
+            "price": 7.35,
+            "image": "https://example.com/images/book20.jpg"
+        },
+        {
+            "title": "Book 21",
+            "author": "Author 21",
+            "price": 10.50,
+            "image": "https://example.com/images/book21.jpg"
+        },
+        {
+            "title": "Book 22",
+            "author": "Author 22",
+            "price": 11.80,
+            "image": "https://example.com/images/book22.jpg"
+        },
+        {
+            "title": "Book 23",
+            "author": "Author 23",
+            "price": 8.25,
+            "image": "https://example.com/images/book23.jpg"
+        },
+        {
+            "title": "Book 24",
+            "author": "Author 24",
+            "price": 9.40,
+            "image": "https://example.com/images/book24.jpg"
+        },
+        {
+            "title": "Book 25",
+            "author": "Author 25",
+            "price": 14.99,
+            "image": "https://example.com/images/book25.jpg"
+        },
+        {
+            "title": "Book 26",
+            "author": "Author 26",
+            "price": 6.79,
+            "image": "https://example.com/images/book26.jpg"
+        },
+        {
+            "title": "Book 27",
+            "author": "Author 27",
+            "price": 15.49,
+            "image": "https://example.com/images/book27.jpg"
+        },
+        {
+            "title": "Book 28",
+            "author": "Author 28",
+            "price": 7.99,
+            "image": "https://example.com/images/book28.jpg"
+        },
+        {
+            "title": "Book 29",
+            "author": "Author 29",
+            "price": 12.85,
+            "image": "https://example.com/images/book29.jpg"
+        },
+        {
+            "title": "Book 30",
+            "author": "Author 30",
+            "price": 8.55,
+            "image": "https://example.com/images/book30.jpg"
+        },
+        {
+            "title": "Book 31",
+            "author": "Author 31",
+            "price": 10.10,
+            "image": "https://example.com/images/book31.jpg"
+        },
+        {
+            "title": "Book 32",
+            "author": "Author 32",
+            "price": 11.60,
+            "image": "https://example.com/images/book32.jpg"
+        },
+        {
+            "title": "Book 33",
+            "author": "Author 33",
+            "price": 7.20,
+            "image": "https://example.com/images/book33.jpg"
+        },
+        {
+            "title": "Book 34",
+            "author": "Author 34",
+            "price": 9.10,
+            "image": "https://example.com/images/book34.jpg"
+        },
+        {
+            "title": "Book 35",
+            "author": "Author 35",
+            "price": 16.50,
+            "image": "https://example.com/images/book35.jpg"
+        },
+        {
+            "title": "Book 36",
+            "author": "Author 36",
+            "price": 8.49,
+            "image": "https://example.com/images/book36.jpg"
+        },
+        {
+            "title": "Book 37",
+            "author": "Author 37",
+            "price": 13.20,
+            "image": "https://example.com/images/book37.jpg"
+        },
+        {
+            "title": "Book 38",
+            "author": "Author 38",
+            "price": 6.59,
+            "image": "https://example.com/images/book38.jpg"
+        },
+        {
+            "title": "Book 39",
+            "author": "Author 39",
+            "price": 14.40,
+            "image": "https://example.com/images/book39.jpg"
+        },
+        {
+            "title": "Book 40",
+            "author": "Author 40",
+            "price": 7.90,
+            "image": "https://example.com/images/book40.jpg"
+        },
+        {
+            "title": "Book 41",
+            "author": "Author 41",
+            "price": 10.00,
+            "image": "https://example.com/images/book41.jpg"
+        },
+        {
+            "title": "Book 42",
+            "author": "Author 42",
+            "price": 11.45,
+            "image": "https://example.com/images/book42.jpg"
+        },
+        {
+            "title": "Book 43",
+            "author": "Author 43",
+            "price": 8.60,
+            "image": "https://example.com/images/book43.jpg"
+        },
+        {
+            "title": "Book 44",
+            "author": "Author 44",
+            "price": 9.75,
+            "image": "https://example.com/images/book44.jpg"
+        },
+        {
+            "title": "Book 45",
+            "author": "Author 45",
+            "price": 15.75,
+            "image": "https://example.com/images/book45.jpg"
+        },
+        {
+            "title": "Book 46",
+            "author": "Author 46",
+            "price": 6.95,
+            "image": "https://example.com/images/book46.jpg"
+        },
+        {
+            "title": "Book 47",
+            "author": "Author 47",
+            "price": 16.10,
+            "image": "https://example.com/images/book47.jpg"
+        },
+        {
+            "title": "Book 48",
+            "author": "Author 48",
+            "price": 7.49,
+            "image": "https://example.com/images/book48.jpg"
+        },
+        {
+            "title": "Book 49",
+            "author": "Author 49",
+            "price": 12.30,
+            "image": "https://example.com/images/book49.jpg"
+        },
+        {
+            "title": "Book 50",
+            "author": "Author 50",
+            "price": 8.15,
+            "image": "https://example.com/images/book50.jpg"
+        },
+        {
+            "title": "Book 51",
+            "author": "Author 51",
+            "price": 10.35,
+            "image": "https://example.com/images/book51.jpg"
+        },
+        {
+            "title": "Book 52",
+            "author": "Author 52",
+            "price": 11.95,
+            "image": "https://example.com/images/book52.jpg"
+        },
+        {
+            "title": "Book 53",
+            "author": "Author 53",
+            "price": 7.89,
+            "image": "https://example.com/images/book53.jpg"
+        },
+        {
+            "title": "Book 54",
+            "author": "Author 54",
+            "price": 9.30,
+            "image": "https://example.com/images/book54.jpg"
+        },
+        {
+            "title": "Book 55",
+            "author": "Author 55",
+            "price": 14.75,
+            "image": "https://example.com/images/book55.jpg"
+        },
+        {
+            "title": "Book 56",
+            "author": "Author 56",
+            "price": 6.89,
+            "image": "https://example.com/images/book56.jpg"
+        },
+        {
+            "title": "Book 57",
+            "author": "Author 57",
+            "price": 15.20,
+            "image": "https://example.com/images/book57.jpg"
+        },
+        {
+            "title": "Book 58",
+            "author": "Author 58",
+            "price": 7.75,
+            "image": "https://example.com/images/book58.jpg"
+        },
+        {
+            "title": "Book 59",
+            "author": "Author 59",
+            "price": 12.60,
+            "image": "https://example.com/images/book59.jpg"
+        },
+        {
+            "title": "Book 60",
+            "author": "Author 60",
+            "price": 8.35,
+            "image": "https://example.com/images/book60.jpg"
+        }
+    ]
+}
