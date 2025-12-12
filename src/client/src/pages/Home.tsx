@@ -3,6 +3,7 @@ import { motion} from 'framer-motion';
 import { ChevronRight, Award, Users, Timer, Target, ChevronLeft } from 'lucide-react';
 import { Button } from '../components/UI/Button';
 import { Link } from 'react-router-dom';
+import Slider from '../components/UI/Slider';
 
 const stats = [
   { label: 'Students Trained', value: '5,000+', icon: Users, color: 'text-[#FF9933]' },
@@ -174,145 +175,9 @@ export const Home: React.FC = () => {
             <h1 className="text-4xl md:text-5xl font-black text-[#000080] dark:text-white">WALL OF FAME</h1>
             <div className="w-24 h-1 bg-[#138808] mx-auto mt-6 rounded-full"></div>
           </div>
-
-          <div className="relative">
-            {/* Mobile/Tablet View - Single Testimonial */}
-            <div className="md:hidden">
-              <div className="overflow-hidden min-h-[400px]">
-                {/* <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentTestimonial}
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.3 }}
-                    className="bg-gray-50 dark:bg-slate-900 rounded-2xl p-8 text-center shadow-inner border border-gray-100 dark:border-slate-800"
-                  >
-                    <div className="flex justify-center mb-8">
-                      <Quote className="w-12 h-12 text-[#FF9933] opacity-20" />
-                    </div>
-                    
-                    <p className="text-lg text-gray-700 dark:text-gray-200 font-medium italic mb-8 leading-relaxed">
-                      "{testimonials[currentTestimonial].content}"
-                    </p>
-
-                    <div className="flex flex-col items-center">
-                      <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-white dark:border-slate-800 shadow-md mb-4">
-                        <img 
-                          src={testimonials[currentTestimonial].image} 
-                          alt={testimonials[currentTestimonial].name} 
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <h3 className="text-xl font-bold text-[#000080] dark:text-blue-300">{testimonials[currentTestimonial].name}</h3>
-                      <p className="text-[#138808] dark:text-green-400 font-bold">{testimonials[currentTestimonial].role}</p>
-                      <div className="flex mt-3 space-x-1">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="w-4 h-4 text-[#FF9933] fill-current" />
-                        ))}
-                      </div>
-                    </div>
-                  </motion.div>
-                </AnimatePresence> */}
-              </div>
-
-              {/* Mobile Navigation */}
-              <div className="flex justify-between items-center mt-8">
-                <button
-                  onClick={prevTestimonial}
-                  className="p-2 rounded-full bg-white dark:bg-slate-800 shadow-lg text-[#000080] dark:text-white hover:bg-[#FF9933] hover:text-white transition-colors border border-gray-100 dark:border-gray-700"
-                >
-                  <ChevronLeft className="w-6 h-6" />
-                </button>
-                <div className="flex space-x-2">
-                  {testimonials.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setCurrentTestimonial(idx)}
-                      className={`w-3 h-3 rounded-full transition-colors ${idx === currentTestimonial ? 'bg-[#000080] dark:bg-[#FF9933]' : 'bg-gray-300 dark:bg-gray-600'
-                        }`}
-                    />
-                  ))}
-                </div>
-                <button
-                  onClick={nextTestimonial}
-                  className="p-2 rounded-full bg-white dark:bg-slate-800 shadow-lg text-[#000080] dark:text-white hover:bg-[#FF9933] hover:text-white transition-colors border border-gray-100 dark:border-gray-700"
-                >
-                  <ChevronRight className="w-6 h-6" />
-                </button>
-              </div>
-            </div>
-
-            {/* Desktop View - Three Testimonials */}
-            <div className="hidden md:block">
-              <div className="grid grid-cols-3 gap-8">
-                {/* {[0, 1, 2].map((offset) => {
-                  const index = (currentTestimonial + offset) % testimonials.length;
-                  return (
-                    <motion.div
-                      key={currentTestimonial + offset}
-                      initial={{ opacity: 0, x: 100 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -100 }}
-                      transition={{ duration: 0.5, ease: "easeInOut", delay: offset * 0.1 }}
-                      className="bg-gray-50 dark:bg-slate-900 rounded-2xl p-8 text-center shadow-lg border border-gray-100 dark:border-slate-800 hover:shadow-xl transition-shadow"
-                    >
-                      <div className="flex justify-center mb-6">
-                        <Quote className="w-10 h-10 text-[#FF9933] opacity-20" />
-                      </div>
-                      
-                      <p className="text-gray-700 dark:text-gray-200 font-medium italic mb-6 leading-relaxed line-clamp-4">
-                        "{testimonials[index].content}"
-                      </p>
-
-                      <div className="flex flex-col items-center">
-                        <div className="w-16 h-16 rounded-full overflow-hidden border-4 border-white dark:border-slate-800 shadow-md mb-4">
-                          <img 
-                            src={testimonials[index].image} 
-                            alt={testimonials[index].name} 
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <h3 className="text-lg font-bold text-[#000080] dark:text-blue-300">{testimonials[index].name}</h3>
-                        <p className="text-[#138808] dark:text-green-400 font-bold text-sm">{testimonials[index].role}</p>
-                        <div className="flex mt-3 space-x-1">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="w-3 h-3 text-[#FF9933] fill-current" />
-                          ))}
-                        </div>
-                      </div>
-                    </motion.div>
-                  );
-                })} */}
-              </div>
-
-              {/* Desktop Navigation */}
-              <div className="flex justify-center items-center mt-12 space-x-4">
-                <button
-                  onClick={prevTestimonial}
-                  className="p-3 rounded-full bg-white dark:bg-slate-800 shadow-lg text-[#000080] dark:text-white hover:bg-[#FF9933] hover:text-white transition-colors border border-gray-100 dark:border-gray-700"
-                >
-                  <ChevronLeft className="w-6 h-6" />
-                </button>
-                <div className="flex space-x-3">
-                  {testimonials.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setCurrentTestimonial(idx)}
-                      className={`w-3 h-3 rounded-full transition-colors ${idx === currentTestimonial ? 'bg-[#000080] dark:bg-[#FF9933]' : 'bg-gray-300 dark:bg-gray-600'
-                        }`}
-                    />
-                  ))}
-                </div>
-                <button
-                  onClick={nextTestimonial}
-                  className="p-3 rounded-full bg-white dark:bg-slate-800 shadow-lg text-[#000080] dark:text-white hover:bg-[#FF9933] hover:text-white transition-colors border border-gray-100 dark:border-gray-700"
-                >
-                  <ChevronRight className="w-6 h-6" />
-                </button>
-              </div>
-            </div>
-          </div>
+          
+          <Slider />
+          
         </div>
       </section>
 

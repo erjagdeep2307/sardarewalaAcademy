@@ -3,6 +3,7 @@ import { PublicLayout } from "../layouts/appLayout";
 import { Home } from "../pages/Home";
 import { About } from "../pages/About";
 import { Gallery } from "../pages/Gallery";
+import { Contact } from "../pages/Contact";
 const appRouter = createBrowserRouter([
   {
     path: "/",
@@ -19,6 +20,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/gallery",
         element:<Gallery/>  
+      },
+      {
+        path: "/contact",
+        element:<Contact/>  
       }
     ]
   }

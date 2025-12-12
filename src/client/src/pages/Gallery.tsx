@@ -20,7 +20,7 @@ export const Gallery: React.FC = () => {
           <h1 className="text-4xl font-black text-[#000080] dark:text-white">TRAINING IN ACTION</h1>
           <p className="mt-4 text-gray-600 dark:text-gray-300">Glimpses of the sweat, grind, and glory at Sardarewala Academy.</p>
         </div>
-
+        
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {images.map((src, idx) => (
             <div key={idx} className="group relative aspect-square overflow-hidden rounded-lg cursor-pointer bg-gray-100 dark:bg-slate-800">

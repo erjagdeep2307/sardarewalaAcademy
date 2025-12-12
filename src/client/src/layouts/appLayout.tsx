@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
 // import { ThemeProvider } from '../context/themeContext';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { Menu, X, Facebook, Instagram, Twitter,Phone, Mail, Dumbbell, Sun, Moon} from 'lucide-react';
+import { Menu, X,Youtube, Facebook, Instagram, Twitter,Phone, Mail, Dumbbell, Sun, Moon} from 'lucide-react';
 import { Button } from '../components/UI/Button.tsx';
 import { cn } from '../../utils/utility';
 import Footer from '../components/Footer/Footer.tsx';
@@ -37,7 +37,7 @@ export const PublicLayout: React.FC = () => {
     // { name: 'Programs', path: '/programs' },
     { name: 'Gallery', path: '/gallery' },
     // { name: 'Pricing', path: '/pricing' },
-    // { name: 'Contact', path: '/contact' },
+    { name: 'Contact', path: '/contact' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -54,7 +54,8 @@ export const PublicLayout: React.FC = () => {
           <div className="flex space-x-3">
             <Facebook className="w-4 h-4 cursor-pointer hover:text-[#FF9933] transition-colors" />
             <Instagram className="w-4 h-4 cursor-pointer hover:text-[#FF9933] transition-colors" />
-            <Twitter className="w-4 h-4 cursor-pointer hover:text-[#FF9933] transition-colors" />
+            <a href='https://www.youtube.com/@Sikhsardarewalaacademy5784' target='_blank' > <Youtube className="w-4 h-4 cursor-pointer hover:text-[#FF9933] transition-colors" />
+          </a>
           </div>
         </div>
       </div>
