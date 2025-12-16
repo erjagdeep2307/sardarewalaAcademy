@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 export const Gallery: React.FC = () => {
   const images = [
     "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?q=80&w=600&h=600&fit=crop", // Kushti/Wrestling
@@ -30,7 +30,7 @@ export const Gallery: React.FC = () => {
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
               />
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <span className="text-white font-bold border-2 border-[#FF9933] px-4 py-2 rounded uppercase tracking-wider">View</span>
+                <span className="text-white font-bold border-2 border-[#FF9933] px-4 py-2 rounded uppercase tracking-wider"><Link to="/event" >View</Link></span>
               </div>
             </div>
           ))}

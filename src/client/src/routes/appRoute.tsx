@@ -4,7 +4,14 @@ import { Home } from "../pages/Home";
 import { About } from "../pages/About";
 import { Gallery } from "../pages/Gallery";
 import { Contact } from "../pages/Contact";
+import {Event} from "../pages/Event"
+import { AdminLayout } from "../layouts/adminLayout";
+import { AdminDashboard } from "../pages/admin/Dashboard";
+import { AdminGalleryView } from "../pages/admin/Gallery/List";
+import {Create} from "../pages/admin/Gallery/Create";
+import { AdminGalleryLayout } from "../layouts/galleryLayout";
 const appRouter = createBrowserRouter([
+// Public Routes
   {
     path: "/",
     element: <PublicLayout />, // must be closed
@@ -24,8 +31,38 @@ const appRouter = createBrowserRouter([
       {
         path: "/contact",
         element:<Contact/>  
-      }
+      },
+      {
+        path: "/event",
+        element:<Event />  
+      },
+
     ]
+  },
+// Admin Routes
+  {
+    path: "/admin/",
+    element: <AdminLayout />, // must be closed
+    children: [
+      {   
+        index: true,
+        element: <AdminDashboard />,
+      },
+      {
+        path: "gallery",
+        element: <AdminGalleryLayout />,
+        children: [
+          {
+              index: true,
+              element: <AdminGalleryView />, 
+          },
+          {
+              path: "create",
+              element: <Create />, 
+          }
+        ],
+      }
+    ],  
   }
 ]);
 

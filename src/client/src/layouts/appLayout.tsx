@@ -1,9 +1,10 @@
 import React, { useState, useEffect} from 'react';
+import logo from "/training.png";
 // import { ThemeProvider } from '../context/themeContext';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { Menu, X,Youtube, Facebook, Instagram, Twitter,Phone, Mail, Dumbbell, Sun, Moon} from 'lucide-react';
+import { Menu, X,Youtube, Facebook, Instagram, Phone, Mail, Sun, Moon} from 'lucide-react';
 import { Button } from '../components/UI/Button.tsx';
-import { cn } from '../../utils/utility';
+import { cn } from '../utils/utility.tsx';
 import Footer from '../components/Footer/Footer.tsx';
 export const PublicLayout: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -67,7 +68,8 @@ export const PublicLayout: React.FC = () => {
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-2 group">
                <div className="bg-white p-1.5 rounded-full">
-                <Dumbbell className="h-8 w-8 text-[#FF9933]" />
+                {/* <Dumbbell className="h-8 w-8 text-[#FF9933]" /> */}
+                <img src={logo} className="h-10 w-10" />
                </div>
                <div className="flex flex-col">
                  <span className="text-white font-black text-xl leading-none tracking-tight">SARDAREWALA</span>
@@ -98,9 +100,9 @@ export const PublicLayout: React.FC = () => {
                 {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
               </button>
 
-              <Link to="/admin/login">
+              <Link to="/admin/">
                 <Button variant="primary" size="sm" className="ml-2">
-                  JOIN NOW
+                  Admin
                 </Button>
               </Link>
             </nav>
@@ -141,7 +143,9 @@ export const PublicLayout: React.FC = () => {
                 </Link>
               ))}
               <div className="pt-4">
-                <Button variant="primary" className="w-full">JOIN NOW</Button>
+                <Link to={'/admin/'}>
+                  <Button variant="primary" className="w-full">Admin</Button>
+                </Link>
               </div>
             </div>
           </div>
