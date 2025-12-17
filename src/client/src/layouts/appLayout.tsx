@@ -50,7 +50,7 @@ export const PublicLayout: React.FC = () => {
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-4">
             <span className="flex items-center"><Phone className="w-3 h-3 mr-1" /> +91 97297 98025</span>
-            <span className="flex items-center hidden sm:flex"><Mail className="w-3 h-3 mr-1" /> info@sardarewala.com</span>
+            <span className="flex items-center sm:flex"><Mail className="w-3 h-3 mr-1" /> info@sardarewala.com</span>
           </div>
           <div className="flex space-x-3">
             <Facebook className="w-4 h-4 cursor-pointer hover:text-[#FF9933] transition-colors" />

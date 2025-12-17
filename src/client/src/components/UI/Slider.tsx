@@ -5,6 +5,7 @@ import { Pagination, Autoplay } from 'swiper/modules';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
+// import 'swiper/swiper.min.css'; // Use the compiled main CSS file
 import type { Testomonial } from '../../types/types';
 // NOTE: We still need to import base styles for functionality, but we override the look with Tailwind.
 
