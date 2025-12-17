@@ -126,7 +126,7 @@ export const Home: React.FC = () => {
               <div className="absolute -top-4 -left-4 w-24 h-24 bg-[#FF9933] rounded-tl-3xl opacity-20" />
               <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#138808] rounded-br-3xl opacity-20" />
               <img
-                src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?q=80&w=1500&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?q=80&fm=webp&w=500&auto=format&fit=crop"
                 alt="Wrestling and Traditional Indian Training"
                 className="relative rounded-lg shadow-2xl w-full object-cover h-[500px]"
               />
