@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import logo from "/logo-54.png";
+import logo from "/logo.svg";
 import { MapPin, Phone, Mail } from "lucide-react"
 export default function Footer(){
     return (
