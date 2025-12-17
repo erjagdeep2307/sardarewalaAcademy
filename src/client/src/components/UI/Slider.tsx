@@ -1,24 +1,12 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';
-
 // Import Swiper styles
+// Need to declare modules in swiper.d.ts for TypeScript because Swiper's CSS files do not have type definitions
 import 'swiper/css';
 import 'swiper/css/pagination';
 // import 'swiper/swiper.min.css'; // Use the compiled main CSS file
 import type { Testomonial } from '../../types/types';
-// NOTE: We still need to import base styles for functionality, but we override the look with Tailwind.
-
-// Custom styles to integrate Tailwind color into the pagination dots
-// This is often necessary because Swiper creates the pagination dots (bullets) itself.
-// const customSwiperStyles = `
-//   /* Use Tailwind's blue-600 color for active pagination dot */
-//   .swiper-pagination-bullet-active {
-//     background-color: #2563eb !important; /* Tailwind's blue-600 */
-//     opacity: 1;
-//   }
-// `;
-
 interface SliderProps {
     data: Testomonial[],
 }

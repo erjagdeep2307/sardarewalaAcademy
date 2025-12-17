@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import logo from "/training.png";
+import logo from "/logo.svg";
 // import { ThemeProvider } from '../context/themeContext';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { Menu, X,Youtube, Facebook, Instagram, Phone, Mail, Sun, Moon} from 'lucide-react';

@@ -19,28 +19,28 @@ const testimonials:Testomonial[] = [
     name: "Vikram Singh",
     role: "Selected - Indian Army (GD)",
     content: "The discipline at Sardarewala is unlike anywhere else. The early morning drills and the obstacle course helped me clear my physical in the first attempt. Jai Hind!",
-    image: "https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=155&h=155&fit=crop&q=80"
+    image: "https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=155&h=155&fm=webp&fit=crop&q=80"
   },
   {
     id: 2,
     name: "Gurpreet Kaur",
     role: "Punjab Police Constable",
     content: "I was struggling with my 1600m timing. The coaches here analyzed my running form and improved my stamina within 2 months. I owe my uniform to this academy.",
-    image: "https://images.unsplash.com/photo-1623091410901-00e2d5b68181?w=155&h=155&fit=crop&q=80"
+    image: "https://images.unsplash.com/photo-1623091410901-00e2d5b68181?w=155&h=155&fm=webp&fit=crop&q=80"
   },
   {
     id: 3,
     name: "Rahul Verma",
     role: "National Athlete (400m)",
     content: "From a village runner to a National level athlete, the journey was tough but the guidance here was world-class. The diet plans and gym sessions are excellent.",
-    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=155&h=155&fit=crop&q=80"
+    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=155&h=155&fm=webp&fit=crop&q=80"
   },
   {
     id: 4,
     name: "Amit Chaudhary",
     role: "CISF Sub-Inspector",
     content: "The mock physical tests conducted every Saturday gave me the confidence to face the actual recruitment day without fear. Highly recommended!",
-    image: "https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?w=155&h=155&fit=crop&q=80"
+    image: "https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?w=155&h=155&fm=webp&fit=crop&q=80"
   }
 ];
 
@@ -126,7 +126,7 @@ export const Home: React.FC = () => {
               <div className="absolute -top-4 -left-4 w-24 h-24 bg-[#FF9933] rounded-tl-3xl opacity-20" />
               <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#138808] rounded-br-3xl opacity-20" />
               <img
-                src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?q=80&w=1500&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?q=80&fm=webp&w=500&auto=format&fit=crop"
                 alt="Wrestling and Traditional Indian Training"
                 className="relative rounded-lg shadow-2xl w-full object-cover h-[500px]"
               />
