@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useForm,useWatch } from 'react-hook-form';
-import { Button } from '../../../components/UI/Button';
-import type { EventFormData } from '../../../types/types';
-import { slugify } from '../../../utils/utility';
+import { Button } from '@/components/UI/Button';
+import type { EventFormData } from '@/types/types';
+import { slugify } from '@/utils/utility';
 
 export const Create: React.FC = () => {
     const { 

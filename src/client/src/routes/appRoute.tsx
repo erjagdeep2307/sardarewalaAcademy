@@ -1,15 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
-import { PublicLayout } from "../layouts/appLayout";
-import { Home } from "../pages/Home";
-import { About } from "../pages/About";
-import { Gallery } from "../pages/Gallery";
-import { Contact } from "../pages/Contact";
-import {Event} from "../pages/Event"
-import { AdminLayout } from "../layouts/adminLayout";
-import { AdminDashboard } from "../pages/admin/Dashboard";
-import { AdminGalleryView } from "../pages/admin/Gallery/List";
-import {Create} from "../pages/admin/Gallery/Create";
-import { AdminGalleryLayout } from "../layouts/galleryLayout";
+import { PublicLayout } from "@/layouts/appLayout";
+import { Home } from "@/pages/public/Home";
+import { About } from "@/pages/public/About";
+import { Gallery } from "@/pages/public/Gallery";
+import { Contact } from "@/pages/public/Contact";
+import {Event} from "@/pages/public/Event"
+import { AdminLayout } from "@/layouts/adminLayout";
+import { AdminDashboard } from "@/pages/admin/Dashboard";
+import { AdminGalleryView } from "@/pages/admin/Gallery/List";
+import {Create} from "@/pages/admin/Gallery/Create";
+import { AdminGalleryLayout } from "@/layouts/galleryLayout";
 const appRouter = createBrowserRouter([
 // Public Routes
   {

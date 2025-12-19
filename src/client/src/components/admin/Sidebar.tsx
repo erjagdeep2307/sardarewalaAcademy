@@ -37,21 +37,21 @@ interface NavItem {
  return (
    <aside 
         className={cn(
-          "bg-[#000080] dark:bg-slate-900 text-white hidden md:flex flex-col flex-shrink-0 border-r border-white/5 transition-all duration-300 relative",
+          "bg-[#000080] dark:bg-slate-900 text-white hidden md:flex flex-col flex-shrink-0 border-r border-white/5 transition-all duration-300 relative z-20",
           isCollapsed ? "w-20" : "w-64"
         )}
       >
         {/* Toggle Button on the Right Border */}
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="absolute -right-3 top-7 bg-[#FF9933] text-white p-1 rounded-full shadow-lg hover:bg-[#e68a00] transition-colors z-50 border-2 border-[#000080] dark:border-slate-900 "
+          className="absolute -right-3 top-7 bg-[#FF9933] text-white p-1 rounded-full shadow-lg hover:bg-[#e68a00] transition-colors z-50 border-2 border-[#000080] dark:border-slate-900"
           title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
         >
           {isCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
         </button>
 
         {/* Sidebar Header / Logo */}
-        <div className="h-20 flex items-center justify-center border-b border-white/10 overflow-hidden whitespace-nowrap">
+        <div className="h-20 flex flex-shrink-0 items-center justify-center border-b border-white/10 overflow-hidden whitespace-nowrap">
            <Link to="/" className="flex items-center space-x-2 px-2">
               <div className="bg-white p-1.5 rounded-full flex-shrink-0 shadow-md">
                 <Dumbbell className="h-6 w-6 text-[#FF9933]" />
@@ -66,7 +66,7 @@ interface NavItem {
         </div>
         
         {/* Navigation */}
-         <nav className="flex-1 px-3 py-6 space-y-2 overflow-y-auto overflow-x-hidden">
+         <nav className="flex-1 px-3 py-6 space-y-2 overflow-y-auto overflow-x-hidden custom-scrollbar">
           {navItems.map((item) => (
             <div key={item.path}>
               <div

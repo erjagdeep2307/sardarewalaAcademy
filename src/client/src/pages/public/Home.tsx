@@ -1,10 +1,10 @@
 // import React, { useState, useEffect } from 'react';
-import { motion} from 'framer-motion';
+import {motion} from 'motion/react';
 import { ChevronRight, Award, Users, Timer, Target} from 'lucide-react';
-import { Button } from '../components/UI/Button';
+import { Button } from '@/components/UI/Button';
 import { Link } from 'react-router-dom';
-import Slider from '../components/UI/Slider';
-import type {Testomonial } from '../types/types';
+import Slider from '@/components/UI/Slider';
+import type {Testomonial } from '@/types/types';
 
 const stats = [
   { label: 'Students Trained', value: '5,000+', icon: Users, color: 'text-[#FF9933]' },

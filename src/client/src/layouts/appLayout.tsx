@@ -67,7 +67,7 @@ export const PublicLayout: React.FC = () => {
           <div className="flex justify-between items-center h-20">
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-2 group">
-               <div className="bg-white p-1.5 rounded-full">
+               <div className="p-1.5 rounded-full">
                 {/* <Dumbbell className="h-8 w-8 text-[#FF9933]" /> */}
                 <img src={logo} className="h-10 w-10" />
                </div>

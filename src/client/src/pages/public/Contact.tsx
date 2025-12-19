@@ -1,6 +1,6 @@
 import React from 'react';
 import { Mail, Phone, MapPin } from 'lucide-react';
-import { Button } from '../components/UI/Button';
+import { Button } from '@/components/UI/Button';
 
 export const Contact: React.FC = () => {
   return (
