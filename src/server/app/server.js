@@ -1,9 +1,15 @@
-import dotenv from 'dotenv';
-dotenv.config({path: '.env'});
+import 'dotenv/config';
+import fs from 'fs';
 import app from './adaptors/http-express/app.js';
-console.log('Environment Variable TEST_VAR:', process.env.APP_PORT);
+import { connectDB } from '#db';
 const PORT = process.env.APP_PORT || 3000;
+// Check out the initial connection to Database if it is able to make connection or not
+await connectDB();
 
-app.listen(PORT, () => {
+// const result =  await uploadImage(fileBuffer,'events');
+// console.log(result);
+
+
+app.listen(PORT,"0.0.0.0", () => {
   console.log(`Server is running on port ${PORT}`);
 }); 

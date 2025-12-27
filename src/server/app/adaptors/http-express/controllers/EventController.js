@@ -1,10 +1,12 @@
 import EventValidationSchema from "#events/event.schema";
+import { success } from "zod";
 // Create a new event
 const EventController = (eventService) => {
 
     const createEvent = async (req, res, next) => {
         try {
             const validatedData = EventValidationSchema.safeParse(req.body);
+
             if (validatedData.success === false) {
                 return res.status(400).send({
                     success: false,
@@ -12,14 +14,26 @@ const EventController = (eventService) => {
                     errors: validatedData.error.flatten().fieldErrors
                 });
             }
-            const createdEvent = await eventService.create(validatedData.data);
-            res.status(201).send({
-                success: true,
-                message: 'Event created successfully',
-                data: createdEvent
-            }); 
+            if(req.file)
+            {
+                const createdEvent = await eventService.create(validatedData.data);
+                console.log(createEvent);
+                res.status(201).send({
+                    success: true,
+                    message: 'Event created successfully',
+                    data: createdEvent
+                }); 
+            }
+            else{
+
+            }
         } catch (error) {
-            next(error);
+            res.status(401).send({
+                success: false,
+                message:error.message,
+                data:null
+            });
+            // next(error);
         }
     }
     // Get all events

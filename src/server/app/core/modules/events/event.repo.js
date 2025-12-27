@@ -12,8 +12,8 @@ const eventRepo = (connPool) => {
             }
             return null;
         } catch (error) {
-            console.error('Error creating event:', error.stack);
-            throw new Error('Database error while creating event');
+            console.error('Error creating event:', error.message);
+            throw new Error(error.message);
         }
         finally {
             if (dbClient) {

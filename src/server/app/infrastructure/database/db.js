@@ -6,6 +6,18 @@ const connectionPool = new Pool({
      idleTimeoutMillis: 30000, // close idle clients
      connectionTimeoutMillis: 5000
 });
+
+export const connectDB = async ()=>{
+    try {
+        const dbClient = await connectionPool.connect();
+        console.log(`Connected to Database`);
+        dbClient.release();
+    } catch (error) {
+        console.error(`Failed to connect Database`,error.message);
+        process.exit(1);
+    }
+}
+
 connectionPool.on('error', (err) => {
     console.error('Unexpected error on idle client', err);
     process.exit(-1);

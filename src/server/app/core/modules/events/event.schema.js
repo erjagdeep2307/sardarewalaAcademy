@@ -11,7 +11,8 @@ const EventValidationSchema = zod.object({
   location: zod.string().min(5).max(200),
    slug: zod.string().min(5).max(100).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
     message: 'Slug can only contain lowercase letters, numbers, and hyphens',
-  }), 
+  }),
+  event_image:zod.url() 
 });
 
 export default EventValidationSchema;
