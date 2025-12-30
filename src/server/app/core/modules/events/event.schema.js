@@ -7,12 +7,12 @@ const EventValidationSchema = zod.object({
     date: zod.string().refine((date) => !isNaN(Date.parse(date)), {
     message: 'Invalid date format',
   }),
-  is_featured: zod.boolean().optional(),
+  is_featured: zod.preprocess((val) => val === 'true', zod.boolean()),
   location: zod.string().min(5).max(200),
    slug: zod.string().min(5).max(100).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
     message: 'Slug can only contain lowercase letters, numbers, and hyphens',
   }),
-  event_image:zod.url() 
+  // event_image:zod.url() 
 });
 
 export default EventValidationSchema;

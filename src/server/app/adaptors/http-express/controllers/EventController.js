@@ -5,7 +5,9 @@ const EventController = (eventService) => {
 
     const createEvent = async (req, res, next) => {
         try {
-            const validatedData = EventValidationSchema.safeParse(req.body);
+            
+            const dataToValidate = {...req.body,event_image:req.file?.path};
+            const validatedData = EventValidationSchema.safeParse(dataToValidate);
 
             if (validatedData.success === false) {
                 return res.status(400).send({
@@ -14,9 +16,10 @@ const EventController = (eventService) => {
                     errors: validatedData.error.flatten().fieldErrors
                 });
             }
+
             if(req.file)
             {
-                const createdEvent = await eventService.create(validatedData.data);
+                const createdEvent = await eventService.create(validatedData.data,req.file);
                 console.log(createEvent);
                 res.status(201).send({
                     success: true,
@@ -25,8 +28,13 @@ const EventController = (eventService) => {
                 }); 
             }
             else{
-
+                res.status(401).send({
+                    success: false,
+                    message:"Event image is required",
+                    data:null
+                });
             }
+
         } catch (error) {
             res.status(401).send({
                 success: false,
