@@ -7,10 +7,10 @@ const eventRepo = (connPool) => {
             const insertQuery = 'INSERT INTO events (title, slug, location, full_description, event_date, is_featured) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
             const values = [eventData.title, eventData.slug, eventData.location, eventData.description, eventData.date, eventData.is_featured];
             const result = await dbClient.query(insertQuery, values);
-            if(result && result.rowCount > 0){
+            if (result && result.rowCount > 0) {
                 return result.rows[0];
             }
-            else{
+            else {
                 console.log(`Result row count: ${result.rowCount}`);
                 throw new Error('Failed to create event');
             }
@@ -24,34 +24,60 @@ const eventRepo = (connPool) => {
             }
         }
     }
-   
+
     const createImageData = async (imageData) => {
         let dbClient = null;
         try {
             dbClient = await connPool.connect();
             const insertQuery = 'INSERT INTO event_images (event_id, image_url, cloudinary_public_id) VALUES ($1, $2, $3) RETURNING *';
             const values = [imageData.event_id, imageData.image_url, imageData.cloudinary_public_id];
-            const result = await dbClient.query(insertQuery, values); 
-            if(result && result.rowCount > 0){
+            const result = await dbClient.query(insertQuery, values);
+            if (result && result.rowCount > 0) {
                 return result.rows[0];
             }
-            else{
+            else {
                 console.log(`Result row count: ${result.rowCount}`);
                 throw new Error('Failed to create image record');
-            }              
+            }
         } catch (error) {
             console.error('Error creating Image record for Event:', error.message);
             throw new Error(`Failed to create image record for event: ${imageData.event_id}`);
         }
-        finally{
+        finally {
             if (dbClient) {
                 dbClient.release();
             }
         }
     };
-     return {
+    const listEvents = async () => {
+        let dbClient = null;
+        try {
+            dbClient = await connPool.connect();
+            const listEventQuery = "SELECT e.*,ei.image_url,ei.cloudinary_public_id from events e LEFT JOIN event_images ei ON(e.id=ei.event_id)";
+            const resultSet = await dbClient.query(listEventQuery);
+            if (resultSet && resultSet.rowCount > 0) {
+                return resultSet.rows;
+            }
+            else {
+                return [];
+            }
+        } catch (error) {
+            console.log(`Got Error on List Events: ${error.message}`)
+            throw new Error('Exception while Listing Events');
+        }
+        finally {
+            if (dbClient) {
+                dbClient.release();
+            }
+        }
+    }
+
+
+
+    return {
         createEvent,
-        createImageData
+        createImageData,
+        listEvents
     };
 }
 export default eventRepo;

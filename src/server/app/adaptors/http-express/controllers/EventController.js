@@ -1,5 +1,5 @@
 import EventValidationSchema from "#events/event.schema";
-import { success } from "zod";
+import { json, success } from "zod";
 // Create a new event
 const EventController = (eventService) => {
 
@@ -15,6 +15,9 @@ const EventController = (eventService) => {
                     message: 'Validation failed',
                     errors: validatedData.error.flatten().fieldErrors
                 });
+            }
+            else{
+                console.log(validatedData);
             }
 
             if(req.file)
@@ -45,13 +48,23 @@ const EventController = (eventService) => {
         }
     }
     // Get all events
-    const getEvents = async (req, res, next) => {
+    const getEvents = async (req, res) => {
         try {
-            res.send('List of events');
+            const data = await eventService.list();
+            res.status(200).json({
+                success:true,
+                message:data.message,
+                data:data.list
+            });
         } catch (error) {
-            next(error);
+            res.status(501).send({
+                success: false,
+                message: error.message,
+                data:[]
+            });
         }
     }
+
     // Get an event by Id
     const getEventById = async (req, res, next) => {
         try {

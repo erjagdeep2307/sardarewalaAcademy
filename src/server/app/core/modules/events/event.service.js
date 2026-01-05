@@ -11,23 +11,32 @@ const eventService = (eventRepo,cloudService) => {
         if(!result){
             throw new Error('Event creation failed');
         }
-
         const imageData = {
             event_id: result.id,
             image_url: uploadResult.secure_url,
             cloudinary_public_id: uploadResult.public_id
         };
-
         return await eventRepo.createImageData(imageData);
-        // return result;
-
-        // return await cloudService.uploadImage(image.buffer);
-        // const result  = await eventRepo.createEvent(eventData);
     };
      
-    // const list = async () => {
-    //     return await eventRepo.findAll();
-    // };
+    const list = async () => {
+        try {
+            const eventList = await eventRepo.listEvents();
+            if(eventList && eventList.length > 0)
+            {
+                return {
+                    message:"Event List",
+                    list:eventList
+                }
+            }
+            else{
+                throw new Error("No Event Data Found");
+            }
+        } catch (error) {
+            console.log(`Failed to Fetch Events :${error.message}`);
+            throw new Error("Failed to Fetch Event");
+        }
+    };
     // const remove = async (id) => {
     //     return await eventRepo.findById(id);
     // };
@@ -35,6 +44,6 @@ const eventService = (eventRepo,cloudService) => {
     //     return await eventRepo.update(id, eventData);
     // };  
 
-    return { create};
+    return { create,list};
 };
 export default eventService;
