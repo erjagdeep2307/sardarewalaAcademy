@@ -33,7 +33,7 @@ const appRouter = createBrowserRouter([
         element:<Contact/>  
       },
       {
-        path: "/event",
+        path: "/event/:eventId",
         element:<Event />  
       },
 

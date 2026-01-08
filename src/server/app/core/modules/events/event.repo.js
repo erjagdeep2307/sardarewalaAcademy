@@ -72,12 +72,35 @@ const eventRepo = (connPool) => {
         }
     }
 
-
+    const listEventById = async (id)=>{
+        let dbClient = null;
+        try {
+            dbClient = await connPool.connect();
+            const listEventQuery = `SELECT e.*,ei.image_url,ei.cloudinary_public_id from events e LEFT JOIN event_images ei ON(e.id=ei.event_id) where ei.event_id='${id}'`;
+            const resultSet = await dbClient.query(listEventQuery);
+            if (resultSet && resultSet.rowCount > 0) {
+                console.log(resultSet.rows);
+                return resultSet.rows[0];
+            }
+            else {
+                return [];
+            }
+        } catch (error) {
+            console.log(`Got Error on List Events: ${error.message}`)
+            throw new Error('Exception while List Event');
+        }
+        finally{
+            if (dbClient) {
+                dbClient.release();
+            }
+        }
+    }
 
     return {
         createEvent,
         createImageData,
-        listEvents
+        listEvents,
+        listEventById
     };
 }
 export default eventRepo;

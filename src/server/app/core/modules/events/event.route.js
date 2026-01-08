@@ -22,10 +22,8 @@ eventRouter.get("/", eventController.getEvents);
 // Create a new event
 eventRouter.post("/",uploader.single("event_image"), eventController.createEvent);
 
-// // Get an event by Id
-// eventRouter.get("/:id", (req, res) => {
-//   res.send(`Get Event with ID: ${req.params.id}`);
-// }); 
+// Get an event by Id
+eventRouter.get("/:id", eventController.getEventById); 
 
 // // Update an event by Id
 // eventRouter.put("/:id", (req, res) => {

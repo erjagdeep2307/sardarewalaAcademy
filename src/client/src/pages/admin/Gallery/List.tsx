@@ -2,6 +2,7 @@ import React, { useEffect, useState} from 'react';
 import { Trash2 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchEvents } from '@/apis/events';
+import type { EventData,EventListResponse } from '@/types/types';
 // import { ImageUpload } from '../../../components/admin/ImageUploader';
 // import { Button } from '../../../components/UI/Button';
 
@@ -24,7 +25,7 @@ export const AdminGalleryView: React.FC = () => {
         isLoading,
         isError,
         error
-    } = useQuery({
+    } = useQuery<EventListResponse>({
         queryKey:["events"],
         queryFn:fetchEvents
     });
@@ -34,7 +35,7 @@ export const AdminGalleryView: React.FC = () => {
     }
     if(isError)
     {
-        return <p>Got an Error</p>;
+        return <p>{`Got an ${error}`}</p>;
     } 
     // const eventTitleRef = useRef<HTMLInputElement>(null);
     // const [isUploading, setIsUploading] = useState(false);
@@ -63,7 +64,7 @@ export const AdminGalleryView: React.FC = () => {
         const newImages = images.filter((_, i) => i !== index);
         setImages(newImages);
     };
-    if(events.data)
+    if(events?.data)
     {
         return (              
                 <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-6">
@@ -73,7 +74,7 @@ export const AdminGalleryView: React.FC = () => {
                     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
                         {(events.data).map((src, idx) => (
                             <div key={idx} className="group relative aspect-square rounded-xl overflow-hidden bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all">
-                                <img src={src} alt={`Gallery ${idx}`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                                <img src={src.image_url} alt={`Gallery ${idx}`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
                                     <button
                                         onClick={() => handleDelete(idx)}

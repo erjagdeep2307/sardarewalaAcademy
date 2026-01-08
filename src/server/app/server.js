@@ -2,7 +2,7 @@ import 'dotenv/config';
 import fs from 'fs';
 import app from './adaptors/http-express/app.js';
 import { connectDB } from '#db';
-const PORT = process.env.APP_PORT || 3000;
+const PORT = process.env.APP_PORT || 19503;
 // Check out the initial connection to Database if it is able to make connection or not
 await connectDB();
 

@@ -37,6 +37,32 @@ const eventService = (eventRepo,cloudService) => {
             throw new Error("Failed to Fetch Event");
         }
     };
+    const listById = async (id)=>{
+        try {
+            if(!id)
+            {
+                return {
+                    message:"Event Id is required",
+                    eventData:{}
+                }
+            }
+            const eventdata = await eventRepo.listEventById(id);
+            if(eventdata)
+            {
+                return {
+                    message:"Event List",
+                    eventData:eventdata
+                }
+            }
+            else{
+                throw new Error("No Event Data Found");
+            }
+
+        } catch (error) {
+             console.log(`Failed to Fetch Events :${error.message}`);
+            throw new Error("Failed to Fetch Event");
+        }
+    }
     // const remove = async (id) => {
     //     return await eventRepo.findById(id);
     // };
@@ -44,6 +70,6 @@ const eventService = (eventRepo,cloudService) => {
     //     return await eventRepo.update(id, eventData);
     // };  
 
-    return { create,list};
+    return { create,list,listById};
 };
 export default eventService;

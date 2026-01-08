@@ -68,9 +68,19 @@ const EventController = (eventService) => {
     // Get an event by Id
     const getEventById = async (req, res, next) => {
         try {
-            res.send(`Event details for ID: ${req.params.id}`);
+            // res.send(`Event details for ID: ${req.params.id}`);
+            const data = await eventService.listById(req.params.id);
+             res.status(200).json({
+                success:true,
+                message:data.message,
+                data:data.eventData
+            });
         } catch (error) {
-            next(error);
+            res.status(501).send({
+                success: false,
+                message: error.message,
+                data:[]
+            });
         }
     }
     // Update an event by Id

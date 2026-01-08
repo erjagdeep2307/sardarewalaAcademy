@@ -1,5 +1,7 @@
+import type { EventByIdResponse, EventListResponse } from "@/types/types";
 const BASE_URL = "http://localhost:3000/events";
-export const fetchEvents = async () =>{
+// Will Return Response in EventListResponse Format
+export const fetchEvents = async ():Promise<EventListResponse> =>{
     try {
         const response = await fetch(BASE_URL);
         if(response.ok)
@@ -13,5 +15,21 @@ export const fetchEvents = async () =>{
     catch (error) {
         console.log('Api Error:',error);
         throw error;
+    }
+}
+export const fetchEventById = async (id:string):Promise<EventByIdResponse> =>{
+    try {
+        const response =  await fetch(`${BASE_URL}/${id}`)
+        if(response.ok)
+        {
+            return response.json();
+        }
+        else{
+            throw new Error(`Failed to Fetch Event by id ${id}`)
+        }
+    } 
+    catch (error) {
+        console.log(`Error:`,error)
+        throw error;   
     }
 }
