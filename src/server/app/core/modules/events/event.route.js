@@ -3,7 +3,7 @@ import connectionPool from '#db';
 import eventRepo from '#events/event.repo';
 import eventService from '#events/event.service';
 import EventController from "#controllers/EventController";
-import uploader from "./event.middleware.js";
+import {uploader} from "./event.middleware.js";
 import { createCloudinaryService } from "../../../infrastructure/cloudinary/cloudinary.js";
 // Inject the dependecies
 
@@ -21,16 +21,8 @@ const eventRouter = Router();
 eventRouter.get("/", eventController.getEvents);
 // Create a new event
 eventRouter.post("/",uploader.single("event_image"), eventController.createEvent);
-
 // Get an event by Id
 eventRouter.get("/:id", eventController.getEventById); 
-
-// // Update an event by Id
-// eventRouter.put("/:id", (req, res) => {
-//   res.send(`Update Event with ID: ${req.params.id}`);
-// });
-
-// // Delete an event by Id
-// eventRouter.delete("/:id", deleteEvent);
-
+// Delete an event by Id
+eventRouter.delete("/:id", eventController.deleteEvent);
 export default eventRouter;
