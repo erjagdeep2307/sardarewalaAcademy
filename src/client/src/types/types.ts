@@ -19,7 +19,8 @@ export interface EventFormData {
     eventDate: string; // Date input returns a string
     location: string;
     featured: 'Yes' | 'No';
-    message?: string; // Optional field
+    description: string; // Optional field
+    event_image?: FileList; // For file input
 }
 
 // Interface for Event List Data for each item

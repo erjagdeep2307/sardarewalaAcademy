@@ -53,3 +53,22 @@ export const deleteEventById = async (id:string):Promise<EventByIdResponse> =>{
         throw error;
     }
 }
+// Create New Event
+export const createEvent = async (formData:FormData):Promise<EventByIdResponse> =>{
+    try {
+        const response =  await fetch(`${BASE_URL}`,{
+            method:'POST',
+            body:formData
+        }); 
+        if(response.ok)
+        {
+            return response.json();
+        }
+        else{
+            throw new Error(`Failed to Create New Event`)
+        }
+    } catch (error) {
+        console.log(`Error:`,error)
+        throw error;
+    }
+}
