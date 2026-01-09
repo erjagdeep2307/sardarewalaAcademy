@@ -2,11 +2,11 @@ import EventValidationSchema from "#events/event.schema";
 import { json, success } from "zod";
 // Create a new event
 const EventController = (eventService) => {
-
     const createEvent = async (req, res, next) => {
         try {
+
+            const dataToValidate = { ...req.body, event_image: req.file?.path };
             
-            const dataToValidate = {...req.body,event_image:req.file?.path};
             const validatedData = EventValidationSchema.safeParse(dataToValidate);
 
             if (validatedData.success === false) {
@@ -16,33 +16,32 @@ const EventController = (eventService) => {
                     errors: validatedData.error.flatten().fieldErrors
                 });
             }
-            else{
+            else {
                 console.log(validatedData);
             }
 
-            if(req.file)
-            {
-                const createdEvent = await eventService.create(validatedData.data,req.file);
+            if (req.file) {
+                const createdEvent = await eventService.create(validatedData.data, req.file);
                 console.log(createEvent);
                 res.status(201).send({
                     success: true,
                     message: 'Event created successfully',
                     data: createdEvent
-                }); 
+                });
             }
-            else{
+            else {
                 res.status(401).send({
                     success: false,
-                    message:"Event image is required",
-                    data:null
+                    message: "Event image is required",
+                    data: null
                 });
             }
 
         } catch (error) {
             res.status(401).send({
                 success: false,
-                message:error.message,
-                data:null
+                message: error.message,
+                data: null
             });
             // next(error);
         }
@@ -52,34 +51,34 @@ const EventController = (eventService) => {
         try {
             const data = await eventService.list();
             res.status(200).json({
-                success:true,
-                message:data.message,
-                data:data.list
+                success: true,
+                message: data.message,
+                data: data.list
             });
         } catch (error) {
             res.status(501).send({
                 success: false,
                 message: error.message,
-                data:[]
+                data: []
             });
         }
     }
 
     // Get an event by Id
-    const getEventById = async (req, res, next) => {
+    const getEventById = async (req, res) => {
         try {
             // res.send(`Event details for ID: ${req.params.id}`);
             const data = await eventService.listById(req.params.id);
-             res.status(200).json({
-                success:true,
-                message:data.message,
-                data:data.eventData
+            res.status(200).json({
+                success: true,
+                message: data.message,
+                data: data.eventData
             });
         } catch (error) {
             res.status(501).send({
                 success: false,
                 message: error.message,
-                data:[]
+                data: []
             });
         }
     }
@@ -92,11 +91,21 @@ const EventController = (eventService) => {
         }
     }
     // Delete an event by Id    
-    const deleteEvent = async (req, res, next) => {
+    const deleteEvent = async (req, res) => {
         try {
-            res.send(`Event with ID: ${req.params.id} deleted`);
+            const eventId = req.params.id;
+            const data = await eventService.removeEventById(eventId);
+            res.status(200).json({
+                success: true,
+                message: data.message,
+                data: data.eventData
+            })
         } catch (error) {
-            next(error);
+            res.status(501).send({
+                success: false,
+                message: error.message,
+                data: []
+            });
         }
     }
     return {

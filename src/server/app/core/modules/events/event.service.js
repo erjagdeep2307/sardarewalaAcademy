@@ -63,13 +63,38 @@ const eventService = (eventRepo,cloudService) => {
             throw new Error("Failed to Fetch Event");
         }
     }
-    // const remove = async (id) => {
-    //     return await eventRepo.findById(id);
-    // };
+    // Remove Event By Id
+    const removeEventById = async (id) => {
+        try {
+            if(!id)
+            {
+                return {
+                    message:"Event Id is required",
+                    eventData:{}
+                }
+            }
+            const eventData = await eventRepo.removeEventById(id);
+            console.log(eventData);
+            if(eventData)
+            {
+                return {
+                    message:`Event with ID:${id} Deleted Successfully`,
+                    eventData:eventData
+                }
+            }
+            else{
+                throw new Error(`Failed to Deleted Event`);
+            }
+            
+        } catch (error) {
+            console.log(`Failed to Delete Event :${error.message}`);
+            throw new Error("Failed to Delete Event");
+        }
+    };
     // const update = async (id, eventData) => {
     //     return await eventRepo.update(id, eventData);
     // };  
 
-    return { create,list,listById};
+    return { create,list,listById,removeEventById,};
 };
 export default eventService;
