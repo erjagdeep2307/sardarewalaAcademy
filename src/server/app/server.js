@@ -2,7 +2,7 @@ import 'dotenv/config';
 import fs from 'fs';
 import app from './adaptors/http-express/app.js';
 import { connectDB } from '#db';
-const PORT = process.env.APP_PORT || 19503;
+const PORT = process.env.APP_PORT || 3420;
 // Check out the initial connection to Database if it is able to make connection or not
 await connectDB();
 
@@ -10,6 +10,6 @@ await connectDB();
 // console.log(result);
 
 
-app.listen(PORT,"0.0.0.0", () => {
+app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 }); 
