@@ -1,14 +1,14 @@
 // Event Service
-const eventService = (eventRepo,cloudService) => {
+const eventService = (eventRepo, cloudService) => {
     // Logic to create an event in the database
-    const create = async (eventData,image) => {
+    const create = async (eventData, image, log) => {
         //  [imageData.event_id, imageData.image_url, imageData.cloudinary_public_id];
-        const uploadResult = await cloudService.uploadImage(image.buffer);
-        if(!uploadResult || !uploadResult.secure_url){
+        const uploadResult = await cloudService.uploadImage(image.buffer, log);
+        if (!uploadResult || !uploadResult.secure_url) {
             throw new Error('Image upload failed');
         }
         const result = await eventRepo.createEvent(eventData);
-        if(!result){
+        if (!result) {
             throw new Error('Event creation failed');
         }
         const imageData = {
@@ -18,83 +18,55 @@ const eventService = (eventRepo,cloudService) => {
         };
         return await eventRepo.createImageData(imageData);
     };
-     
-    const list = async () => {
-        try {
+
+
+    const list = async (log) => {
             const eventList = await eventRepo.listEvents();
-            if(eventList && eventList.length > 0)
-            {
+            if (eventList.length===0) {
+                const err = new Error(`No Event found`);
+                err.code = "NO_EVENT_NOT_FOUND";
+                throw err;
+            }
+            return eventList;
+    };
+
+    const listById = async (id) => {
+        try {
+            if (!id) {
                 return {
-                    message:"Event List",
-                    list:eventList
+                    message: "Event Id is required",
+                    eventData: {}
                 }
             }
-            else{
+            const eventdata = await eventRepo.listEventById(id);
+            if (eventdata) {
+                return {
+                    message: "Event List",
+                    eventData: eventdata
+                }
+            }
+            else {
                 throw new Error("No Event Data Found");
             }
+
         } catch (error) {
             console.log(`Failed to Fetch Events :${error.message}`);
             throw new Error("Failed to Fetch Event");
         }
-    };
-    const listById = async (id)=>{
-        try {
-            if(!id)
-            {
-                return {
-                    message:"Event Id is required",
-                    eventData:{}
-                }
-            }
-            const eventdata = await eventRepo.listEventById(id);
-            if(eventdata)
-            {
-                return {
-                    message:"Event List",
-                    eventData:eventdata
-                }
-            }
-            else{
-                throw new Error("No Event Data Found");
-            }
-
-        } catch (error) {
-             console.log(`Failed to Fetch Events :${error.message}`);
-            throw new Error("Failed to Fetch Event");
-        }
     }
-    // Remove Event By Id
-    const removeEventById = async (id) => {
-        try {
-            if(!id)
-            {
-                return {
-                    message:"Event Id is required",
-                    eventData:{}
-                }
-            }
-            const eventData = await eventRepo.removeEventById(id);
-            console.log(eventData);
-            if(eventData)
-            {
-                return {
-                    message:`Event with ID:${id} Deleted Successfully`,
-                    eventData:eventData
-                }
-            }
-            else{
-                throw new Error(`Failed to Deleted Event`);
-            }
-            
-        } catch (error) {
-            console.log(`Failed to Delete Event :${error.message}`);
-            throw new Error("Failed to Delete Event");
-        }
-    };
-    // const update = async (id, eventData) => {
-    //     return await eventRepo.update(id, eventData);
-    // };  
 
-    return { create,list,listById,removeEventById,};
+    const removeEventById = async (id) => {
+        if (!id) {
+            throw new Error("Event id is required");
+        }
+        const rowsDeleted= await eventRepo.removeEventById(id);
+        if (rowsDeleted === 0) {
+            const err = new Error(`Event not found for id: ${id}`);
+            err.code = "EVENT_NOT_FOUND";
+            throw err;
+        }
+        return rowsDeleted;
+    };
+    return { create, list, listById, removeEventById, };
 };
 export default eventService;

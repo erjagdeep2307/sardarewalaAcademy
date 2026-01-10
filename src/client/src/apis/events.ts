@@ -1,17 +1,17 @@
 import type { EventByIdResponse, EventListResponse } from "@/types/types";
-const BASE_URL = "https://utilization-bond-train-receipt.trycloudflare.com/events";
+const BASE_URL = "https://closer-steal-fold-situations.trycloudflare.com/events";
+
 
 // Will Return Response in EventListResponse Format
 export const fetchEvents = async ():Promise<EventListResponse> =>{
     try {
         const response = await fetch(BASE_URL);
+        console.log(response);
         if(response.ok)
         {
             return response.json();
         }
-        else{
-            throw new Error('Failed to Fetch Events Data');
-        }
+        throw new Error('No Data Found')
     } 
     catch (error) {
         console.log('Api Error:',error);

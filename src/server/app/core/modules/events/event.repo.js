@@ -1,3 +1,4 @@
+import logger from "#logger";
 const eventRepo = (connPool) => {
     const createEvent = async (eventData) => {
         let dbClient = null;
@@ -8,15 +9,16 @@ const eventRepo = (connPool) => {
             const values = [eventData.title, eventData.slug, eventData.location, eventData.description, eventData.date, eventData.is_featured];
             const result = await dbClient.query(insertQuery, values);
             if (result && result.rowCount > 0) {
+                logger.info(`Create Event Resutl Set row count :${result.rowCount}`);
                 return result.rows[0];
             }
             else {
-                console.log(`Result row count: ${result.rowCount}`);
+                logger.info(`Create Event Resutl Set row count :${result.rowCount}`);
                 throw new Error('Failed to create event');
             }
         } catch (error) {
-            console.error('Error creating event:', error.message);
-            throw new Error(`Failed to create event`);
+                logger.info(`Create Event Error:${error.message}`);
+                throw new Error(`Failed to create event`);
         }
         finally {
             if (dbClient) {
@@ -57,11 +59,12 @@ const eventRepo = (connPool) => {
             dbClient = await connPool.connect();
             const listEventQuery = "SELECT e.*,ei.image_url,ei.cloudinary_public_id from events e LEFT JOIN event_images ei ON(e.id=ei.event_id)";
             const resultSet = await dbClient.query(listEventQuery);
+            logger.info(`Total Events found in Datbase:${resultSet.rowCount}`);
             if (resultSet && resultSet.rowCount > 0) {
                 return resultSet.rows;
             }
             else {
-                return [];
+                return resultSet.rows;
             }
         } catch (error) {
             console.log(`Got Error on List Events: ${error.message}`)
@@ -98,6 +101,7 @@ const eventRepo = (connPool) => {
             }
         }
     }
+
     // Delete Event by Id from Databse, the record associated with the event in image table automatically get deleted 
     const removeEventById = async (eventId) => {
         let dbClient = null;
@@ -105,15 +109,10 @@ const eventRepo = (connPool) => {
             dbClient = await connPool.connect();
             const eventQuery = `DELETE FROM events where id='${eventId}'`;
             const result = await dbClient.query(eventQuery);
-            console.log(result);
-            if (result && result.rowCount > 0) {
-                return result.rows[0];
-            }
-            else {
-                return [];
-            }
+            logger.info(`Delete Event Result row count:${result.rowCount}`);
+            return result.rowCount;
         } catch (error) {
-            console.log(`Delete Action Error for event ID:${eventId},ERROR:${error.message}`);
+            logger.error(`Delete Event Error for id:${eventId} Error:${error.message}`);
             throw new Error(`Failed to Delete Event by Id:${eventId}`);
         }
         finally {
@@ -122,6 +121,7 @@ const eventRepo = (connPool) => {
             }
         }
     }
+
     return {
         createEvent,
         createImageData,
