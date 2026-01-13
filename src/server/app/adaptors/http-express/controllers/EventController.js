@@ -5,12 +5,12 @@ import logger from "#logger";
 const EventController = (eventService) => {
     const createEvent = async (req, res) => {
         try {
-            req.log.info(`Event Create Request Recieved`);
+            logger.info(`Event Create Request Recieved`);
             const dataToValidate = { ...req.body, event_image: req.file?.path };
             const validatedData = EventValidationSchema.safeParse(dataToValidate);
 
             if (validatedData.success === false) {
-                req.log.warn(`Event Create Payload validation failed`);
+                logger.warn(`Event Create Payload validation failed`);
                 return res.status(400).send({
                     success: false,
                     message: 'Validation failed',
@@ -69,6 +69,7 @@ const EventController = (eventService) => {
         }
     }
 
+    
     // Get an event by Id
     const getEventById = async (req, res) => {
         try {
@@ -87,6 +88,7 @@ const EventController = (eventService) => {
             });
         }
     }
+
     // Update an event by Id
     const updateEvent = async (req, res, next) => {
         try {

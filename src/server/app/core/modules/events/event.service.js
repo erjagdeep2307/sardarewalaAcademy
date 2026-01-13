@@ -5,7 +5,7 @@ const eventService = (eventRepo, cloudService) => {
         //  [imageData.event_id, imageData.image_url, imageData.cloudinary_public_id];
         const uploadResult = await cloudService.uploadImage(image.buffer, log);
         if (!uploadResult || !uploadResult.secure_url) {
-            throw new Error('Image upload failed');
+            throw new Error('Event Image upload failed');
         }
         const result = await eventRepo.createEvent(eventData);
         if (!result) {
