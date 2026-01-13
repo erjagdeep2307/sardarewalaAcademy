@@ -5,13 +5,13 @@ export type Book = {
     image: string;
 };
 // Testomonial Interface
-export type Testomonial = {
-    id: number,
-    name: string,
-    role: string,
-    content: string,
-    image: string
-}
+// export type Testomonial = {
+//     id: number,
+//     name: string,
+//     role: string,
+//     content: string,
+//     image: string
+// }
 // Interface for Event Form Data
 export interface EventFormData {
     eventTitle: string;
@@ -49,4 +49,23 @@ export interface EventByIdResponse{
     success: boolean,
     message: string,
     data : EventData
+}
+
+// Testomonial Type
+export interface Testomonial{
+    id:number,
+    client_name:string,
+    designation:string,
+    department:string,
+    testimonial_text:string,
+    rating:number
+    image_url:string
+    is_featured:boolean
+} 
+
+// Testomonial Api Response
+export interface TestomonialList{
+    success:boolean,
+    message:string,
+    data: Testomonial[]
 }

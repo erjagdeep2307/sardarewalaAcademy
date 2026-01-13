@@ -6,9 +6,7 @@ const EventController = (eventService) => {
     const createEvent = async (req, res) => {
         try {
             logger.info(`Event Create Request Recieved`);
-            const dataToValidate = { ...req.body, event_image: req.file?.path };
-            const validatedData = EventValidationSchema.safeParse(dataToValidate);
-
+            const validatedData = EventValidationSchema.safeParse(req.body);
             if (validatedData.success === false) {
                 logger.warn(`Event Create Payload validation failed`);
                 return res.status(400).send({
@@ -18,13 +16,12 @@ const EventController = (eventService) => {
                 });
             }
             else {
-                req.log.info({validatedData},`Event Create Request payload:`);
+                logger.info({validatedData},`Event Create Request payload:`);
             }
 
             if (req.file) {
-                const createdEvent = await eventService.create(validatedData.data, req.file,req.log);
-                req.log.info(`Event Create Succesfull with Id:${createdEvent.id}`);
-                console.log(createEvent);
+                const createdEvent = await eventService.create(validatedData.data, req.file);
+                logger.info(`Event Create Succesfull with Id:${createdEvent.id}`);
                 res.status(201).send({
                     success: true,
                     message: 'Event created successfully',
@@ -32,7 +29,7 @@ const EventController = (eventService) => {
                 });
             }
             else {
-                req.log.warn(`Event Create Request Missing Event Image`);
+                logger.warn(`Event Create Request Missing Event Image`);
                 res.status(401).send({
                     success: false,
                     message: "Event image is required",
@@ -42,7 +39,7 @@ const EventController = (eventService) => {
 
         } catch (error) {
             console.log(error);
-            req.log.error(`Event Create Request Error:${error.message}`);
+            logger.error(`Event Create Request Error:${error.message}`);
             res.status(501).send({
                 success: false,
                 message: "Generic Error",
@@ -57,7 +54,7 @@ const EventController = (eventService) => {
             const data = await eventService.list(req.log);
             res.status(200).json({
                 success: true,
-                message: "Event List",
+                message: `${data.length ? "Event List":"No Event Found"}`,
                 data: data
             });
         } catch (error) {
@@ -102,10 +99,10 @@ const EventController = (eventService) => {
         try {
             const eventId = req.params.id;
             const data = await eventService.removeEventById(eventId,req.log);
-            logger.info(`Event Delete Successfully with Id: ${eventId}`);
+            // logger.info(`Event Delete Successfully with Id: ${eventId}`);
             res.status(200).json({
                 success: true,
-                message: "Event Delete Succesfully",
+                message: `${data.result==="ok" ? "Event Delete Succesfully":"Failed to Delete Event Image"}`,
                 data: data
             })
         } catch (error) {

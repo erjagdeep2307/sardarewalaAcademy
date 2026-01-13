@@ -1,5 +1,5 @@
 import type { EventByIdResponse, EventListResponse } from "@/types/types";
-const BASE_URL = "https://closer-steal-fold-situations.trycloudflare.com/events";
+const BASE_URL = "https://contributor-craig-podcasts-lake.trycloudflare.com/events";
 
 
 // Will Return Response in EventListResponse Format

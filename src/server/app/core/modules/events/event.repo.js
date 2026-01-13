@@ -107,10 +107,19 @@ const eventRepo = (connPool) => {
         let dbClient = null;
         try {
             dbClient = await connPool.connect();
-            const eventQuery = `DELETE FROM events where id='${eventId}'`;
-            const result = await dbClient.query(eventQuery);
-            logger.info(`Delete Event Result row count:${result.rowCount}`);
-            return result.rowCount;
+            const queryImage = `SELECT cloudinary_public_id FROM event_images WHERE event_id=$1`;
+            const resultImage  =  await dbClient.query(queryImage,[eventId]);
+            if(resultImage.rowCount > 0)
+            {
+                const eventQuery = `DELETE FROM events where id=$1 RETURNING *`;
+                const resultEvent = await dbClient.query(eventQuery,[eventId]);
+                logger.info(`Delete Event Result row count:${resultEvent.rowCount}`);
+                return {...resultEvent.rows[0],cloudinary_public_id:resultImage.rows[0].cloudinary_public_id};
+            }
+            else{
+                return [];
+            }
+
         } catch (error) {
             logger.error(`Delete Event Error for id:${eventId} Error:${error.message}`);
             throw new Error(`Failed to Delete Event by Id:${eventId}`);

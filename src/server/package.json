@@ -4,14 +4,14 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "node app/server.js --watch",
+    "dev": "nodemon app/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "imports": {
     "#events/*": "./app/core/modules/events/*.js",
     "#controllers/*": "./app/adaptors/http-express/controllers/*.js",
     "#db": "./app/infrastructure/database/db.js",
-    "#logger":"./app/infrastructure/logger/logger.js",
+    "#logger": "./app/infrastructure/logger/logger.js",
     "#testomonial/*": "./app/core/modules/testomonials/*.js",
     "#cloudinary": "./app/infrastructure/cloudinary/*.js"
   },
@@ -27,5 +27,8 @@
     "pg": "^8.16.3",
     "pino": "^10.1.1",
     "zod": "^4.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
   }
 }

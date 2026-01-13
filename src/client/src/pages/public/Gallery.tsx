@@ -3,6 +3,7 @@ import type { EventData, EventListResponse } from '@/types/types';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchEvents } from '@/apis/events';
 import { useNavigate } from 'react-router-dom';
+import PublicGallerySkelton from './Skeltons/PublicGallerySkelton';
 export const Gallery: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -14,19 +15,8 @@ export const Gallery: React.FC = () => {
     queryKey: ["events"],
     queryFn: fetchEvents
   })
-  // const images = [
-  //   "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?q=80&w=600&h=600&fit=crop", // Kushti/Wrestling
-  //   "https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?q=80&w=600&h=600&fit=crop", // Group running
-  //   "https://images.unsplash.com/photo-1552674605-5d226a5beb38?q=80&w=600&h=600&fit=crop", // Track run
-  //   "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=600&h=600&fit=crop", // Sprint start
-  //   "https://images.unsplash.com/photo-1574680096141-1cddd32e24d7?q=80&w=600&h=600&fit=crop", // Training
-  //   "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=600&h=600&fit=crop", // Gym
-  //   "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=600&h=600&fit=crop", // Ropes
-  //   "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600&h=600&fit=crop", // Abs
-  //   "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=600&h=600&fit=crop"  // Weights
-  // ];
   if (isLoading) {
-    return <p>Loading Events</p>
+    return <PublicGallerySkelton count={6}/>
   }
   if (error) {
     return <p>{`Event Error :${error}`}</p>

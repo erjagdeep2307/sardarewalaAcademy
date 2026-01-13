@@ -5,6 +5,9 @@ import { Button } from '@/components/UI/Button';
 import { Link } from 'react-router-dom';
 import Slider from '@/components/UI/Slider';
 import type {Testomonial } from '@/types/types';
+import { useQuery } from '@tanstack/react-query';
+import { fetcthTestomonials } from '@/apis/testomonials';
+
 
 const stats = [
   { label: 'Students Trained', value: '5,000+', icon: Users, color: 'text-[#FF9933]' },
@@ -45,17 +48,11 @@ const testimonials:Testomonial[] = [
 ];
 
 export const Home: React.FC = () => {
-  // const [currentTestimonial, setCurrentTestimonial] = useState(0);
-
-  // // Auto-slide functionality
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-  //   }, 5000);
-  //   return () => clearInterval(timer);
-  // }, []);
-
-  return (
+  const {data,isLoading} =  useQuery({
+    queryKey:['testomonials'],
+    queryFn:fetcthTestomonials
+  });
+   return (
     <div className="w-full">
       {/* Hero Section */}
       <section className="relative h-[600px] md:h-[800px] flex items-center justify-center overflow-hidden">
@@ -168,7 +165,7 @@ export const Home: React.FC = () => {
             <h1 className="text-4xl md:text-5xl font-black text-[#000080] dark:text-white">WALL OF FAME</h1>
             <div className="w-24 h-1 bg-[#138808] mx-auto mt-6 rounded-full"></div>
           </div>
-          <Slider data={testimonials} />
+          <Slider data={(data?.data)?data.data:[] } isLoading={isLoading} />
         </div>
       </section>
 

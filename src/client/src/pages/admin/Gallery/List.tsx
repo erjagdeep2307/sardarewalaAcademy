@@ -3,6 +3,7 @@ import { Trash2 } from 'lucide-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteEventById, fetchEvents } from '@/apis/events';
 import type {EventListResponse } from '@/types/types';
+import AdminGallerySkeleton from '../Skeltons/AdminGallerySkeleton';
 // import { ImageUpload } from '../../../components/admin/ImageUploader';
 // import { Button } from '../../../components/UI/Button';
 
@@ -28,37 +29,13 @@ export const AdminGalleryView: React.FC = () => {
     });
     if(isLoading)
     {
-        return <p>Loading</p>;
+        return <AdminGallerySkeleton count={6}/>;
     }
     if(isError)
     {
         return <p>{`Got an ${error}`}</p>;
     } 
-
-    // const eventTitleRef = useRef<HTMLInputElement>(null);
-    // const [isUploading, setIsUploading] = useState(false);
-    // const evtTitleHandler = (event: React.FormEvent<HTMLInputElement>) => {
-    //     if (eventTitleRef.current) {
-    //         eventTitleRef.current.value = event.currentTarget.value.toUpperCase();
-    //     }   
-    // }
-
-    // const processUpload = (file: File) => {
-    //     setIsUploading(true);
-    //     // Simulate network delay and upload
-    //     setTimeout(() => {
-    //         const reader = new FileReader();
-    //         reader.onload = (e) => {
-    //             if (e.target?.result) {
-    //                 setImages([e.target.result as string, ...images]);
-    //                 setIsUploading(false);
-    //             }
-    //         };
-    //         reader.readAsDataURL(file);
-    //     }, 1500);
-    // };
-
-    
+   
     const handleDelete = (eventid: string) => {
         mutate(eventid);
     };

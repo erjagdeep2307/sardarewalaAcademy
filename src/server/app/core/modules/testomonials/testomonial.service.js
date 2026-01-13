@@ -20,7 +20,7 @@ const TestomonialService = (testomonialRepo, cloudService) => {
                 testimonial_text: data.testimonial_text,
                 rating: data.rating,
                 is_featured: data.is_featured,
-                image_url: uploadResult.secure_url,
+                image_url: uploadResult.optimizedUrl,
                 image_public_id: uploadResult.public_id
             }
             return await testomonialRepo.createTestomonial(testomonialPayload);

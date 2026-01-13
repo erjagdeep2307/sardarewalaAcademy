@@ -13,7 +13,24 @@ export const createCloudinaryService = (config) => {
         },
         (err, result) => {
           if (err) return reject(err);
-          resolve(result);
+          const imageFeature = {
+              secure: true,
+              folder: result.folder,
+              fetch_format: "webp",
+              quality: "auto",
+          }
+          if(folder.includes("Testo"))
+          {
+            imageFeature.folder= result.folder,
+            imageFeature.width=155,
+            imageFeature.height= 155,
+            imageFeature.crop="auto",
+            imageFeature.gravity="auto"
+          }
+          console.log(imageFeature);
+          const optimizedUrl = cloudinary.url(result.public_id,imageFeature);
+          console.log(optimizedUrl);
+          resolve({...result,optimizedUrl});
         }
       );
 
