@@ -4,10 +4,8 @@ import { ChevronRight, Award, Users, Timer, Target} from 'lucide-react';
 import { Button } from '@/components/UI/Button';
 import { Link } from 'react-router-dom';
 import Slider from '@/components/UI/Slider';
-import type {Testomonial } from '@/types/types';
 import { useQuery } from '@tanstack/react-query';
 import { fetcthTestomonials } from '@/apis/testomonials';
-
 
 const stats = [
   { label: 'Students Trained', value: '5,000+', icon: Users, color: 'text-[#FF9933]' },
@@ -15,38 +13,6 @@ const stats = [
   { label: 'Years Experience', value: '15+', icon: Timer, color: 'text-[#000080] dark:text-blue-400' },
   { label: 'Success Rate', value: '98%', icon: Target, color: 'text-[#FF9933]' },
 ];
-
-const testimonials:Testomonial[] = [
-  {
-    id: 1,
-    name: "Vikram Singh",
-    role: "Selected - Indian Army (GD)",
-    content: "The discipline at Sardarewala is unlike anywhere else. The early morning drills and the obstacle course helped me clear my physical in the first attempt. Jai Hind!",
-    image: "https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=155&h=155&fm=webp&fit=crop&q=80"
-  },
-  {
-    id: 2,
-    name: "Gurpreet Kaur",
-    role: "Punjab Police Constable",
-    content: "I was struggling with my 1600m timing. The coaches here analyzed my running form and improved my stamina within 2 months. I owe my uniform to this academy.",
-    image: "https://images.unsplash.com/photo-1623091410901-00e2d5b68181?w=155&h=155&fm=webp&fit=crop&q=80"
-  },
-  {
-    id: 3,
-    name: "Rahul Verma",
-    role: "National Athlete (400m)",
-    content: "From a village runner to a National level athlete, the journey was tough but the guidance here was world-class. The diet plans and gym sessions are excellent.",
-    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=155&h=155&fm=webp&fit=crop&q=80"
-  },
-  {
-    id: 4,
-    name: "Amit Chaudhary",
-    role: "CISF Sub-Inspector",
-    content: "The mock physical tests conducted every Saturday gave me the confidence to face the actual recruitment day without fear. Highly recommended!",
-    image: "https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?w=155&h=155&fm=webp&fit=crop&q=80"
-  }
-];
-
 export const Home: React.FC = () => {
   const {data,isLoading} =  useQuery({
     queryKey:['testomonials'],

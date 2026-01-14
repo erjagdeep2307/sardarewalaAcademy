@@ -1,6 +1,6 @@
 import type { EventByIdResponse, EventListResponse } from "@/types/types";
-const BASE_URL = "https://contributor-craig-podcasts-lake.trycloudflare.com/events";
-
+// const BASE_URL = "https://contributor-craig-podcasts-lake.trycloudflare.com/events";
+const BASE_URL = "http://localhost:3420/events";
 
 // Will Return Response in EventListResponse Format
 export const fetchEvents = async ():Promise<EventListResponse> =>{

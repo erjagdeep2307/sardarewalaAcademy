@@ -15,17 +15,18 @@ export const createCloudinaryService = (config) => {
           if (err) return reject(err);
           const imageFeature = {
               secure: true,
-              folder: result.folder,
+              folder: folder,
               fetch_format: "webp",
               quality: "auto",
           }
           if(folder.includes("Testo"))
           {
-            imageFeature.folder= result.folder,
+            imageFeature.folder= folder,
             imageFeature.width=155,
             imageFeature.height= 155,
             imageFeature.crop="auto",
             imageFeature.gravity="auto"
+            imageFeature.quality="80"
           }
           console.log(imageFeature);
           const optimizedUrl = cloudinary.url(result.public_id,imageFeature);
