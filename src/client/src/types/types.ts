@@ -4,14 +4,6 @@ export type Book = {
     price: number;
     image: string;
 };
-// Testomonial Interface
-// export type Testomonial = {
-//     id: number,
-//     name: string,
-//     role: string,
-//     content: string,
-//     image: string
-// }
 // Interface for Event Form Data
 export interface EventFormData {
     eventTitle: string;
@@ -68,4 +60,38 @@ export interface TestomonialList{
     success:boolean,
     message:string,
     data: Testomonial[]
+}
+
+// Contact Type
+export interface Contact{
+    id:number,
+    first_name: string,
+    last_name: string,
+    email: string,
+    phone: string,
+    program: string,
+    message: string,
+    created_at: string
+}
+// Contact Api Response
+export interface ContactListResponse{
+    success:boolean,
+    message:string,
+    data: Contact[]
+}
+// Contact Form Data
+export interface ContactFormData{
+    firstName:string,
+    lastName:string,
+    email:string,
+    phone?:string,
+    program?:string,
+    message?:string
+}
+
+// Generic Api Response for Forms
+export interface ApiResponse{
+    success: boolean,
+    message: string,
+    data:number
 }

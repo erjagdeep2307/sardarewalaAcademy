@@ -3,8 +3,9 @@ import connectionPool from '#db';
 import eventRepo from '#events/event.repo';
 import eventService from '#events/event.service';
 import EventController from "#controllers/EventController";
+
+import { createCloudinaryService } from "#cloudinary";
 import {uploader} from "./event.middleware.js";
-import { createCloudinaryService } from "../../../infrastructure/cloudinary/cloudinary.js";
 // Inject the dependecies
 
 const cloudinaryConfig = {
@@ -12,8 +13,8 @@ const cloudinaryConfig = {
     api_key: process.env.CLOUD_API,
     api_secret: process.env.CLOUD_SECRET
 };
-const EventRepo = eventRepo(connectionPool);
 const CloudinaryService = createCloudinaryService(cloudinaryConfig);
+const EventRepo = eventRepo(connectionPool);
 const EventService = eventService(EventRepo,CloudinaryService);
 const eventController = EventController(EventService);
 const eventRouter = Router();

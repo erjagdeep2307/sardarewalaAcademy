@@ -9,11 +9,12 @@
   },
   "imports": {
     "#events/*": "./app/core/modules/events/*.js",
-    "#controllers/*": "./app/adaptors/http-express/controllers/*.js",
-    "#db": "./app/infrastructure/database/db.js",
-    "#logger": "./app/infrastructure/logger/logger.js",
+    "#contacts/*": "./app/core/modules/contacts/*.js",
     "#testomonial/*": "./app/core/modules/testomonials/*.js",
-    "#cloudinary": "./app/infrastructure/cloudinary/*.js"
+    "#controllers/*": "./app/adaptors/http-express/controllers/*.js",
+    "#logger": "./app/infrastructure/logger/logger.js",
+    "#db": "./app/infrastructure/database/db.js",
+    "#cloudinary": "./app/infrastructure/cloudinary/cloudinary.js"
   },
   "author": "",
   "license": "ISC",

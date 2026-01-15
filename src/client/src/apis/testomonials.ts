@@ -1,6 +1,6 @@
 import type { TestomonialList } from "@/types/types";
 // const BASE_URL="https://contributor-craig-podcasts-lake.trycloudflare.com/testomonials";
-const BASE_URL = "http://localhost:3420/testomonials";
+const BASE_URL = "http://localhost:5935/api/testomonials";
 
 export const fetcthTestomonials = async ():Promise<TestomonialList> =>{
     try {

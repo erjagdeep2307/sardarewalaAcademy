@@ -2,14 +2,19 @@ import express from 'express';
 import cors from 'cors'
 import eventRouter from '#events/event.route';
 import testomonialRouter from '#testomonial/testomonial.route';
+import contactRouter from '#contacts/contact.route';
 import { multerErrorHandler } from '../../infrastructure/multerError/multerErrorHandler.js';
-import requestLogger from '../middleware/logMiddleware.js';
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 // app.use(requestLogger)
-app.use('/events', eventRouter);
-app.use('/testomonials', testomonialRouter);
+app.use('/api/events', eventRouter);
+app.use('/api/testomonials', testomonialRouter);
+app.use('/api/contact', contactRouter);
+
+app.all('/*splat', (req, res) => {
+    res.status(404).send({ message: 'Route Not Found' });
+});
 app.use(multerErrorHandler);
 export default app;

@@ -10,6 +10,7 @@ import { AdminDashboard } from "@/pages/admin/Dashboard";
 import { AdminGalleryView } from "@/pages/admin/Gallery/List";
 import {Create} from "@/pages/admin/Gallery/Create";
 import { AdminGalleryLayout } from "@/layouts/galleryLayout";
+import { AdminTestimonials } from "@/pages/admin/Testmonies";
 const appRouter = createBrowserRouter([
 // Public Routes
   {
@@ -61,6 +62,10 @@ const appRouter = createBrowserRouter([
               element: <Create />, 
           }
         ],
+      },
+      {
+        path:'testomonials',
+        element:<AdminTestimonials/>
       }
     ],  
   }

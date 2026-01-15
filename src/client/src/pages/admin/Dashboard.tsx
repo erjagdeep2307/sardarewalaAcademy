@@ -1,6 +1,9 @@
 import React from 'react';
 import { Users, TrendingUp, DollarSign, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { fetchContacts } from '@/apis/contacts';
+import type { ContactListResponse } from '@/types/types';
+import { useQuery } from '@tanstack/react-query';
 
 interface StatCardProps {
   label: string;
@@ -33,7 +36,10 @@ const StatCard = ({ label, value, icon: Icon, color, trend }: StatCardProps) => 
 
 export const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
-
+ const {data:contactData} = useQuery<ContactListResponse>({
+    queryKey:['contacts'],
+    queryFn:fetchContacts
+  });
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -69,29 +75,33 @@ export const AdminDashboard: React.FC = () => {
 
       <div className="grid lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-6 transition-colors duration-300">
-          <h3 className="font-bold text-gray-800 dark:text-white mb-4">Recent Registrations</h3>
+          <h3 className="font-bold text-gray-800 dark:text-white mb-4">Recent Registrations {contactData?.data.length}</h3>
           <div className="overflow-x-auto">
             <table className="min-w-full">
-              <thead>
-                <tr className="border-b border-gray-200 dark:border-gray-700 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">
-                  <th className="pb-3 pl-2">Name</th>
-                  <th className="pb-3">Program</th>
-                  <th className="pb-3">Date</th>
-                  <th className="pb-3">Status</th>
+              {contactData && (
+                <>
+                <thead>
+                  <tr className="border-b border-gray-200 dark:border-gray-700 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">
+                    <th className="pb-3 pl-2">Name</th>
+                    <th className="pb-3">Program</th>
+                    <th className="pb-3">Date</th>
+                    <th className="pb-3">Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-gray-800 text-sm">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <tr key={i}>
-                    <td className="py-3 pl-2 font-medium text-gray-900 dark:text-white">Student Name {i}</td>
-                    <td className="py-3 text-gray-500 dark:text-gray-400">Army Training</td>
-                    <td className="py-3 text-gray-500 dark:text-gray-400">Oct {10+i}, 2023</td>
+                 {contactData?.data.map((contact,idx) => (
+                  <tr key={idx}>
+                    <td className="py-3 pl-2 font-medium text-gray-900 dark:text-white">{`${contact.first_name+' '+contact.last_name}`}</td>
+                    <td className="py-3 text-gray-500 dark:text-gray-400">{contact.program}</td>
+                    <td className="py-3 text-gray-500 dark:text-gray-400">{contact.created_at}</td>
                     <td className="py-3">
                       <span className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-2 py-1 rounded-full text-xs font-medium">Paid</span>
                     </td>
                   </tr>
-                ))}
+                  ))}
               </tbody>
+              </>
+              )}
             </table>
           </div>
         </div>
