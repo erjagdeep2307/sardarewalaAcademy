@@ -50,7 +50,7 @@ export interface Testomonial{
     designation:string,
     department:string,
     testimonial_text:string,
-    rating:number
+    rating:string,
     image_url:string
     is_featured:boolean
 } 
@@ -95,3 +95,20 @@ export interface ApiResponse{
     message: string,
     data:number
 }
+// Event/ Testomonial Create Api Response 
+export interface CreateApiResponse{
+    success: boolean,
+    message: string,
+    data : EventData|Contact|Testomonial|object
+}
+
+export interface TestomonialFormData{
+    id:number,
+    client_name:string,
+    designation:string,
+    department:string,
+    testimonial_text:string,
+    rating:string,
+    image_url:FileList
+    is_featured:boolean
+} 
