@@ -1,27 +1,39 @@
 import React, { useState } from 'react';
-import { Plus, Edit2, Trash2, X, Star, Search, Quote } from 'lucide-react';
+import { toast } from 'react-toastify';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Plus, Edit2, Trash2, Star, Search, Quote, Loader2 } from 'lucide-react';
 import { Button } from '@/components/UI/Button';
-import { useForm } from 'react-hook-form';
 import type { TestomonialList } from '@/types/types';
-import { useQuery } from '@tanstack/react-query';
-import { fetcthTestomonials } from '@/apis/testomonials';
-
-// Mock initial data linked to home page content
+import { fetcthTestomonials,removeTestomonialById } from '@/apis/testomonials';
+import { TestimonialCardSkeleton } from '@/components/admin/TestomonialCard';
 
 export const AdminTestimonials: React.FC = () => {
 
   // const [isModalOpen, setIsModalOpen] = useState(false);
   // const [editingId, setEditingId] = useState<string | null>(null);
+  const [deletingId,setDeletingId] =  useState<number|null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+
 
   const { data: testomonialData, isLoading } = useQuery<TestomonialList>({
     queryKey: ['testomonials'],
     queryFn: fetcthTestomonials
   });
-  if (testomonialData?.data) {
-    console.log(testomonialData.data);
-  }
 
+  const queryClient = useQueryClient();
+  const {mutate:hDelete,isPending} = useMutation({
+    mutationFn:removeTestomonialById,
+    onMutate:(id:number)=>{
+      setDeletingId(id);
+    },
+    onSuccess:()=>{
+      toast.success(`Testomony Card Deleted`);
+      queryClient.invalidateQueries({queryKey:["testomonials"]})
+    },
+    onSettled:()=>{
+      setDeletingId(null)
+    }
+  })
 
   // const { register, handleSubmit, reset, setValue } = useForm<Partial<Testimonial>>();
 
@@ -63,13 +75,11 @@ export const AdminTestimonials: React.FC = () => {
   //   reset();
   // };
 
-  // const handleDelete = (id: string) => {
-  //   if (confirm("Remove this testimonial from the wall of fame?")) {
-  //     const updated = testimonials.filter(t => t.id !== id);
-  //     setTestimonials(updated);
-  //     initialTestimonials = updated;
-  //   }
-  // };
+  const handleDelete = (id: number) => {
+    if (confirm("Remove this testimonial from the wall of fame?")) {
+      hDelete(id);
+    }
+  };
 
   // const filtered = testimonials.filter(t => 
   //   t.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -102,9 +112,9 @@ export const AdminTestimonials: React.FC = () => {
           </Button>
         </div>
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
+        {isLoading ?
+         <TestimonialCardSkeleton count={5}/> :
+       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {testomonialData ? (testomonialData.data).map((item, _idx) => (
           <div key={_idx} className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100   dark:border-slate-800 p-6 flex flex-col relative group transition-all hover:shadow-md">
             <div className="flex items-start justify-between mb-4">
@@ -119,8 +129,8 @@ export const AdminTestimonials: React.FC = () => {
                 <button className="p-1.5 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-md transition-colors" title="Edit">
                   <Edit2 className="w-4 h-4" />
                 </button>
-                <button className="p-1.5 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors" title="Delete">
-                  <Trash2 className="w-4 h-4" />
+                <button onClick={()=>handleDelete(item.id)} disabled={isPending} className="p-1.5 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors" title="Delete">
+                  {deletingId===item.id?<Loader2 className='w-4 h-4 animate-spin'/>:<Trash2 className="w-4 h-4" />}
                 </button>
               </div>
             </div>
@@ -141,6 +151,7 @@ export const AdminTestimonials: React.FC = () => {
         )):
         <p>No Testomonial Data found</p>}
       </div>
+      } 
     </div>
   )
 }

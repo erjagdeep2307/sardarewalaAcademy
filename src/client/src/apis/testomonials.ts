@@ -1,4 +1,4 @@
-import type { TestomonialList } from "@/types/types";
+import type { TestomonialList,ApiResponse } from "@/types/types";
 // const BASE_URL="https://contributor-craig-podcasts-lake.trycloudflare.com/testomonials";
 const BASE_URL = "http://localhost:5935/api/testomonials";
 
@@ -18,4 +18,15 @@ export const fetcthTestomonials = async ():Promise<TestomonialList> =>{
             data: []
         };
     }   
+}
+export const removeTestomonialById = async (id:number):Promise<ApiResponse>=>{
+    try {
+        const response =  await fetch(`${BASE_URL}/${id}`,{
+            method:"DELETE"
+        });
+            return response.json();
+    } catch (error) {
+        console.error(error);
+        throw new Error(`Failed to Delete the Testomonial`);
+    }
 }
