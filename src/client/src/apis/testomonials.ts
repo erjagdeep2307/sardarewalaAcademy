@@ -4,7 +4,10 @@ const BASE_URL = "http://localhost:5935/api/testomonials";
 
 export const createTestomonial = async (formData:FormData): Promise<CreateApiResponse> => {
     try {
-        const apiResponse = await fetch(BASE_URL);
+        const apiResponse = await fetch(BASE_URL,{
+            method:"POST",
+            body: formData
+        });
         if (!apiResponse.ok) {
             throw new Error("Failed to Create Testomonial");
         }

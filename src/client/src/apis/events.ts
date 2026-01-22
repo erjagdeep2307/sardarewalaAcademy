@@ -6,7 +6,6 @@ const BASE_URL = "http://localhost:5935/api/events";
 export const fetchEvents = async ():Promise<EventListResponse> =>{
     try {
         const response = await fetch(BASE_URL);
-        console.log(response);
         if(response.ok)
         {
             return response.json();

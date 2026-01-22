@@ -1,9 +1,3 @@
-export type Book = {
-    title: string;
-    author: string;
-    price: number;
-    image: string;
-};
 // Interface for Event Form Data
 export interface EventFormData {
     eventTitle: string;
@@ -14,7 +8,6 @@ export interface EventFormData {
     description: string; // Optional field
     event_image?: FileList; // For file input
 }
-
 // Interface for Event List Data for each item
 export interface EventData {
     id: string,
@@ -71,7 +64,8 @@ export interface Contact{
     phone: string,
     program: string,
     message: string,
-    created_at: string
+    created_at: string,
+    status:string
 }
 // Contact Api Response
 export interface ContactListResponse{
@@ -112,3 +106,15 @@ export interface TestomonialFormData{
     image_url:FileList
     is_featured:boolean
 } 
+interface NavChild{
+    label: string;
+    path: string;  
+    icon?: React.ElementType;
+}
+
+export interface NavItem {
+  icon: React.ElementType;
+  label: string;
+  path: string;
+  children?:NavChild[];
+}

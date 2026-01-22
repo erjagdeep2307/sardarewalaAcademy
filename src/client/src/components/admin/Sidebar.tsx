@@ -2,18 +2,13 @@ import { useState } from 'react';
 import { useLocation,Link } from 'react-router-dom';
 import { Dumbbell,LogOut,ChevronLeft,ChevronRight,ChevronDown} from 'lucide-react'; 
 import { cn } from '../../utils/utility';
-import { navItems } from '../../types/testdata'; 
+import { navItems } from '../../types/testdata';
+import type { NavItem } from '@/types/types'; 
 export default function Sidebar() {
  const [isCollapsed, setIsCollapsed] = useState(false);
  const [expandedMenus, setExpandedMenus] = useState<Record<string,boolean>>({"Gallery":true});
  const location = useLocation();
 
-interface NavItem {
-  icon: React.ElementType;
-  label: string;
-  path: string;
-  children?: { label: string; path: string; icon: React.ElementType }[];
-}
 
 
 
@@ -29,8 +24,8 @@ interface NavItem {
   const isPathActive = (path: string) => location.pathname === path;
   const isParentActive = (item: NavItem) => {
     if (item.path === location.pathname) return true;
-    if (item.children) {
-      return item.children.some(child => child.path === location.pathname);
+    if (item?.children) {
+      return item?.children.some(child => child?.path === location.pathname);
     }
     return false;
   };
@@ -52,7 +47,7 @@ interface NavItem {
 
         {/* Sidebar Header / Logo */}
         <div className="h-20 flex flex-shrink-0 items-center justify-center border-b border-white/10 overflow-hidden whitespace-nowrap">
-           <Link to="/" className="flex items-center space-x-2 px-2">
+           <Link to="/admin" className="flex items-center space-x-2 px-2">
               <div className="bg-white p-1.5 rounded-full flex-shrink-0 shadow-md">
                 <Dumbbell className="h-6 w-6 text-[#FF9933]" />
               </div>
@@ -67,8 +62,8 @@ interface NavItem {
         
         {/* Navigation */}
          <nav className="flex-1 px-3 py-6 space-y-2 overflow-y-auto overflow-x-hidden custom-scrollbar">
-          {navItems.map((item) => (
-            <div key={item.path}>
+          {navItems.map((item) => {
+            return(<div key={item.path}>
               <div
                 className={cn(
                   "relative flex items-center rounded-lg transition-colors text-sm font-medium min-h-[48px] cursor-pointer group",
@@ -85,30 +80,31 @@ interface NavItem {
                     isCollapsed ? "justify-center" : "space-x-3"
                   )}
                   title={isCollapsed ? item.label : ''}
-                  onClick={() => {
-                     // If clicking parent that has children, expand menu if collapsed
-                     if(item.children && !expandedMenus[item.label]) {
-                        toggleMenu(item.label);
-                     }
-                  }}
+                  // onClick={() => {
+                  //    // If clicking parent that has children, expand menu if collapsed
+                  
+                  //    if(item?.children && !expandedMenus[item.label]) {
+                  //       toggleMenu(item.label);
+                  //    }
+                  // }}
                 >
                   <item.icon className="w-5 h-5 flex-shrink-0" />
                   {!isCollapsed && <span className="whitespace-nowrap flex-1">{item.label}</span>}
                 </Link>
 
                 {/* Submenu Toggle Icon */}
-                {!isCollapsed && item.children && (
+                {/* {!isCollapsed && item.children && (
                   <button
                     onClick={(e) => toggleMenu(item.label, e)}
                     className="p-1 hover:bg-white/20 rounded-full transition-colors ml-2"
                   >
                     {expandedMenus[item.label] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
                   </button>
-                )}
+                )} */}
               </div>
 
               {/* Submenu Items */}
-              {!isCollapsed && item.children && expandedMenus[item.label] && (
+              {/* {!isCollapsed && item.children && expandedMenus[item.label] && (
                 <div className="mt-1 ml-4 space-y-1 border-l border-white/20 pl-2">
                   {item.children.map((child) => (
                     <Link
@@ -126,9 +122,9 @@ interface NavItem {
                     </Link>
                   ))}
                 </div>
-              )}
-            </div>
-          ))}
+              )} */}
+            </div>)
+          })}
         </nav>
 
         {/* Footer / Logout */}
