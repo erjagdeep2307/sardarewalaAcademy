@@ -1,4 +1,3 @@
-import { number } from 'motion/react';
 import type { ContactListResponse, ApiResponse, ContactFormData } from '../types/types';
 const BASE_URL = 'http://localhost:5935/api/contact';
 const fetchContacts = async (): Promise<ContactListResponse> => {

@@ -20,13 +20,15 @@ const ContactRepo = (connPool) =>{
             }   
         }
     };
+
     const listContacts = async () => {
         // Logic to list contacts from database
         let dbClient;
         try {
             dbClient = await connPool.connect();
-            const selectQuery = 'SELECT * FROM contacts';
-            const result = await dbClient.query(selectQuery);
+            const selectQuery = 'SELECT * FROM contacts where status=$1';
+            const values = ["Pending"];
+            const result = await dbClient.query(selectQuery,values);
             logger.info(`Fetched ${result.rowCount} contacts`);
             return result.rows;
         }
@@ -40,9 +42,34 @@ const ContactRepo = (connPool) =>{
             }   
         }
     };
+
+    const updateContact = async (id,reqData) =>{
+        let dbClient;
+        try {
+            dbClient = await connPool.connect();
+            const updateQuery = "Update contacts SET status=$1 WHERE id=$2 RETURNING id, status";
+            const values = [reqData.status,id];
+            const queryResult = await dbClient.query(updateQuery,values);
+            if(queryResult.rowCount===0)
+            {
+                return null;
+            }
+            return queryResult.rows[0];        
+        } catch (error) {
+            console.error(`Failed to Update Contact. Error: ${error.message}`);
+            throw error;
+        }
+        finally{
+            if(dbClient)
+            {
+                dbClient.release();
+            }
+        }
+    } 
     return {
         saveContact,
-        listContacts
+        listContacts,
+        updateContact
     };
 }
 export default ContactRepo;

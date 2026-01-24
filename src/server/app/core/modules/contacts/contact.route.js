@@ -7,6 +7,9 @@ const contactRouter = Router();
 const ContactRepoInstance = ContactRepo(connectionPool);
 const ContactServiceInstance = ContactService(ContactRepoInstance);
 const ContactCtrlInstance = ContactController(ContactServiceInstance);
+
 contactRouter.post('/', ContactCtrlInstance.createContact);
 contactRouter.get('/', ContactCtrlInstance.fetchContacts);
+contactRouter.patch('/:id',ContactCtrlInstance.updateContact);
+
 export default contactRouter;

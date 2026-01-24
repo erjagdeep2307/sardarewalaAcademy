@@ -1,6 +1,12 @@
+const BASE_URL_API = import.meta.env.VITE_API_BASE_URL;
 import type { TestomonialList, ApiResponse,CreateApiResponse } from "@/types/types";
+import httpclient from "./httpClient";
 // const BASE_URL="https://contributor-craig-podcasts-lake.trycloudflare.com/testomonials";
-const BASE_URL = "http://localhost:5935/api/testomonials";
+
+console.log(`Api URL : ${BASE_URL_API}`);
+const BASE_URL = `${BASE_URL_API}/testomonials`;
+
+
 
 export const createTestomonial = async (formData:FormData): Promise<CreateApiResponse> => {
     try {
@@ -22,13 +28,14 @@ export const createTestomonial = async (formData:FormData): Promise<CreateApiRes
         }
     }
 }
+
 export const fetcthTestomonials = async (): Promise<TestomonialList> => {
     try {
-        const apiResponse = await fetch(BASE_URL);
-        if (!apiResponse.ok) {
-            throw new Error(`Faiiled to Fetch Testomonial Data`);
+        const config = {
+            method:"GET"
         }
-        return apiResponse.json();
+        const apiResponse = await httpclient("/testomonials",config);
+        return apiResponse?.data;
     } catch (error) {
         console.log(error)
         return {

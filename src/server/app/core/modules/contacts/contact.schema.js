@@ -9,3 +9,7 @@ export const contactSchema = z.object({
         .transform((val) => val.trim().toUpperCase()), // Forces Uppercase
     message: z.string().min(10, 'Message must be at least 10 characters long'),
 });
+
+export const updateStatusSchema = z.object({
+    status:z.enum(["Pending","Approved"])
+});

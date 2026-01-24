@@ -6,7 +6,6 @@ import type { ContactListResponse } from "@/types/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { StatCard } from "@/components/admin/StatCard";
 import { toast } from "react-toastify";
-import { number } from "motion/react";
 
 export const AdminDashboard: React.FC = () => {
   const [idToUpdate, setIdToUpdate] = useState<number | null>(null);
@@ -24,7 +23,7 @@ export const AdminDashboard: React.FC = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["contact"],
+        queryKey: ["contacts"],
       });
       toast.success(`Status Update`);
     },
@@ -99,6 +98,7 @@ export const AdminDashboard: React.FC = () => {
                       <th className="pb-3">Program</th>
                       <th className="pb-3">Date</th>
                       <th className="pb-3">Approval</th>
+                      <th className="pb-3">Action</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100 dark:divide-gray-800 text-sm">
@@ -106,13 +106,15 @@ export const AdminDashboard: React.FC = () => {
                       const isApproved = contact.status === "Pending";
                       return (
                         <tr key={idx}>
-                          <td className="py-3 pl-2">
-                            {isApproved && (
-                              <span className="relative flex h-4 w-4 items-center justify-center">
-                                <span className="absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-50 animate-ping"></span>
-                                <span className="relative inline-flex h-3 w-3 rounded-full bg-red-700"></span>
-                              </span>
-                            )}
+
+                          <td className="py-3 pl-2 w-6">
+                            <span
+                              className={`relative flex h-4 w-4 items-center justify-center ${isApproved ? "opacity-100" : "opacity-0"
+                                }`}
+                            >
+                              <span className="absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-50 animate-ping" />
+                              <span className="relative inline-flex h-3 w-3 rounded-full bg-red-700" />
+                            </span>
                           </td>
                           <td className="py-3 pl-2 font-medium text-gray-900 dark:text-white">{`${contact.first_name + " " + contact.last_name}`}</td>
                           <td className="py-3 text-gray-500 dark:text-gray-400">
@@ -122,22 +124,32 @@ export const AdminDashboard: React.FC = () => {
                             {contact.created_at}
                           </td>
                           <td className="py-3">
+                            <span
+                              className="min-w-[96px] bg-red-100 dark:bg-red-900/30
+                              text-red-700 dark:text-red-400
+                              px-2 py-1 text-xs rounded-sm font-medium
+                              transition-opacity">
+                              {contact.status}
+                            </span>
+                          </td>
+                          <td className="py-3">
                             <button
-                              className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-2 py-1 text-xs rounded-sm font-medium"
-                              disabled={!isApproved}
+                              className="min-w-[96px] bg-green-100 dark:bg-green-900/30
+                              text-green-700 dark:text-green-400
+                              px-2 py-1 text-xs rounded-sm font-medium
+                              transition-opacity border"
+                              disabled={isApproving && idToUpdate === contact.id}
                               onClick={() =>
                                 handleApprove(
                                   contact.id,
-                                  contact.status === "Pending"
-                                    ? "Approved"
-                                    : "Pending",
+                                  contact.status === "Pending" ? "Approved" : "Pending"
                                 )
                               }
-                            >
-                              {(idToUpdate === contact.id) ? "Approving"
-                                : isApproved
-                                  ? "Approve"
-                                  : "Approved"}
+                              >
+                                {(isApproving && (idToUpdate === contact.id))
+                                ? "Approving"
+                                : "Approve"
+                              }
                             </button>
                           </td>
                         </tr>

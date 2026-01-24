@@ -8,9 +8,15 @@ const ContactService = (contactRepo)=>{
         // Logic to list contacts from database
         return await contactRepo.listContacts();
     };
+
+    const updateStatus = async(recordId, payload) =>{
+        return await contactRepo.updateContact(recordId, payload);
+    };
+
     return {
         createContact,
-        listContacts
+        listContacts,
+        updateStatus
     };
 }
 export default ContactService;
