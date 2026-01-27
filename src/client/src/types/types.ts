@@ -9,7 +9,7 @@ export interface EventFormData {
     event_image?: FileList; // For file input
 }
 // Interface for Event List Data for each item
-export interface EventData {
+export interface Events{
     id: string,
     title: string,
     slug: string,
@@ -21,19 +21,6 @@ export interface EventData {
     updated_at: string,
     image_url: string,
     cloudinary_public_id: string,
-}
-
-// Event List Api Response
-export interface EventListResponse{
-    success: boolean,
-    message: string,
-    data : EventData[]
-}
-// Event by Id Response
-export interface EventByIdResponse{
-    success: boolean,
-    message: string,
-    data : EventData
 }
 
 // Testomonial Type
@@ -48,13 +35,6 @@ export interface Testomonial{
     is_featured:boolean
 } 
 
-// Testomonial Api Response
-export interface TestomonialList{
-    success:boolean,
-    message:string,
-    data: Testomonial[]
-}
-
 // Contact Type
 export interface Contact{
     id:number,
@@ -67,12 +47,7 @@ export interface Contact{
     created_at: string,
     status:string
 }
-// Contact Api Response
-export interface ContactListResponse{
-    success:boolean,
-    message:string,
-    data: Contact[]
-}
+
 // Contact Form Data
 export interface ContactFormData{
     firstName:string,
@@ -81,19 +56,6 @@ export interface ContactFormData{
     phone?:string,
     program?:string,
     message?:string
-}
-
-// Generic Api Response for Forms
-export interface ApiResponse{
-    success: boolean,
-    message: string,
-    data:number
-}
-// Event/ Testomonial Create Api Response 
-export interface CreateApiResponse{
-    success: boolean,
-    message: string,
-    data : EventData|Contact|Testomonial|object
 }
 
 export interface TestomonialFormData{
@@ -118,3 +80,24 @@ export interface NavItem {
   path: string;
   children?:NavChild[];
 }
+
+
+// Generic Api Response Interface 
+ interface ApiResponseBase{
+    success:boolean,
+    message:string,
+ }
+
+// Api Response for Returning List in response Data
+ export interface ListApiResponse<T> extends ApiResponseBase{
+    data:T[] | []
+ }
+
+// Api Response for Return a single data object by Id
+export interface ItemApiResponse<T> extends ApiResponseBase{
+    data:T | []
+}
+// Api Response for Actions Delete Patch 
+export interface ActionApiResponse extends ApiResponseBase{
+    data?:never
+} 

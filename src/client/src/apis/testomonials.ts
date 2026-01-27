@@ -1,58 +1,50 @@
-const BASE_URL_API = import.meta.env.VITE_API_BASE_URL;
-import type { TestomonialList, ApiResponse,CreateApiResponse } from "@/types/types";
+import type { ActionApiResponse, ItemApiResponse, ListApiResponse, Testomonial } from "@/types/types";
 import httpclient from "./httpClient";
-// const BASE_URL="https://contributor-craig-podcasts-lake.trycloudflare.com/testomonials";
 
-console.log(`Api URL : ${BASE_URL_API}`);
-const BASE_URL = `${BASE_URL_API}/testomonials`;
+const testomonyEndpoint="/testomonials";
 
-
-
-export const createTestomonial = async (formData:FormData): Promise<CreateApiResponse> => {
+export const createTestomonial = async (formData: FormData): Promise<ItemApiResponse<Testomonial>> => {
     try {
-        const apiResponse = await fetch(BASE_URL,{
-            method:"POST",
-            body: formData
-        });
-        if (!apiResponse.ok) {
-            throw new Error("Failed to Create Testomonial");
-        }
-        return apiResponse.json();
+        const apiResponse = await httpclient<ItemApiResponse<Testomonial>>(testomonyEndpoint
+            , {
+                method: "POST",
+                body: formData
+            });
+        return apiResponse;
 
     } catch (error) {
         console.error(error);
         return {
             success: false,
             message: "Failed to Create Testomonial",
-            data: {}
+            data: []
         }
     }
 }
 
-export const fetcthTestomonials = async (): Promise<TestomonialList> => {
+export const fetchTestomonials = async (): Promise<ListApiResponse<Testomonial>> => {
     try {
-        const config = {
-            method:"GET"
-        }
-        const apiResponse = await httpclient("/testomonials",config);
-        return apiResponse?.data;
+        const apiResponse = await httpclient<ListApiResponse<Testomonial>>(testomonyEndpoint);
+        return apiResponse;
     } catch (error) {
-        console.log(error)
+        console.error(error)
         return {
             success: false,
-            message: "Failed to fetch testimonials",
+            message: "Generic Error",
             data: []
         };
     }
 }
-export const removeTestomonialById = async (id: number): Promise<ApiResponse> => {
+
+export const removeTestomonialById = async (id: number): Promise<ActionApiResponse> => {
     try {
-        const response = await fetch(`${BASE_URL}/${id}`, {
-            method: "DELETE"
-        });
-        return response.json();
+        const apiResponse = await httpclient<ActionApiResponse>(`${testomonyEndpoint}/${id}`, { method: "DELETE" })
+        return apiResponse;
     } catch (error) {
         console.error(error);
-        throw new Error(`Failed to Delete the Testomonial`);
+        return {
+            success: false,
+            message: "Generic Error",
+        };
     }
 }

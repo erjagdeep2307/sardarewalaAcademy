@@ -1,37 +1,38 @@
-import type { ContactListResponse, ApiResponse, ContactFormData } from '../types/types';
-const BASE_URL = 'http://localhost:5935/api/contact';
-const fetchContacts = async (): Promise<ContactListResponse> => {
+import type { Contact, ContactFormData, ListApiResponse, ItemApiResponse, ActionApiResponse } from '../types/types';
+import httpclient from './httpClient';
+
+const contactEndpoint = "/contact";
+const fetchContacts = async (): Promise<ListApiResponse<Contact>> => {
     try {
-        const response = await fetch(BASE_URL);
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error('Failed to fetch contacts');
-        }
+        const apiResponse = await httpclient<ListApiResponse<Contact>>(contactEndpoint); 
+        return apiResponse;
     } catch (error) {
-        console.log('API Error:', error);
-        throw error;
+        console.error('API Error:', error);
+        return {
+            success: false,
+            message: "Generic Error",
+            data: []
+        }
     }
 };
 
-const createContact = async (data: ContactFormData): Promise<ApiResponse> => {
+const createContact = async (data: ContactFormData): Promise<ItemApiResponse<Contact>> => {
     try {
-        const response = await fetch(BASE_URL, {
+        const apiResponse = await httpclient<ItemApiResponse<Contact>>(contactEndpoint, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(data)
+            body: data   // No need to stringify httpClient have already implemented this
         });
-        if (response.ok) {
-            return response.json();
-        }
-        else {
-            throw new Error(`Failed to Create Contact`)
-        }
+        return apiResponse;
     } catch (error) {
         console.error(`Api Error:${error}`)
-        throw error;
+        return {
+            success: false,
+            message: "Generic Error",
+            data: []
+        }
     }
 }
 interface ContactUpdatePayload {
@@ -39,26 +40,23 @@ interface ContactUpdatePayload {
     status: string
 }
 
-const updateContact = async (payload: ContactUpdatePayload): Promise<ApiResponse> => {
+const updateContact = async (payload: ContactUpdatePayload): Promise<ActionApiResponse> => {
     try {
         const { id, status } = payload;
-        const apiResponse = await fetch(`${BASE_URL}/${id}`, {
+        const apiResponse = await httpclient<ActionApiResponse>(`${contactEndpoint}/${id}`, {
             method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
+            body: {
                 status: status
-            })
+            }
         });
-        if (!apiResponse.ok) {
-            throw new Error(`Faiiled to Fetch Testomonial Data`);
-        }
-        return apiResponse.json();
+        return apiResponse;
     }
     catch (error) {
         console.error(error);
-        throw error;
+        return {
+            success: false,
+            message: "Generic Error",
+        }
     }
 }
 export { fetchContacts, createContact, updateContact };

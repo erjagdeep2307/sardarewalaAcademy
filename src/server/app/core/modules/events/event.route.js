@@ -6,6 +6,8 @@ import EventController from "#controllers/EventController";
 
 import { createCloudinaryService } from "#cloudinary";
 import {uploader} from "./event.middleware.js";
+import { publicRateLimiter } from "#rateLimiter";
+
 // Inject the dependecies
 
 const cloudinaryConfig = {
@@ -18,12 +20,18 @@ const EventRepo = eventRepo(connectionPool);
 const EventService = eventService(EventRepo,CloudinaryService);
 const eventController = EventController(EventService);
 const eventRouter = Router();
+
+/* Public Routes */
 // Get all events
-eventRouter.get("/", eventController.getEvents);
+eventRouter.get("/",publicRateLimiter,eventController.getEvents);
+
+// Get an event by Id
+eventRouter.get("/:id",publicRateLimiter,eventController.getEventById); 
+
+/* Private Routes */
 // Create a new event
 eventRouter.post("/",uploader.single("event_image"), eventController.createEvent);
-// Get an event by Id
-eventRouter.get("/:id", eventController.getEventById); 
+
 // Delete an event by Id
 eventRouter.delete("/:id", eventController.deleteEvent);
 export default eventRouter;

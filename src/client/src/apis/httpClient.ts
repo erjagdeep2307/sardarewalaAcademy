@@ -1,15 +1,16 @@
-type validBody = object | string | FormData | null | boolean |number;
+type validBody = object | string | FormData | boolean | number;
+
 // Define a type for the options to get autocomplete support
-type HttpClientOptions = Omit<RequestInit,'body'> & {
-  body?: validBody; // Can be object, array, or FormData
-}
+type HttpClientOptions = Omit<RequestInit, "body"> & {
+  body?: validBody;
+};
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL as string;
 
-const httpclient = async <T>(endpoint: string, options: HttpClientOptions = {}): Promise<T | null> => {
+const httpclient = async <T>(endpoint: string, options: HttpClientOptions = {}): Promise<T> => {
   const { body, ...restOptions } = options;
 
-  // Initialize headers properly
+  // Initialize headers
   const headers: Record<string, string> = {
     ...(restOptions.headers as Record<string, string>),
   };
@@ -19,27 +20,34 @@ const httpclient = async <T>(endpoint: string, options: HttpClientOptions = {}):
     headers,
   };
 
+  // Handle body
   if (body) {
     if (body instanceof FormData) {
-      // Browser handles Content-Type for FormData
-      httpConfig.body = body;
+      httpConfig.body = body; // browser handles content-type
     } else {
-      // Default to JSON for everything else
-      headers['Content-Type'] = 'application/json';
+      headers["Content-Type"] = "application/json";
       httpConfig.body = JSON.stringify(body);
     }
   }
 
-  // Note: I fixed the template literal to use the 'endpoint' variable
-  const apiResponse = await fetch(`${BASE_URL}${endpoint}`, httpConfig);
+  // Fetch the API
+  const response = await fetch(`${BASE_URL}${endpoint}`, httpConfig);
 
-  if (!apiResponse.ok) {
-    // You can optionally try to parse the error body from the server here
-    throw new Error(`HTTP Error: ${apiResponse.status}`);
+  // Handle non-ok status
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || `HTTP Error: ${response.status}`);
   }
 
-  if (apiResponse.status === 204) return null;
+  // Handle 204 No Content
+  if (response.status === 204) {
+    // Try to infer type
+    return {} as T;
+  }
 
-  return apiResponse.json() as Promise<T>;
+  // Parse JSON
+  const data = await response.json();
+  return data as T;
 };
+
 export default httpclient;

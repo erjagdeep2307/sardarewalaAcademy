@@ -4,7 +4,7 @@ import { slugify } from "@/utils/utility";
 import { Button } from "@/components/UI/Button";
 import { useForm, useWatch } from "react-hook-form";
 import { Trash2, X, Plus, Search, ImageIcon } from "lucide-react";
-import type { EventFormData, EventListResponse } from "@/types/types";
+import type { Events,EventFormData,ListApiResponse} from "@/types/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createEvent, deleteEventById, fetchEvents } from "@/apis/events";
 import AdminGallerySkeleton from "./Skeltons/AdminGallerySkeleton";
@@ -64,7 +64,7 @@ export const AdminGallery: React.FC = () => {
     const {
         data: events,
         isLoading,
-    } = useQuery<EventListResponse>({
+    } = useQuery<ListApiResponse<Events>>({
         queryKey: ["events"],
         queryFn: fetchEvents,
     });

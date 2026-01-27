@@ -1,73 +1,73 @@
-import type { EventByIdResponse, EventListResponse } from "@/types/types";
-// const BASE_URL = "https://contributor-craig-podcasts-lake.trycloudflare.com/events";
-const BASE_URL = "http://localhost:5935/api/events";
+import type { ActionApiResponse, ItemApiResponse, ListApiResponse, Events } from "@/types/types";
+import httpclient from "./httpClient";
 
-// Will Return Response in EventListResponse Format
-export const fetchEvents = async ():Promise<EventListResponse> =>{
+const eventEndpoint = "/events"; 
+
+// Fetch All Events
+export const fetchEvents = async (): Promise<ListApiResponse<Events>> => {
     try {
-        const response = await fetch(BASE_URL);
-        if(response.ok)
-        {
-            return response.json();
-        }
-        throw new Error('No Data Found')
-    } 
+        const apiResponse = await httpclient<ListApiResponse<Events>>(eventEndpoint);
+        if (!apiResponse.success) throw new Error(`Failed To Fetch Data`);
+        return apiResponse;
+    }
     catch (error) {
-        console.log('Api Error:',error);
-        throw error;
+        console.log('Api Error:', error);
+        return {
+            success: false,
+            message: "Generic Error",
+            data: []
+        }
     }
 }
+
 // Fetch Event By Id
-export const fetchEventById = async (id:string):Promise<EventByIdResponse> =>{
+export const fetchEventById = async (id: string): Promise<ItemApiResponse<Events>> => {
     try {
-        const response =  await fetch(`${BASE_URL}/${id}`)
-        if(response.ok)
-        {
-            return response.json();
-        }
-        else{
-            throw new Error(`Failed to Fetch Event by id ${id}`)
-        }
-    } 
+        const apiResponse = await httpclient<ItemApiResponse<Events>>(`${eventEndpoint}/${id}`);
+        return apiResponse;
+    }
     catch (error) {
-        console.log(`Error:`,error)
-        throw error;   
+        console.log(`Error:`, error)
+        return {
+            success: false,
+            message: "Generic Error",
+            data: []
+        }
     }
 }
+
 // Delete Event By Id
-export const deleteEventById = async (id:string):Promise<EventByIdResponse> =>{
+export const deleteEventById = async (id: string): Promise<ActionApiResponse> => {
     try {
-        const response =  await fetch(`${BASE_URL}/${id}`,{
-            method:'DELETE'
-        });
-        if(response.ok)
-        {
-            return response.json();
+        const config = {
+            method: "DELETE"
         }
-        else{
-            throw new Error(`Failed to Delete Event by id ${id}`)
-        }
+        const apiResponse = await httpclient<ActionApiResponse>(`${eventEndpoint}/${id}`, config);
+        return apiResponse;
     } catch (error) {
-        console.log(`Error:`,error)
-        throw error;
+        console.log(`Error:`, error)
+        return {
+            success: false,
+            message: "Generic Error",
+        }
     }
 }
+
 // Create New Event
-export const createEvent = async (formData:FormData):Promise<EventByIdResponse> =>{
+export const createEvent = async (formData: FormData): Promise<ListApiResponse<Events>> => {
     try {
-        const response =  await fetch(`${BASE_URL}`,{
-            method:'POST',
-            body:formData
-        }); 
-        if(response.ok)
-        {
-            return response.json();
+        const config = {
+            method: "POST",
+            body: formData
         }
-        else{
-            throw new Error(`Failed to Create New Event`)
-        }
+        const apiResponse = await httpclient<ListApiResponse<Events>>(eventEndpoint, config);
+        return apiResponse;
     } catch (error) {
-        console.log(`Error:`,error)
-        throw error;
+        console.log(`Error:`, error)
+        return {
+            success: false,
+            message: "Generic Error",
+            data: []
+        }
     }
 }

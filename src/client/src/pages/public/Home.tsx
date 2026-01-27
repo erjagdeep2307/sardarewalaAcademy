@@ -5,7 +5,8 @@ import { Button } from '@/components/UI/Button';
 import { Link } from 'react-router-dom';
 import Slider from '@/components/UI/Slider';
 import { useQuery } from '@tanstack/react-query';
-import { fetcthTestomonials } from '@/apis/testomonials';
+import { fetchTestomonials } from '@/apis/testomonials';
+import type { ListApiResponse, Testomonial } from '@/types/types';
 
 const stats = [
   { label: 'Students Trained', value: '5,000+', icon: Users, color: 'text-[#FF9933]' },
@@ -14,9 +15,9 @@ const stats = [
   { label: 'Success Rate', value: '98%', icon: Target, color: 'text-[#FF9933]' },
 ];
 export const Home: React.FC = () => {
-  const {data,isLoading} =  useQuery({
+  const {data,isLoading} =  useQuery<ListApiResponse<Testomonial>>({
     queryKey:['testomonials'],
-    queryFn:fetcthTestomonials
+    queryFn:fetchTestomonials
   });
    return (
     <div className="w-full">

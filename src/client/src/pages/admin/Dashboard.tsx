@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Users, TrendingUp, DollarSign, Calendar } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { fetchContacts, updateContact } from "@/apis/contacts";
-import type { ContactListResponse } from "@/types/types";
+import type { Contact,ListApiResponse } from "@/types/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { StatCard } from "@/components/admin/StatCard";
 import { toast } from "react-toastify";
@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 export const AdminDashboard: React.FC = () => {
   const [idToUpdate, setIdToUpdate] = useState<number | null>(null);
   const navigate = useNavigate();
-  const { data: contactData } = useQuery<ContactListResponse>({
+  const { data: contactData } = useQuery<ListApiResponse<Contact>>({
     queryKey: ["contacts"],
     queryFn: fetchContacts,
   });

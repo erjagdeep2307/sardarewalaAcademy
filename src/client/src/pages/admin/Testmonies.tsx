@@ -12,10 +12,10 @@ import {
   X,
 } from "lucide-react";
 import { Button } from "@/components/UI/Button";
-import type { TestomonialList, Testomonial } from "@/types/types";
+import type { Testomonial,ListApiResponse } from "@/types/types";
 import {
   createTestomonial,
-  fetcthTestomonials,
+  fetchTestomonials,
   removeTestomonialById,
 } from "@/apis/testomonials";
 import { TestimonialCardSkeleton } from "@/components/admin/TestomonialCard";
@@ -26,9 +26,9 @@ export const AdminTestimonials: React.FC = () => {
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { data: testomonialData, isLoading } = useQuery<TestomonialList>({
+  const { data: testomonialData, isLoading } = useQuery<ListApiResponse<Testomonial>>({
     queryKey: ["testomonials"],
-    queryFn: fetcthTestomonials,
+    queryFn: fetchTestomonials,
   });
 
   const queryClient = useQueryClient();
@@ -124,7 +124,7 @@ export const AdminTestimonials: React.FC = () => {
       <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-6">
         <div className="flex justify-between items-center mb-6">
           <h3 className="font-bold text-gray-800 dark:text-white text-lg">
-            {testomonialData?.data?.length} Testomonials Found.
+            {testomonialData?.data.length} Testomonials Found.
           </h3>
         </div>
         {isLoading ? (

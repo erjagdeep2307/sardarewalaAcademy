@@ -14,7 +14,8 @@
     "#controllers/*": "./app/adaptors/http-express/controllers/*.js",
     "#logger": "./app/infrastructure/logger/logger.js",
     "#db": "./app/infrastructure/database/db.js",
-    "#cloudinary": "./app/infrastructure/cloudinary/cloudinary.js"
+    "#cloudinary": "./app/infrastructure/cloudinary/cloudinary.js",
+    "#rateLimiter": "./app/adaptors/middleware/rateLimiterMiddleware.js"
   },
   "author": "",
   "license": "ISC",
@@ -24,6 +25,8 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
     "multer": "^2.0.2",
     "pg": "^8.16.3",
     "pino": "^10.1.1",
