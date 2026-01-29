@@ -100,9 +100,9 @@ export const PublicLayout: React.FC = () => {
                 {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
               </button>
 
-              <Link to="/admin/">
+              <Link to="/login">
                 <Button variant="primary" size="sm" className="ml-2">
-                  Admin
+                  Login
                 </Button>
               </Link>
             </nav>
@@ -143,8 +143,8 @@ export const PublicLayout: React.FC = () => {
                 </Link>
               ))}
               <div className="pt-4">
-                <Link to={'/admin/'}>
-                  <Button variant="primary" className="w-full">Admin</Button>
+                <Link to={'/login'}>
+                  <Button variant="primary" className="w-full">Login</Button>
                 </Link>
               </div>
             </div>

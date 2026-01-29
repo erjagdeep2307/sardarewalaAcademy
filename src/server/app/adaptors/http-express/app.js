@@ -7,6 +7,7 @@ import { multerErrorHandler } from '../../infrastructure/multerError/multerError
 import helmet  from 'helmet'
 
 import { generateHash,compareHash } from '../../core/modules/common/hash.service.js';
+import authRouter from '../../core/modules/auth/auth.route.js';
 const app = express();
 app.set('trust proxy',1); // Seting up to prevent the unattentional behaviour of rate-limit in proxy mode
 app.use(helmet()); // Helmet helps you secure your Express apps by setting various HTTP headers
@@ -16,6 +17,7 @@ app.use(cors({
     origin:['http://172.17.222.128:5173','http://localhost:5173'],
     methods:['GET','POST','PUT','DELETE']
 }));
+app.use('/api/auth',authRouter);
 app.use('/api/events', eventRouter);
 app.use('/api/testomonials', testomonialRouter);
 app.use('/api/contact', contactRouter);
