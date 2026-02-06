@@ -1,6 +1,17 @@
 import AuthController from '#controllers/AuthController';
 import Router from 'express';
+import connectionPool  from '#db';
+import { authRateLimiter } from '#middleware/RateLimiterMiddleware';
+import AuthRepo from "#auth/auth.repo";
+import AuthService from "#auth/auth.service";
+
 const authRouter = Router();
-const authController = AuthController();
-authRouter.post('/login',authController.authenticate);
+
+
+const authRepo  = AuthRepo(connectionPool);
+const authService = AuthService(authRepo);
+const authController = AuthController(authService);
+
+authRouter.post('/login',authRateLimiter,authController.authenticate);
+
 export default authRouter;

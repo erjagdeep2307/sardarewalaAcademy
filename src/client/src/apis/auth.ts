@@ -6,14 +6,13 @@ const login = async (loginPayload:LoginData):Promise<AuthApiResponse<ILoginData>
             method:"POST",
             body: loginPayload
         });
-        if(apiResponse.status !== "success") throw new Error("Failed to Login");
         return apiResponse;
     }
     catch(error){
         console.error(error);
         return {
             status: 'fail',
-            message: "Generic Error",
+            message: "Something Went Wrong",
             data: null
         }
     }

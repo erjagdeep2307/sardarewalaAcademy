@@ -5,4 +5,11 @@ const publicRateLimiter = rateLimit({
     limit: 100,
     legacyHeaders:false
 }) ;
-export {publicRateLimiter};
+
+const authRateLimiter = rateLimit({
+    windowMs:5 * 60 * 1000,
+    limit:5,
+    legacyHeaders:false
+})
+
+export {publicRateLimiter,authRateLimiter};

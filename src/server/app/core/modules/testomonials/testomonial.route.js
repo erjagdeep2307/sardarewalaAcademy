@@ -6,7 +6,7 @@ import TestomonialController from "#controllers/TestomonialController";
 
 import { createCloudinaryService } from "#cloudinary";
 import { uploader } from "#events/event.middleware";
-import { publicRateLimiter } from "#rateLimiter";
+// import { publicRateLimiter } from "../../../adaptors/middleware/RateLimiterMiddleware";
 // 
 const cloudinaryConfig = {
     cloud_name: process.env.CLOUD_NAME,

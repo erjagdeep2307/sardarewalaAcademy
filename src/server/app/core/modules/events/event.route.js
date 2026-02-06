@@ -6,7 +6,7 @@ import EventController from "#controllers/EventController";
 
 import { createCloudinaryService } from "#cloudinary";
 import {uploader} from "./event.middleware.js";
-import { publicRateLimiter } from "#rateLimiter";
+import { publicRateLimiter } from "../../../adaptors/middleware/RateLimiterMiddleware.js";
 
 // Inject the dependecies
 

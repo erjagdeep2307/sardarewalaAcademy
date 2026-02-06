@@ -1,5 +1,5 @@
 import logger from "#logger";
-import TestomonialSchema from "#testomonial/testomonial.schema";
+import TestomonialSchema from "#testomonial/testomonial.validation";
 const TestomonialController = (testmnlService) => {
     // Create a New Testomonial
     const createTestomonial = async (req, res) => {

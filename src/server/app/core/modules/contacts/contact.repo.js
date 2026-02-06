@@ -12,7 +12,7 @@ const ContactRepo = (connPool) =>{
             return result.rowCount;
         } catch (error) {
             logger.error('Error saving contact:', error);
-            throw error;
+            throw new Error('Failed to Save contact Data');
         }
         finally {
             if (dbClient) {
@@ -34,7 +34,7 @@ const ContactRepo = (connPool) =>{
         }
         catch (error) {
             logger.error('Error fetching contacts:', error);
-            throw error;
+            throw new Error('Failed to Fetch Contacts');
         }
         finally {
             if (dbClient) {
@@ -57,7 +57,7 @@ const ContactRepo = (connPool) =>{
             return queryResult.rows[0];        
         } catch (error) {
             console.error(`Failed to Update Contact. Error: ${error.message}`);
-            throw error;
+            throw new Error('Failed to Update Contact');
         }
         finally{
             if(dbClient)

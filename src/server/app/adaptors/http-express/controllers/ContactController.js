@@ -1,8 +1,7 @@
 import logger from "#logger";
-import { contactSchema, updateStatusSchema } from "#contacts/contact.schema";
-import { success } from "zod";
+import { contactSchema, updateStatusSchema } from "#contacts/contact.validation";
 const ContactController = (contactService) => {
-    const createContact = async (req, res) => {
+    const createContact = async (req,res,next) => {
         try {
             logger.info('Received contact creation request');
             const contactData = req.body;
@@ -12,21 +11,14 @@ const ContactController = (contactService) => {
                 console.log(validatedData.error.flatten().fieldErrors);
                 return res.status(400).json({ error: 'Invalid contact data', details: validatedData.error.flatten().fieldErrors });
             }
-            if (contactService) {
-                logger.info('Contact service is available');
-            }
-            else {
-                logger.error('Contact service is not available');
-            }
             const result = await contactService.createContact(validatedData.data);
             res.status(201).json({ message: 'Contact created successfully', data: result });
         } catch (error) {
-
-            res.status(500).json({ error: error.message });
+            next(error);
         }
     }
 
-    const fetchContacts = async (req, res) => {
+    const fetchContacts = async (req,res,next) => {
         try {
             const contacts = await contactService.listContacts();
             console.log('Contacts fetched:', contacts.length);
@@ -37,16 +29,11 @@ const ContactController = (contactService) => {
                 data: contacts
             });
         } catch (error) {
-            console.log(error);
-            res.status(500).json({
-                success: false,
-                message: 'Failed to fetch contacts',
-                errorCode: 'CONTACT_FETCH_ERROR'
-            });
+            next(error);
         }
     }
 
-    const updateContact = async (req, res) => {
+    const updateContact = async (req, res, next) => {
         try {
             const recordId = Number(req.params.id);
             if (Number.isNaN(recordId)) {
@@ -75,13 +62,8 @@ const ContactController = (contactService) => {
                 data: response
             })
         } catch (error) {
-            console.log(error);
-            res.status(500).json({
-                success: false,
-                message: 'Failed to fetch contacts',
-                errorCode: 'CONTACT_FETCH_ERROR'
-            });
-        }
+            next(error);
+          }
     }
     return {
         createContact,

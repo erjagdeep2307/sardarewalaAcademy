@@ -1,5 +1,4 @@
-import EventValidationSchema from "#events/event.schema";
-import { json, success } from "zod";
+import EventValidationSchema from "#events/event.validation";
 import logger from "#logger";
 // Create a new event
 const EventController = (eventService) => {

@@ -1,13 +1,14 @@
-import express from 'express';
 import cors from 'cors'
-import eventRouter from '#events/event.route';
-import testomonialRouter from '#testomonial/testomonial.route';
-import contactRouter from '#contacts/contact.route';
-import { multerErrorHandler } from '../../infrastructure/multerError/multerErrorHandler.js';
 import helmet  from 'helmet'
+import express from 'express';
 
-import { generateHash,compareHash } from '../../core/modules/common/hash.service.js';
-import authRouter from '../../core/modules/auth/auth.route.js';
+import eventRouter from '#events/event.route';
+import contactRouter from '#contacts/contact.route';
+import testomonialRouter from '#testomonial/testomonial.route';
+import authRouter from '#auth/auth.route';
+import { generateHash,compareHash } from '#common/hash.service';
+import { globalErrorHandler } from '../middleware/GlobalErrorHandler.js';
+
 const app = express();
 app.set('trust proxy',1); // Seting up to prevent the unattentional behaviour of rate-limit in proxy mode
 app.use(helmet()); // Helmet helps you secure your Express apps by setting various HTTP headers
@@ -44,5 +45,6 @@ app.post('/testhash', async(req, res) => {
 // app.all('/*splat', (req, res) => {
 //     res.status(404).send({ message: 'Route Not Found' });
 // });
-app.use(multerErrorHandler);
+app.use(globalErrorHandler);
+
 export default app;

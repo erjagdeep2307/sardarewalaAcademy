@@ -15,13 +15,14 @@ export const Login: React.FC = () => {
   const {mutate:authenticate,isPending} =  useMutation({
     mutationFn:login,
     onSuccess:(data)=>{
-      console.log(data);
+      // console.log(data);
       if(data.status==="success")
       {
         navigate('/admin');
       }
       else{
-        toast.error('Failed to Login');
+        console.log(data); 
+        // toast.error(errMess);
       }
     },  
     onError:(err)=>{

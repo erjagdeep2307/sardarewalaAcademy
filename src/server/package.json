@@ -8,6 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "imports": {
+    "#common/*": "./app/core/modules/common/*.js",
+    "#auth/*": "./app/core/modules/auth/*.js",
     "#events/*": "./app/core/modules/events/*.js",
     "#contacts/*": "./app/core/modules/contacts/*.js",
     "#testomonial/*": "./app/core/modules/testomonials/*.js",
@@ -15,7 +17,7 @@
     "#logger": "./app/infrastructure/logger/logger.js",
     "#db": "./app/infrastructure/database/db.js",
     "#cloudinary": "./app/infrastructure/cloudinary/cloudinary.js",
-    "#rateLimiter": "./app/adaptors/middleware/rateLimiterMiddleware.js"
+    "#middleware/*": "./app/adaptors/middleware/*.js"
   },
   "author": "",
   "license": "ISC",

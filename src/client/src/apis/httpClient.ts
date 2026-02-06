@@ -35,7 +35,8 @@ const httpclient = async <T>(endpoint: string, options: HttpClientOptions = {}):
 
   // Handle non-ok status
   if (!response.ok) {
-    const errorText = await response.text();
+    console.log(response);
+    const errorText = response.statusText;
     throw new Error(errorText || `HTTP Error: ${response.status}`);
   }
 
