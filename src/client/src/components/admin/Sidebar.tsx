@@ -4,12 +4,16 @@ import { Dumbbell,LogOut,ChevronLeft,ChevronRight,ChevronDown} from 'lucide-reac
 import { cn } from '../../utils/utility';
 import { navItems } from '../../types/testdata';
 import type { NavItem } from '@/types/types'; 
+import { useLogout } from '@/hooks/AuthHook';
 export default function Sidebar() {
+
  const [isCollapsed, setIsCollapsed] = useState(false);
  const [expandedMenus, setExpandedMenus] = useState<Record<string,boolean>>({"Gallery":true});
  const location = useLocation();
-
-
+ const {logoutMutation} = useLogout();
+ const handleLogout = () => {
+   logoutMutation();
+  }; 
 
 
  const toggleMenu = (label: string, e?: React.MouseEvent) => {
@@ -129,8 +133,8 @@ export default function Sidebar() {
 
         {/* Footer / Logout */}
         <div className="p-4 border-t border-white/10">
-          <Link 
-            to="/" 
+          <button 
+            onClick={handleLogout} 
             className={cn(
                "flex items-center rounded-lg text-gray-300 hover:text-white hover:bg-red-600/20 transition-colors h-12",
                isCollapsed ? "justify-center" : "px-4 space-x-3"
@@ -139,7 +143,7 @@ export default function Sidebar() {
           >
             <LogOut className="w-5 h-5 flex-shrink-0" />
             {!isCollapsed && <span className="text-sm font-medium whitespace-nowrap transition-opacity duration-300">Logout</span>}
-          </Link>
+          </button>
         </div>
       </aside>
   )

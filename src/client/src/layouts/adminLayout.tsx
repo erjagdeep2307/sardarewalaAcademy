@@ -1,9 +1,17 @@
 import React from 'react';
-import { useLocation,Outlet } from 'react-router-dom';
+import { useLocation,Outlet,Navigate } from 'react-router-dom';
 import { navItems } from '../types/testdata';
 import Sidebar from '../components/admin/Sidebar';
+import {useAuth} from '@/hooks/AuthHook';
 export const AdminLayout: React.FC = () => {
   const location = useLocation();
+  const {user,token} = useAuth();
+  // useEffect(()=>{
+    if(!user || !token)  {
+      return <Navigate to='/login' replace={true} />;
+    }
+  // },[user,token,navigate]);
+ 
   return (
     <div className="h-screen overflow-hidden bg-gray-100 dark:bg-slate-950 flex transition-colors duration-300">
       {/* Sidebar */}

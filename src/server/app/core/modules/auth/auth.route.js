@@ -13,5 +13,6 @@ const authService = AuthService(authRepo);
 const authController = AuthController(authService);
 
 authRouter.post('/login',authRateLimiter,authController.authenticate);
+authRouter.post('/logout',authController.logout);
 
 export default authRouter;

@@ -8,7 +8,7 @@ type HttpClientOptions = Omit<RequestInit, "body"> & {
 const BASE_URL = import.meta.env.VITE_API_BASE_URL as string;
 
 const httpclient = async <T>(endpoint: string, options: HttpClientOptions = {}): Promise<T> => {
-  const { body, ...restOptions } = options;
+  const { body,token,...restOptions } = options;
 
   // Initialize headers
   const headers: Record<string, string> = {
@@ -19,7 +19,9 @@ const httpclient = async <T>(endpoint: string, options: HttpClientOptions = {}):
     ...restOptions,
     headers,
   };
-
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
   // Handle body
   if (body) {
     if (body instanceof FormData) {

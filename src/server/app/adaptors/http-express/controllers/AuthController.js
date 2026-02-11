@@ -14,16 +14,42 @@ const AuthController = (authService) => {
             }
             logger.info(`Login Request Recieved for ${validateData.email}`);
             const response = await authService.authenticate(validateData.data);
+            const {refreshToken,...userData} = response;
+            res.cookie('refreshToken', refreshToken, {
+                path: '/',
+                httpOnly: true,
+                secure: false, //process.env.NODE_ENV === 'production',
+                sameSite: (process.env.NODE_ENV === 'production') ? 'strict' : 'lax',
+                maxAge: 7 * 24 * 60 * 60 * 1000
+            }); 
             res.status(200).json({
                 status: "success",
                 message: "Logged in Successfully",
-                data:response
+                data: userData
             })
         } catch (error) {
             console.error("Error:", error.message);
             next(error); 
         }
     };
-    return { authenticate };
+
+    const logout = async (req,res,next) => {
+        try {
+                logger.info(`Logout Request Recieved`);
+                res.clearCookie(refreshToken,{
+                    httpOnly:true,
+                    sameSite:"Strict",
+                    secure:process.env.NODE_ENV==="production"
+                })
+                res.status(200).json({
+                    status: "success",
+                    message: "User Logged Out Successfully",
+                })
+        } catch (error) {
+            console.log(`Failed to logout,Error:${error.message}`);   
+            next(error);
+        }
+    }
+    return { authenticate,logout };
 }
 export default AuthController;

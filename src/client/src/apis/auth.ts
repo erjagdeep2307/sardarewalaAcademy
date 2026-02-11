@@ -17,5 +17,24 @@ const login = async (loginPayload:LoginData):Promise<AuthApiResponse<ILoginData>
         }
     }
 }
+const logout = async (token:string):Promise<AuthApiResponse<null>> => {
+    try{
+        console.log(`token in logout api: ${token}`);
+        const apiResponse = await httpclient<AuthApiResponse<null>>("/auth/logout",{
+            method:"POST",
+            credentials:"include",
+            token
+        });
+        return apiResponse;
+    }
+    catch(error){
+        console.error(error);
+        return {
+            status: 'fail',
+            message: "Something Went Wrong",
+            data: null
+        }
+    }   
+}
 
-export {login}
+export {login,logout};

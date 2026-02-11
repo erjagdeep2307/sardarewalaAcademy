@@ -3,26 +3,31 @@ import { useNavigate,Link} from 'react-router-dom';
 import { ArrowLeft,Lock, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/UI/Button';
 import {useForm} from 'react-hook-form';
-import type { LoginData } from '@/types/auth.types';
+import type { LoginData,User } from '@/types/auth.types';
 import logo from "/logo.svg";
 import { useMutation } from '@tanstack/react-query';
 import { login } from '@/apis/auth';
 import { toast } from 'react-toastify';
+import {useAuth} from '@/hooks/AuthHook';
 export const Login: React.FC = () => {
   const navigate = useNavigate();
+  const {setUser,setToken} = useAuth();
   const {register,handleSubmit,formState:{errors}} = useForm<LoginData>();
 
   const {mutate:authenticate,isPending} =  useMutation({
     mutationFn:login,
     onSuccess:(data)=>{
-      // console.log(data);
+      console.log(data);
       if(data.status==="success")
       {
+        console.log(data?.data?.userData);
+        setUser(data?.data?.userData as User);
+        setToken(data?.data?.token as string);
+        console.log("Login Successful");
         navigate('/admin');
       }
       else{
-        console.log(data); 
-        // toast.error(errMess);
+        toast.error(data?.message || "Login failed");
       }
     },  
     onError:(err)=>{
@@ -114,7 +119,7 @@ export const Login: React.FC = () => {
 
               <Button type="submit" className="w-full h-12 text-sm uppercase tracking-widest shadow-lg shadow-[#FF9933]/20">
                 <Lock className="w-4 h-4 mr-2" />
-                Secure Login
+                {isPending ? "Logging in..." : "Secure Login"}
               </Button>
             </form>
           </div>

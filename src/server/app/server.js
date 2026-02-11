@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import app from './adaptors/http-express/app.js';
 import { connectDB } from '#db';
+import logger from '#logger';
 const PORT = process.env.APP_PORT || 5935;
 // Check out the initial connection to Database if it is able to make connection or not
 await connectDB();
@@ -12,5 +13,5 @@ app.listen(PORT, () => {
 
 process.on('uncaughtException',(err)=>{
     console.error(`Got an Exception :${err.message}`);
-    exit(1);
+    process.exit(1);
 })
