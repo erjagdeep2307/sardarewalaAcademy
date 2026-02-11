@@ -12,7 +12,7 @@ import { globalErrorHandler } from '../middleware/GlobalErrorHandler.js';
 const app = express();
 app.set('trust proxy',1); // Seting up to prevent the unattentional behaviour of rate-limit in proxy mode
 app.use(cors({
-    origin: true, //['http://172.17.222.128:5173','http://localhost:5173'],
+    origin: ['http://172.17.222.128:5173','http://localhost:5173'],
     credentials:true,
     methods:['GET','POST','PUT','DELETE']
 }));

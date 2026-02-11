@@ -4,6 +4,7 @@ const login = async (loginPayload:LoginData):Promise<AuthApiResponse<ILoginData>
     try{
         const apiResponse = await httpclient<AuthApiResponse<ILoginData>>("/auth/login",{
             method:"POST",
+            credentials:"include",
             body: loginPayload
         });
         return apiResponse;
@@ -23,7 +24,9 @@ const logout = async (token:string):Promise<AuthApiResponse<null>> => {
         const apiResponse = await httpclient<AuthApiResponse<null>>("/auth/logout",{
             method:"POST",
             credentials:"include",
-            token
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
         });
         return apiResponse;
     }
