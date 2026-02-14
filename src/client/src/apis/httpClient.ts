@@ -5,7 +5,7 @@ type HttpClientOptions = Omit<RequestInit, "body"> & {
   body?: validBody;
 };
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL as string;
+const BASE_URL = import.meta.env.API_BASE_URL as string;
 
 const httpclient = async <T>(endpoint: string, options: HttpClientOptions = {}): Promise<T> => {
   const { body,...restOptions } = options;
