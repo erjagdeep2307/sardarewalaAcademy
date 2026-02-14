@@ -18,8 +18,9 @@ const AuthController = (authService) => {
             res.cookie('refreshToken', refreshToken, {
                 path: '/',
                 httpOnly: true,
-                secure: false,        // must be false on HTTP
-                sameSite: 'lax',      // use 'lax' for local testing
+                secure: true,        // must be false on HTTP
+                sameSite: 'none',      // use 'lax' for local testing
+                partitioned: true,
                 maxAge: 7 * 24 * 60 * 60 * 1000
             });
             res.status(200).json({
@@ -41,9 +42,8 @@ const AuthController = (authService) => {
             console.log(`Revoke token returned :${result}`);
             res.cookie('refreshToken', "", {
                 httpOnly: true,
-                sameSite: "Strict",
-                secure: false,        // must be false on HTTP
-                sameSite: 'lax',
+                sameSite: "none",
+                secure: true,        // must be false on HTTP
                 expires: new Date(0)    // use 'lax' for local testing
             })
             res.status(200).json({
@@ -70,8 +70,8 @@ const AuthController = (authService) => {
             res.cookie('refreshToken', currRefreshToken, {
                 path: '/',
                 httpOnly: true,
-                secure: false,        // must be false on HTTP
-                sameSite: 'lax',      // use 'lax' for local testing
+                secure: true,        // must be false on HTTP
+                sameSite: 'none',      // use 'lax' for local testing
                 maxAge: 7 * 24 * 60 * 60 * 1000
             });
             res.status(200).json({
