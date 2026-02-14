@@ -6,7 +6,7 @@ type HttpClientOptions = Omit<RequestInit, "body"> & {
   body?: validBody;
 };
 
-const BASE_URL = "https://serial-arthritis-hurricane-adrian.trycloudflare.com/api/";
+const BASE_URL = "https://serial-arthritis-hurricane-adrian.trycloudflare.com/api";
 
 const httpclient = async <T>(endpoint: string,auth:boolean=false, options: HttpClientOptions = {}): Promise<T> => {
   const { body,...restOptions } = options;
