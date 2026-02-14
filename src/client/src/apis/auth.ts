@@ -18,15 +18,15 @@ const login = async (loginPayload:LoginData):Promise<AuthApiResponse<ILoginData>
         }
     }
 }
-const logout = async (token:string):Promise<AuthApiResponse<null>> => {
+const logout = async (token:string|null):Promise<AuthApiResponse<null>> => {
     try{
         console.log(`token in logout api: ${token}`);
         const apiResponse = await httpclient<AuthApiResponse<null>>("/auth/logout",{
             method:"POST",
-            credentials:"include",
             headers: {
                 "Authorization": `Bearer ${token}`
-            }
+            },
+            credentials:"include"
         });
         return apiResponse;
     }
@@ -40,4 +40,21 @@ const logout = async (token:string):Promise<AuthApiResponse<null>> => {
     }   
 }
 
-export {login,logout};
+const refresh = async ():Promise<AuthApiResponse<ILoginData>> =>{
+    try {
+         const apiResponse = await httpclient<AuthApiResponse<ILoginData>>("/auth/refresh",{
+            method:"POST",
+            credentials:"include"
+        });
+        return apiResponse;
+    } catch (error) {
+        console.error(error);
+        return {
+            status: 'fail',
+            message: "Something Went Wrong",
+            data: null
+        }      
+    }
+}
+
+export {login,logout,refresh};

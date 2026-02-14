@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLocation,Link } from 'react-router-dom';
-import { Dumbbell,LogOut,ChevronLeft,ChevronRight,ChevronDown} from 'lucide-react'; 
+import { Dumbbell,LogOut,ChevronLeft,ChevronRight} from 'lucide-react'; 
 import { cn } from '../../utils/utility';
 import { navItems } from '../../types/testdata';
 import type { NavItem } from '@/types/types'; 
@@ -8,7 +8,7 @@ import { useLogout } from '@/hooks/AuthHook';
 export default function Sidebar() {
 
  const [isCollapsed, setIsCollapsed] = useState(false);
- const [expandedMenus, setExpandedMenus] = useState<Record<string,boolean>>({"Gallery":true});
+//  const [expandedMenus, setExpandedMenus] = useState<Record<string,boolean>>({"Gallery":true});
  const location = useLocation();
  const {logoutMutation} = useLogout();
  const handleLogout = () => {
@@ -16,16 +16,16 @@ export default function Sidebar() {
   }; 
 
 
- const toggleMenu = (label: string, e?: React.MouseEvent) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    if (isCollapsed) setIsCollapsed(false);
-    setExpandedMenus(prev => ({...prev, [label]: !prev[label]}));
-  };
+//  const toggleMenu = (label: string, e?: React.MouseEvent) => {
+//     if (e) {
+//       e.preventDefault();
+//       e.stopPropagation();
+//     }
+//     if (isCollapsed) setIsCollapsed(false);
+//     setExpandedMenus(prev => ({...prev, [label]: !prev[label]}));
+//   };
 
-  const isPathActive = (path: string) => location.pathname === path;
+  // const isPathActive = (path: string) => location.pathname === path;
   const isParentActive = (item: NavItem) => {
     if (item.path === location.pathname) return true;
     if (item?.children) {
@@ -33,6 +33,7 @@ export default function Sidebar() {
     }
     return false;
   };
+  
  return (
    <aside 
         className={cn(

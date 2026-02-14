@@ -31,7 +31,7 @@ export const fetchEventById = async (id: string): Promise<ItemApiResponse<Events
         return {
             success: false,
             message: "Generic Error",
-            data: []
+            data: null
         }
     }
 }

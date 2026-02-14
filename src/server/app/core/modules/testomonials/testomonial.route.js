@@ -6,6 +6,7 @@ import TestomonialController from "#controllers/TestomonialController";
 
 import { createCloudinaryService } from "#cloudinary";
 import { uploader } from "#events/event.middleware";
+import { AuthGuard } from "#middleware/AuthMiddleware";
 // import { publicRateLimiter } from "../../../adaptors/middleware/RateLimiterMiddleware";
 // 
 const cloudinaryConfig = {
@@ -25,10 +26,10 @@ testomonialRouter.get("/", testomonialCtrl.listTestomonial);
 
 /* Private Routes */
 // Create a new Testomonial
-testomonialRouter.post("/", uploader.single("image_file"), testomonialCtrl.createTestomonial);
+testomonialRouter.post("/",AuthGuard, uploader.single("image_file"), testomonialCtrl.createTestomonial);
 
 // Delete a Testomonial by Id
-testomonialRouter.delete("/:id", testomonialCtrl.removeTestomonial);
+testomonialRouter.delete("/:id",AuthGuard,testomonialCtrl.removeTestomonial);
 
 // Update a Testomonial by Id Route is defined but controller method is not implemented yet
 testomonialRouter.put("/:id", (req, res) => {

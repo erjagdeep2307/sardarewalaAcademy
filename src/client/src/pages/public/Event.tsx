@@ -1,6 +1,6 @@
 
 import { fetchEventById } from "@/apis/events";
-import type { EventByIdResponse} from "@/types/types";
+import type { Events, ItemApiResponse} from "@/types/types";
 import { useQuery } from "@tanstack/react-query";
 import React from "react"
 import { useParams } from "react-router-dom"
@@ -11,7 +11,7 @@ export const Event: React.FC = () => {
         data:eventData,
         isLoading,
         error    
-    } =  useQuery<EventByIdResponse>({
+    } =  useQuery<ItemApiResponse<Events>>({
         queryKey:["event",eventId],
         queryFn: () => fetchEventById(eventId!)
     });
@@ -23,13 +23,15 @@ export const Event: React.FC = () => {
     {
         return <p>{`Got An error:${error}`}</p>
     }
-    if(eventData?.data)
+    if(eventData && eventData?.data)
     {
+        console.log(`Event list is as below.: `);
+        console.log(eventData.data);
         return (
             <div className="bg-white dark:bg-slate-950 py-20 transition-colors duration-300">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-10">
-                        <h1 className="text-4xl font-black text-[#000080] dark:text-white">{eventData?.data.title}</h1>
+                        <h1 className="text-4xl font-black text-[#000080] dark:text-white">{eventData?.data?.title}</h1>
                         <p className="mt-4 text-gray-600 dark:text-gray-300">{(eventData?.data?.slug)?(eventData?.data?.slug)?.toUpperCase():""}</p>
                     </div>
     

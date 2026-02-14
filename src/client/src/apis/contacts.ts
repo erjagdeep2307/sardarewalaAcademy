@@ -31,7 +31,7 @@ const createContact = async (data: ContactFormData): Promise<ItemApiResponse<Con
         return {
             success: false,
             message: "Generic Error",
-            data: []
+            data: null
         }
     }
 }

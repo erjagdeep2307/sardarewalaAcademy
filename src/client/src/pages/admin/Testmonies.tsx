@@ -12,7 +12,7 @@ import {
   X,
 } from "lucide-react";
 import { Button } from "@/components/UI/Button";
-import type { Testomonial,ListApiResponse } from "@/types/types";
+import type { Testomonial, ListApiResponse } from "@/types/types";
 import {
   createTestomonial,
   fetchTestomonials,
@@ -37,8 +37,13 @@ export const AdminTestimonials: React.FC = () => {
     onMutate: (id: number) => {
       setDeletingId(id);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      if (!data.success) {
+        toast.error(data.message);
+        return;
+      }
       toast.success(`Testomony Card Deleted`);
+      // if(data.status)
       queryClient.invalidateQueries({ queryKey: ["testomonials"] });
     },
     onSettled: () => {
@@ -181,7 +186,7 @@ export const AdminTestimonials: React.FC = () => {
                   </div>
                   <div className="mt-4 pt-4 flex item-center justify-between">
                     <div className="flex space-x-0.5">
-                      {Array.from({ length: item?.rating ?? 0 }).map(
+                      {Array.from({ length: Math.floor(Number(item?.rating) || 0) }).map(
                         (_, index) => (
                           <Star
                             key={index}

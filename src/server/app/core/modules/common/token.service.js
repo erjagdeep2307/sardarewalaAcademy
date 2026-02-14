@@ -14,12 +14,12 @@ const getToken = (type='access') =>{
     }
     return JWT_SECRET;
 }
-export function generateToken(payload, expiresIn = '1h') {
+export function generateToken(payload, expiresIn = '5m') {
     return jwt.sign(payload, getToken(), { expiresIn });
 }
 
 export function generateRefreshToken(payload, expiresIn = '7d') {
-    return jwt.sign(payload, getToken(), { expiresIn });
+    return jwt.sign(payload, getToken('refresh'), { expiresIn });
 }
 
 export function verifyToken(token,type='access') {

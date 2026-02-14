@@ -9,7 +9,7 @@ export default function Footer(){
                     <div className="space-y-4">
                         <div className="flex items-center space-x-2">
                             {/* <Dumbbell className="h-6 w-6 text-[#FF9933]" /> */}
-                            <img src={logo} className="h-10 w-10" />
+                            <img src={logo} className="h-10 w-10" alt="SPTA"/>
                             <span className="text-xl font-bold tracking-tight">Sardarewala Physical Training Academy</span>
                         </div>
                         <p className="text-gray-400 text-sm leading-relaxed">

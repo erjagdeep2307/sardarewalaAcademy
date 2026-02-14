@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import logo from "/logo.svg";
 // import { ThemeProvider } from '../context/themeContext';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { Menu, X,Youtube, Facebook, Instagram, Phone, Mail, Sun, Moon} from 'lucide-react';
 import { Button } from '../components/UI/Button.tsx';
 import { cn } from '../utils/utility.tsx';
@@ -69,7 +69,7 @@ export const PublicLayout: React.FC = () => {
             <Link to="/" className="flex items-center space-x-2 group">
                <div className="p-1.5 rounded-full">
                 {/* <Dumbbell className="h-8 w-8 text-[#FF9933]" /> */}
-                <img src={logo} className="h-10 w-10" />
+                <img src={logo} className="h-10 w-10" alt='SPTA'/>
                </div>
                <div className="flex flex-col">
                  <span className="text-white font-black text-xl leading-none tracking-tight">SARDAREWALA</span>
@@ -130,17 +130,17 @@ export const PublicLayout: React.FC = () => {
           <div className="md:hidden bg-[#000066] dark:bg-slate-900 border-t border-white/10">
             <div className="px-4 pt-2 pb-6 space-y-2">
               {navLinks.map((link) => (
-                <Link
+                <NavLink
                   key={link.name}
                   to={link.path}
                   className={cn(
-                    "block px-3 py-2 rounded-md text-base font-bold",
-                    isActive(link.path) ? "text-[#FF9933] bg-white/10" : "text-white hover:text-[#FF9933]"
+                    "block px-3 py-2 rounded-md text-base font-bold"
+                    ,isActive(link.path) ? "text-[#FF9933] bg-white/10" : "text-white hover:text-[#FF9933]"
                   )}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.name}
-                </Link>
+                </NavLink>
               ))}
               <div className="pt-4">
                 <Link to={'/login'}>

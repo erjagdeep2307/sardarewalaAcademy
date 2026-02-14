@@ -66,7 +66,7 @@ export const Login: React.FC = () => {
             <div className="flex flex-col items-center mb-8 text-center">
               <div className="bg-[#ffffff] p-3 rounded-full mb-4 shadow-lg">
                 {/* <Dumbbell className="w-8 h-8 text-[#FF9933]" /> */}
-                <img src={logo} className="h-10 w-10" />
+                <img src={logo} className="h-10 w-10" alt='SPTA' />
               </div>
               <h2 className="text-2xl font-black text-[#000080] dark:text-white tracking-tight">ADMIN PORTAL</h2>
               <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Sardarewala Physical Training Academy</p>

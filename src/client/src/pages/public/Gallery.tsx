@@ -1,5 +1,5 @@
 import React from 'react';
-import type { EventData, EventListResponse } from '@/types/types';
+import type { Events, ListApiResponse } from '@/types/types';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchEvents } from '@/apis/events';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +11,7 @@ export const Gallery: React.FC = () => {
     data: eventList,
     isLoading,
     error,
-  } = useQuery<EventListResponse>({
+  } = useQuery<ListApiResponse<Events>>({
     queryKey: ["events"],
     queryFn: fetchEvents
   })
@@ -21,11 +21,11 @@ export const Gallery: React.FC = () => {
   if (error) {
     return <p>{`Event Error :${error}`}</p>
   }
-  const handleViewList = (event: EventData) => {
+  const handleViewList = (event: Events) => {
     queryClient.setQueryData(["event", event.id], event)
     navigate(`/event/${event.id}`);
   }
-  if (eventList?.data) {
+  if (eventList && eventList?.data) {
     // {(eventList.data).map(()=>{
     return (
       <div className="bg-white dark:bg-slate-950 py-20 transition-colors duration-300">

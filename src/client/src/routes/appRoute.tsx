@@ -11,12 +11,19 @@ import { AdminGallery } from "@/pages/admin/Gallery";
 import { AdminDashboard } from "@/pages/admin/Dashboard";
 import { AdminTestimonials } from "@/pages/admin/Testmonies";
 import { Login } from "@/pages/public/Login";
-
+import { AuthGuard } from "@/components/admin/AuthGuard";
+import { PublicRoute } from "@/components/LoginGuard";
 const appRouter = createBrowserRouter([
   // Public Routes
   {
     path: "/login",
-    element: <Login />,
+    element: <PublicRoute />,
+    children:[
+      {
+        index:true,
+        element:<Login/>
+      }
+    ]
   },
   {
     path: "/",
@@ -47,19 +54,24 @@ const appRouter = createBrowserRouter([
   // Admin Routes
   {
     path: "/admin/",
-    element: <AdminLayout />, // must be closed
+    element: <AuthGuard />,
     children: [
       {
-        index: true,
-        element: <AdminDashboard />,
-      },
-      {
-        path: "gallery",
-        element: <AdminGallery />,
-      },
-      {
-        path: "testomonials",
-        element: <AdminTestimonials />,
+        element: <AdminLayout />, // must be closed
+        children: [
+          {
+            index: true,
+            element: <AdminDashboard />,
+          },
+          {
+            path: "gallery",
+            element: <AdminGallery />,
+          },
+          {
+            path: "testomonials",
+            element: <AdminTestimonials />,
+          },
+        ],
       },
     ],
   },

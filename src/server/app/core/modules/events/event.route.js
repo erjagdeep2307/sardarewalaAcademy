@@ -5,9 +5,9 @@ import eventService from '#events/event.service';
 import EventController from "#controllers/EventController";
 
 import { createCloudinaryService } from "#cloudinary";
-import {uploader} from "./event.middleware.js";
+import { uploader } from "./event.middleware.js";
 import { publicRateLimiter } from "../../../adaptors/middleware/RateLimiterMiddleware.js";
-
+import { AuthGuard } from "#middleware/AuthMiddleware";
 // Inject the dependecies
 
 const cloudinaryConfig = {
@@ -26,12 +26,12 @@ const eventRouter = Router();
 eventRouter.get("/",publicRateLimiter,eventController.getEvents);
 
 // Get an event by Id
-eventRouter.get("/:id",publicRateLimiter,eventController.getEventById); 
+eventRouter.get("/:id",publicRateLimiter,AuthGuard,eventController.getEventById); 
 
 /* Private Routes */
 // Create a new event
-eventRouter.post("/",uploader.single("event_image"), eventController.createEvent);
+eventRouter.post("/",AuthGuard,uploader.single("event_image"),eventController.createEvent);
 
 // Delete an event by Id
-eventRouter.delete("/:id", eventController.deleteEvent);
+eventRouter.delete("/:id",AuthGuard,eventController.deleteEvent);
 export default eventRouter;

@@ -1,7 +1,7 @@
 import cors from 'cors'
 import helmet  from 'helmet'
 import express from 'express';
-
+import cookieParser from 'cookie-parser';
 import eventRouter from '#events/event.route';
 import contactRouter from '#contacts/contact.route';
 import testomonialRouter from '#testomonial/testomonial.route';
@@ -22,6 +22,7 @@ app.use(helmet({
 })); // Helmet helps you secure your Express apps by setting various HTTP headers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use('/api/auth',authRouter);
 app.use('/api/events', eventRouter);

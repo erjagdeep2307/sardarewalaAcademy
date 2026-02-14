@@ -17,7 +17,7 @@ export const createTestomonial = async (formData: FormData): Promise<ItemApiResp
         return {
             success: false,
             message: "Failed to Create Testomonial",
-            data: []
+            data: null
         }
     }
 }

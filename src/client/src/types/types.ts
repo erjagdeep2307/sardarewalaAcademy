@@ -94,7 +94,7 @@ export interface NavItem {
 
 // Api Response for Return a single data object by Id
 export interface ItemApiResponse<T> extends ApiResponseBase{
-    data:T | []
+    data:T|null
 }
 // Api Response for Actions Delete Patch 
 export interface ActionApiResponse extends ApiResponseBase{
