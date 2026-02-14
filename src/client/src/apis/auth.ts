@@ -2,7 +2,7 @@ import type { AuthApiResponse, ILoginData, LoginData } from "@/types/auth.types"
 import httpclient from "./httpClient";
 const login = async (loginPayload:LoginData):Promise<AuthApiResponse<ILoginData>> =>{
     try{
-        const apiResponse = await httpclient<AuthApiResponse<ILoginData>>("/auth/login",{
+        const apiResponse = await httpclient<AuthApiResponse<ILoginData>>("/auth/login",true,{
             method:"POST",
             credentials:"include",
             body: loginPayload
@@ -21,7 +21,7 @@ const login = async (loginPayload:LoginData):Promise<AuthApiResponse<ILoginData>
 const logout = async (token:string|null):Promise<AuthApiResponse<null>> => {
     try{
         console.log(`token in logout api: ${token}`);
-        const apiResponse = await httpclient<AuthApiResponse<null>>("/auth/logout",{
+        const apiResponse = await httpclient<AuthApiResponse<null>>("/auth/logout",true,{
             method:"POST",
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -42,7 +42,7 @@ const logout = async (token:string|null):Promise<AuthApiResponse<null>> => {
 
 const refresh = async ():Promise<AuthApiResponse<ILoginData>> =>{
     try {
-         const apiResponse = await httpclient<AuthApiResponse<ILoginData>>("/auth/refresh",{
+         const apiResponse = await httpclient<AuthApiResponse<ILoginData>>("/auth/refresh",true,{
             method:"POST",
             credentials:"include"
         });

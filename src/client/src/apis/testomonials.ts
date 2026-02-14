@@ -1,13 +1,14 @@
 import type { ActionApiResponse, ItemApiResponse, ListApiResponse, Testomonial } from "@/types/types";
 import httpclient from "./httpClient";
 
-const testomonyEndpoint="/testomonials";
+const testomonyEndpoint = "/testomonials";
 
 export const createTestomonial = async (formData: FormData): Promise<ItemApiResponse<Testomonial>> => {
     try {
-        const apiResponse = await httpclient<ItemApiResponse<Testomonial>>(testomonyEndpoint
+        const apiResponse = await httpclient<ItemApiResponse<Testomonial>>(testomonyEndpoint, true
             , {
                 method: "POST",
+                credentials: "include",
                 body: formData
             });
         return apiResponse;
@@ -38,7 +39,11 @@ export const fetchTestomonials = async (): Promise<ListApiResponse<Testomonial>>
 
 export const removeTestomonialById = async (id: number): Promise<ActionApiResponse> => {
     try {
-        const apiResponse = await httpclient<ActionApiResponse>(`${testomonyEndpoint}/${id}`, { method: "DELETE" })
+        const apiResponse = await httpclient<ActionApiResponse>(`${testomonyEndpoint}/${id}`, true, 
+            { 
+                method: "DELETE",
+                credentials:"include"
+            })
         return apiResponse;
     } catch (error) {
         console.error(error);

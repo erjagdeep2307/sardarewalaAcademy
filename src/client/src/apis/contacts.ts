@@ -4,7 +4,9 @@ import httpclient from './httpClient';
 const contactEndpoint = "/contact";
 const fetchContacts = async (): Promise<ListApiResponse<Contact>> => {
     try {
-        const apiResponse = await httpclient<ListApiResponse<Contact>>(contactEndpoint); 
+        const apiResponse = await httpclient<ListApiResponse<Contact>>(contactEndpoint,true,{
+            credentials:"include",
+        }); 
         return apiResponse;
     } catch (error) {
         console.error('API Error:', error);
@@ -18,8 +20,9 @@ const fetchContacts = async (): Promise<ListApiResponse<Contact>> => {
 
 const createContact = async (data: ContactFormData): Promise<ItemApiResponse<Contact>> => {
     try {
-        const apiResponse = await httpclient<ItemApiResponse<Contact>>(contactEndpoint, {
+        const apiResponse = await httpclient<ItemApiResponse<Contact>>(contactEndpoint,true,{
             method: 'POST',
+            credentials:"include",
             headers: {
                 "Content-Type": "application/json"
             },
@@ -43,8 +46,9 @@ interface ContactUpdatePayload {
 const updateContact = async (payload: ContactUpdatePayload): Promise<ActionApiResponse> => {
     try {
         const { id, status } = payload;
-        const apiResponse = await httpclient<ActionApiResponse>(`${contactEndpoint}/${id}`, {
+        const apiResponse = await httpclient<ActionApiResponse>(`${contactEndpoint}/${id}`,true,{
             method: "PATCH",
+            credentials:"include",
             body: {
                 status: status
             }

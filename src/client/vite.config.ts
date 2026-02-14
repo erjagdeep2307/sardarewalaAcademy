@@ -14,4 +14,28 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  // Applied to reduce the large js files in production bundle
+  build:{
+    minify:'terser',
+    terserOptions:{
+      compress:{
+        drop_console:true,
+        drop_debugger:true
+      }
+    },
+    rollupOptions:{
+      output:{
+        manualChunks(id){
+            if(id.includes('node_modules'))
+            {
+              if(id.includes('lucide-react') || id.includes('framer-motion') || id.includes('router'))
+              {
+                return 'core-libs';
+              }
+              return 'vendor';
+            }
+        }
+      }
+    }
+  }
 });

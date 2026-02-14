@@ -55,7 +55,7 @@ export const PublicLayout: React.FC = () => {
           <div className="flex space-x-3">
             <Facebook className="w-4 h-4 cursor-pointer hover:text-[#FF9933] transition-colors" />
             <Instagram className="w-4 h-4 cursor-pointer hover:text-[#FF9933] transition-colors" />
-            <a href='https://www.youtube.com/@Sikhsardarewalaacademy5784' target='_blank' > <Youtube className="w-4 h-4 cursor-pointer hover:text-[#FF9933] transition-colors" />
+            <a href='https://www.youtube.com/@Sikhsardarewalaacademy5784' aria-label='Watch us on Youtube' target='_blank' > <Youtube className="w-4 h-4 cursor-pointer hover:text-[#FF9933] transition-colors" />
           </a>
           </div>
         </div>

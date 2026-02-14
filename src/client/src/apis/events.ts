@@ -42,7 +42,7 @@ export const deleteEventById = async (id: string): Promise<ActionApiResponse> =>
         const config = {
             method: "DELETE"
         }
-        const apiResponse = await httpclient<ActionApiResponse>(`${eventEndpoint}/${id}`, config);
+        const apiResponse = await httpclient<ActionApiResponse>(`${eventEndpoint}/${id}`,true, config);
         return apiResponse;
     } catch (error) {
         console.log(`Error:`, error)
@@ -60,7 +60,7 @@ export const createEvent = async (formData: FormData): Promise<ListApiResponse<E
             method: "POST",
             body: formData
         }
-        const apiResponse = await httpclient<ListApiResponse<Events>>(eventEndpoint, config);
+        const apiResponse = await httpclient<ListApiResponse<Events>>(eventEndpoint,true,config);
         return apiResponse;
     } catch (error) {
         console.log(`Error:`, error)

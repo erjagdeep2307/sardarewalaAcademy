@@ -1,3 +1,4 @@
+import { getAccessToken } from "@/contexts/Token";
 type validBody = object | string | FormData | boolean | number;
 
 // Define a type for the options to get autocomplete support
@@ -7,7 +8,7 @@ type HttpClientOptions = Omit<RequestInit, "body"> & {
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL as string;
 
-const httpclient = async <T>(endpoint: string, options: HttpClientOptions = {}): Promise<T> => {
+const httpclient = async <T>(endpoint: string,auth:boolean=false, options: HttpClientOptions = {}): Promise<T> => {
   const { body,...restOptions } = options;
 
   // Initialize headers
@@ -19,9 +20,9 @@ const httpclient = async <T>(endpoint: string, options: HttpClientOptions = {}):
     ...restOptions,
     headers,
   };
-  // if (token) {
-  //   headers["Authorization"] = `Bearer ${token}`;
-  // }
+  if (auth) {
+    headers["Authorization"] = `Bearer ${getAccessToken()}`;
+  }
   // Handle body
   if (body) {
     if (body instanceof FormData) {

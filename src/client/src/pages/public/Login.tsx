@@ -3,12 +3,13 @@ import { useNavigate,Link} from 'react-router-dom';
 import { ArrowLeft,Lock, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/UI/Button';
 import {useForm} from 'react-hook-form';
-import type { LoginData,User } from '@/types/auth.types';
+import type { LoginData } from '@/types/auth.types';
 import logo from "/logo.svg";
 import { useMutation } from '@tanstack/react-query';
 import { login } from '@/apis/auth';
 import { toast } from 'react-toastify';
-import {useAuth} from '@/hooks/AuthHook';
+import { useAuth } from '@/hooks/AuthHook';
+import { setAccessToken } from '@/contexts/Token';
 export const Login: React.FC = () => {
   const navigate = useNavigate();
   const {setUser,setToken} = useAuth();
@@ -18,11 +19,12 @@ export const Login: React.FC = () => {
     mutationFn:login,
     onSuccess:(data)=>{
       console.log(data);
-      if(data.status==="success")
+      if(data.data && data.status==="success")
       {
         console.log(data?.data?.userData);
-        setUser(data?.data?.userData as User);
-        setToken(data?.data?.token as string);
+        setUser(data?.data?.userData);
+        setToken(data?.data?.token);
+        setAccessToken(data?.data.token);
         console.log("Login Successful");
         navigate('/admin');
       }
