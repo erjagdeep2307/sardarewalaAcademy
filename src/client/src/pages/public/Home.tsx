@@ -29,6 +29,8 @@ export const Home: React.FC = () => {
             src="https://img.youtube.com/vi/teG5f15mdKg/maxresdefault.jpg"
             alt="Indian Army Recruitment Training"
             className="w-full h-full object-cover"
+            fetchPriority='high'
+            loading='eager'
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#000080]/90 via-[#000080]/60 to-transparent dark:from-slate-900/90 dark:via-slate-900/70" />
         </div>
