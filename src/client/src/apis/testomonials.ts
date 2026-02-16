@@ -1,15 +1,14 @@
 import type { ActionApiResponse, ItemApiResponse, ListApiResponse, Testomonial } from "@/types/types";
-import httpclient from "./httpClient";
+// import httpclient from "./httpClient";
+import { axiosHttpClient as httpclient } from "./axiosClient";
 
 const testomonyEndpoint = "/testomonials";
 
 export const createTestomonial = async (formData: FormData): Promise<ItemApiResponse<Testomonial>> => {
     try {
-        const apiResponse = await httpclient<ItemApiResponse<Testomonial>>(testomonyEndpoint, true
-            , {
+        const apiResponse = await httpclient<ItemApiResponse<Testomonial>>(testomonyEndpoint, {
                 method: "POST",
-                credentials: "include",
-                body: formData
+                data: formData
             });
         return apiResponse;
 
@@ -39,10 +38,9 @@ export const fetchTestomonials = async (): Promise<ListApiResponse<Testomonial>>
 
 export const removeTestomonialById = async (id: number): Promise<ActionApiResponse> => {
     try {
-        const apiResponse = await httpclient<ActionApiResponse>(`${testomonyEndpoint}/${id}`, true, 
+        const apiResponse = await httpclient<ActionApiResponse>(`${testomonyEndpoint}/${id}`,
             { 
                 method: "DELETE",
-                credentials:"include"
             })
         return apiResponse;
     } catch (error) {

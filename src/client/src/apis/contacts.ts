@@ -1,12 +1,10 @@
 import type { Contact, ContactFormData, ListApiResponse, ItemApiResponse, ActionApiResponse } from '../types/types';
-import httpclient from './httpClient';
+import { axiosHttpClient as httpclient } from './axiosClient'; 
 
 const contactEndpoint = "/contact";
 const fetchContacts = async (): Promise<ListApiResponse<Contact>> => {
     try {
-        const apiResponse = await httpclient<ListApiResponse<Contact>>(contactEndpoint,true,{
-            credentials:"include",
-        }); 
+        const apiResponse = await httpclient<ListApiResponse<Contact>>(contactEndpoint); 
         return apiResponse;
     } catch (error) {
         console.error('API Error:', error);
@@ -20,13 +18,12 @@ const fetchContacts = async (): Promise<ListApiResponse<Contact>> => {
 
 const createContact = async (data: ContactFormData): Promise<ItemApiResponse<Contact>> => {
     try {
-        const apiResponse = await httpclient<ItemApiResponse<Contact>>(contactEndpoint,true,{
+        const apiResponse = await httpclient<ItemApiResponse<Contact>>(contactEndpoint,{
             method: 'POST',
-            credentials:"include",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: data   // No need to stringify httpClient have already implemented this
+            data: data   // No need to stringify httpClient have already implemented this
         });
         return apiResponse;
     } catch (error) {
@@ -46,10 +43,9 @@ interface ContactUpdatePayload {
 const updateContact = async (payload: ContactUpdatePayload): Promise<ActionApiResponse> => {
     try {
         const { id, status } = payload;
-        const apiResponse = await httpclient<ActionApiResponse>(`${contactEndpoint}/${id}`,true,{
+        const apiResponse = await httpclient<ActionApiResponse>(`${contactEndpoint}/${id}`,{
             method: "PATCH",
-            credentials:"include",
-            body: {
+            data: {
                 status: status
             }
         });

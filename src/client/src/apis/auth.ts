@@ -1,11 +1,10 @@
 import type { AuthApiResponse, ILoginData, LoginData } from "@/types/auth.types";
-import httpclient from "./httpClient";
+import { axiosHttpClient as httpclient} from "./axiosClient";
 const login = async (loginPayload:LoginData):Promise<AuthApiResponse<ILoginData>> =>{
     try{
-        const apiResponse = await httpclient<AuthApiResponse<ILoginData>>("/auth/login",true,{
+        const apiResponse = await httpclient<AuthApiResponse<ILoginData>>("/auth/login",{
             method:"POST",
-            credentials:"include",
-            body: loginPayload
+            data: loginPayload
         });
         return apiResponse;
     }
@@ -21,12 +20,8 @@ const login = async (loginPayload:LoginData):Promise<AuthApiResponse<ILoginData>
 const logout = async (token:string|null):Promise<AuthApiResponse<null>> => {
     try{
         console.log(`token in logout api: ${token}`);
-        const apiResponse = await httpclient<AuthApiResponse<null>>("/auth/logout",true,{
+        const apiResponse = await httpclient<AuthApiResponse<null>>("/auth/logout",{
             method:"POST",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            },
-            credentials:"include"
         });
         return apiResponse;
     }
@@ -42,9 +37,8 @@ const logout = async (token:string|null):Promise<AuthApiResponse<null>> => {
 
 const refresh = async ():Promise<AuthApiResponse<ILoginData>> =>{
     try {
-         const apiResponse = await httpclient<AuthApiResponse<ILoginData>>("/auth/refresh",true,{
+         const apiResponse = await httpclient<AuthApiResponse<ILoginData>>("/auth/refresh",{
             method:"POST",
-            credentials:"include"
         });
         return apiResponse;
     } catch (error) {

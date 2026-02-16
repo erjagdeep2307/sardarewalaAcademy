@@ -1,6 +1,5 @@
 import type { ActionApiResponse, ItemApiResponse, ListApiResponse, Events } from "@/types/types";
-import httpclient from "./httpClient";
-
+import { axiosHttpClient as httpclient } from "./axiosClient";
 const eventEndpoint = "/events"; 
 
 // Fetch All Events
@@ -39,10 +38,9 @@ export const fetchEventById = async (id: string): Promise<ItemApiResponse<Events
 // Delete Event By Id
 export const deleteEventById = async (id: string): Promise<ActionApiResponse> => {
     try {
-        const config = {
-            method: "DELETE"
-        }
-        const apiResponse = await httpclient<ActionApiResponse>(`${eventEndpoint}/${id}`,true, config);
+        const apiResponse = await httpclient<ActionApiResponse>(`${eventEndpoint}/${id}`,{
+            method:'DELETE'
+        });
         return apiResponse;
     } catch (error) {
         console.log(`Error:`, error)
@@ -58,9 +56,9 @@ export const createEvent = async (formData: FormData): Promise<ListApiResponse<E
     try {
         const config = {
             method: "POST",
-            body: formData
+            data: formData
         }
-        const apiResponse = await httpclient<ListApiResponse<Events>>(eventEndpoint,true,config);
+        const apiResponse = await httpclient<ListApiResponse<Events>>(eventEndpoint,config);
         return apiResponse;
     } catch (error) {
         console.log(`Error:`, error)
