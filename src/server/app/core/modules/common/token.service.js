@@ -23,5 +23,12 @@ export function generateRefreshToken(payload, expiresIn = '7d') {
 }
 
 export function verifyToken(token,type='access') {
-    return jwt.verify(token, getToken(type));
+    try {
+        return jwt.verify(token, getToken(type));
+    } catch (error) {
+        if((error instanceof jwt.JsonWebTokenError) || (error instanceof jwt.TokenExpiredError))
+        {
+            return null;
+        }
+    }
 }

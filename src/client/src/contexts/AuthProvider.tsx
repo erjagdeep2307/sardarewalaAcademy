@@ -13,9 +13,13 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    // Apply cleanup mechanism for http requests.
+    const controller = new AbortController();
+    const {signal} = controller;
     const authRefresh = async () => {
+      setLoading(true);
       try {
-        const apiResponse = await refresh();
+        const apiResponse = await refresh(signal);
         console.log(apiResponse);
         if (apiResponse.status === "success" && apiResponse.data) {
           const uData = apiResponse.data?.userData;
@@ -25,16 +29,31 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
           setAccessToken(acToken); 
         }
       } catch (err) {
+        if(err instanceof Error)
+        {
+          if(err.name==='AbortError')
+          {
+              console.error(`Handled the Abort Signal`);
+          }
+        }
         console.error(err);
         setUser(null);
         setToken(null);
         setAccessToken(null);
       }
       finally{
-        setLoading(false);
+          if(!signal.aborted)
+          {
+            setLoading(false);
+          }
       }
     };
     authRefresh();
+
+    // Send abort signal on unmounting
+    return ()=>{
+      controller.abort();
+    }
   }, []);
   return (
     <AuthContext.Provider value={{ user, setUser, token, setToken,loading }}>

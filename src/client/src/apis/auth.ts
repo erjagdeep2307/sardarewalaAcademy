@@ -35,10 +35,11 @@ const logout = async (token:string|null):Promise<AuthApiResponse<null>> => {
     }   
 }
 
-const refresh = async ():Promise<AuthApiResponse<ILoginData>> =>{
+const refresh = async (signal:AbortSignal):Promise<AuthApiResponse<ILoginData>> =>{
     try {
          const apiResponse = await httpclient<AuthApiResponse<ILoginData>>("/auth/refresh",{
             method:"POST",
+            signal:signal
         });
         return apiResponse;
     } catch (error) {

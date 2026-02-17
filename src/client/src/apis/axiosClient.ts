@@ -70,6 +70,7 @@ api.interceptors.response.use(
       originalRequest &&
       !originalRequest._retry
     ) {
+      console.debug(`Recieved 401 and access Token is expired`);
       originalRequest._retry = true;
 
       if (isRefreshing) {
@@ -140,6 +141,6 @@ export const axiosHttpClient = async <T>(
     ...options,
   });
   console.log(`Axios Client Http Response:`)
-  console.log(response);
+  console.log(response.data);
   return response.data;
 };
