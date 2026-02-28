@@ -63,8 +63,8 @@ const eventService = (eventRepo, cloudService) => {
         
             const rowsDeleted = await eventRepo.removeEventById(id);
             if (rowsDeleted && rowsDeleted.cloudinary_public_id) {
-                const result = cloudService.removeImage(rowsDeleted.cloudinary_public_id);
-                console.log(result);
+                const result = await cloudService.removeImage(rowsDeleted.cloudinary_public_id);
+                // console.log(result);
                 return result;
             }
             else{ 

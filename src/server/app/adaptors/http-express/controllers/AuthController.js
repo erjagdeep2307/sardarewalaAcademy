@@ -3,7 +3,6 @@ import { LoginSchema } from "#auth/auth.validation";
 const AuthController = (authService) => {
     const authenticate = async (req, res, next) => {
         try {
-            console.log(req.body);
             const validateData = LoginSchema.safeParse(req.body);
             if (!validateData.success) {
                 return res.status(400).json({
@@ -12,7 +11,8 @@ const AuthController = (authService) => {
                     errors: validateData.error.flatten().fieldErrors
                 })
             }
-            logger.info(`Login Request Recieved for ${validateData.email}`);
+
+            logger.info(`Login Request Recieved for ${validateData.data.email}`);
             const response = await authService.authenticate(validateData.data);
             const { refreshToken, ...userData } = response;
             res.cookie('refreshToken', refreshToken, {
@@ -23,23 +23,23 @@ const AuthController = (authService) => {
                 partitioned: true,
                 maxAge: 7 * 24 * 60 * 60 * 1000
             });
+            logger.info(`User logged in with id:${validateData.data.email} sucessfully`);
             res.status(200).json({
                 status: "success",
                 message: "Logged in Successfully",
                 data: userData
             })
         } catch (error) {
-            console.error("Error:", error.message);
+            logger.error(error,`Error on Authentication Controller`);
             next(error);
         }
     };
 
     const logout = async (req, res, next) => {
         try {
-            logger.info(`Logout Request Recieved`);
             const refToken = req.cookies.refreshToken;
-            const result = await authService.revokeToken(refToken);
-            console.log(`Revoke token returned :${result}`);
+            const result = await authService.revokeToken(req.user.jti,refToken);
+            logger.info(result,`logged out successfully`);
             res.cookie('refreshToken', "", {
                 httpOnly: true,
                 sameSite: "none",
@@ -51,8 +51,7 @@ const AuthController = (authService) => {
                 message: "User Logged Out Successfully",
             })
         } catch (error) {
-            console.log(error);
-            console.log(`Failed to logout,Error:${error.message}`);
+            logger.error(error,`Error on Logout`);
             next(error);
         }
     }
@@ -60,13 +59,11 @@ const AuthController = (authService) => {
     const refreshToken = async (req, res, next) => {
         try {
             const currRefreshToken = req.cookies.refreshToken;
-            if (!currRefreshToken) {
-                return res.status(401).json({
-                    status: "failed",
-                    message: "Missing refresh Token"
-                })
-            }
-            const result = await authService.refreshAccessToken(currRefreshToken);
+            const userEmail = req.user.sub;
+            logger.info(`Refresh Token Request Recieved from User:${userEmail}`);
+            const result = await authService.refreshAccessToken(userEmail);
+            
+            logger.info(`Token Refreshed for user:${result.userData.user}`);
             res.cookie('refreshToken', currRefreshToken, {
                 path: '/',
                 httpOnly: true,
@@ -81,7 +78,7 @@ const AuthController = (authService) => {
             })
 
         } catch (error) {
-            console.error(error.message);
+            logger.error(error,"Error on Refresh Token");
             next(error);
         }
 

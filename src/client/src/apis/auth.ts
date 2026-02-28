@@ -17,9 +17,8 @@ const login = async (loginPayload:LoginData):Promise<AuthApiResponse<ILoginData>
         }
     }
 }
-const logout = async (token:string|null):Promise<AuthApiResponse<null>> => {
+const logout = async ():Promise<AuthApiResponse<null>> => {
     try{
-        console.log(`token in logout api: ${token}`);
         const apiResponse = await httpclient<AuthApiResponse<null>>("/auth/logout",{
             method:"POST",
         });

@@ -37,6 +37,12 @@ const processQueue = (error: unknown, token: string | null = null) => {
   refreshQueue = [];
 };
 
+const skipRefreshEndpoints = [
+  "/auth/login",
+  "/auth/logout",
+  "/auth/refresh"
+];
+
 /* ======================================================
    REQUEST INTERCEPTOR (Inject Access Token)
 ====================================================== */
@@ -44,7 +50,7 @@ const processQueue = (error: unknown, token: string | null = null) => {
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const token = getAccessToken();
-
+    console.log(`Access Token in axios client: ${token}`);
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -64,11 +70,13 @@ api.interceptors.response.use(
     const originalRequest = error.config as InternalAxiosRequestConfig & {
       _retry?: boolean;
     };
+    const isAuthRoute = skipRefreshEndpoints.some((url) => originalRequest.url?.includes(url));
 
     if (
       error.response?.status === 401 &&
       originalRequest &&
-      !originalRequest._retry
+      !originalRequest._retry &&
+      !isAuthRoute
     ) {
       console.debug(`Recieved 401 and access Token is expired`);
       originalRequest._retry = true;

@@ -8,6 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "imports": {
+    "#utilities/*":"./app/utility/*.js",
     "#common/*": "./app/core/modules/common/*.js",
     "#auth/*": "./app/core/modules/auth/*.js",
     "#events/*": "./app/core/modules/events/*.js",

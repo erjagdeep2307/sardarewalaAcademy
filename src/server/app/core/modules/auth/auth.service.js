@@ -1,7 +1,9 @@
-import { compareHash } from "#common/hash.service";
-import {v4 as uuid} from 'uuid';
-import {createHash} from 'crypto';
-import { generateToken,generateRefreshToken,verifyToken} from "#common/token.service";
+import { compareHash, generateHashValue } from "#common/hash.service";
+import { v4 as uuid } from 'uuid';
+import { generateToken, generateRefreshToken, verifyToken } from "#common/token.service";
+import AppError from "#utilities/AppError";
+import logger from "#logger";
+
 const AuthService = (authRepo) => {
 
     // Private Function to be used for create Expiry date of token
@@ -12,62 +14,82 @@ const AuthService = (authRepo) => {
     }
 
     const authenticate = async (data) => {
+
         const user = await authRepo.findUserByEmail(data.email);
-        if (!user) throw new Error(`INVALID_CREDENTIALS`);
+        if (!user) {
+            logger.warn(`User not found by Email id:${data.email}`);
+            throw new AppError(`INVALID_CREDENTIALS`, 401);
+        }
         const isMatch = await compareHash(data.password, user.password_hash);
-        if (!isMatch) throw new Error(`INVALID_CREDENTIALS`);
-        const token  = generateToken({
-            sub:user.email,
-            role:user.role
+        if (!isMatch) {
+            logger.warn(`Password not matched for user:${data.email}`);
+            throw new AppError(`INVALID_CREDENTIALS`, 401);
+        }
+
+        /* Create Access Token for User */
+        const token = generateToken({
+            sub: user.email,
+            role: user.role
         });
-        if(!token) throw new Error(`Failed to create Access Token`);
+
+        /* Create Refresh Token for User */
         const refreshTokenUid = uuid();
         const refreshToken = generateRefreshToken({
-            sub:user.email,
-            name:user.id,
-            role:user.role,
-            jti:refreshTokenUid
+            sub: user.email,
+            name: user.id,
+            role: user.role,
+            jti: refreshTokenUid
         });
-        if(!refreshToken) throw new Error(`Failed to create Refresh Token`);    
-        // Using rest operator to exclude the password_hash only
-        const hashedRefreshToken = createHash('sha256').update(refreshToken).digest('hex');
+
+        /* Create Hash value of RefreshToken to be stored in DB*/
+        const hashedRefreshToken = generateHashValue(refreshToken);
         const expireAt = generateExpiryDate();
 
-        // const createRefreshToken = async(t_id,u_id,t_hash,expire_d) =>{
-        console.log(`User ID in serveri ${user.id}`);
-        const result = authRepo.createRefreshToken(refreshTokenUid,user.id,hashedRefreshToken,expireAt);
-        const {password_hash,...userData} = user;
-        return {userData,token,refreshToken};
+        /* Store RefreshToken Entry for later validation purpose */
+        const recCreated = await authRepo.createRefreshToken(refreshTokenUid, user.id, hashedRefreshToken, expireAt);
+        if (recCreated === 0) {
+            logger.warn(`Failed to create a refreshToken entry in database for user Id:${user.id} email Id: ${user.email}`);
+            throw new Error(`Internal System Error`)
+        }
+
+        const { password_hash, ...userData } = user;
+        return { userData, token, refreshToken };
     }
 
-    const refreshAccessToken = async(refToken)=>{
 
-        const payload = verifyToken(refToken,'refresh');
-        if( !payload.sub)
-        {
-            // if user information does'nt Exist
-            return null;
+    const refreshAccessToken = async (useEmail) => {
+        const user = await authRepo.findUserByEmail(useEmail);
+        if (!user) {
+            logger.info(`User not found in database for ${useEmail}`);
+            throw new Error(`User does'nt Exist`);
         }
-        const user = await authRepo.findUserByEmail(payload.sub);
         const newAccessToken = generateToken({
-            sub:user.email,
-            role:user.role
+            sub: user.email,
+            role: user.role
         });
-        if(!newAccessToken) throw new Error(`Failed to create new Access Token`);
+        if (!newAccessToken) throw AppError(`Failed to create new Access Token`, 401);
+        logger.info(`New Access Token Generated for :${useEmail}`);
         // Destructure data from user Object except password_hash
-        const {password_hash,...userData} = user;
-        return {userData,token:newAccessToken};
+        const { password_hash, ...userData } = user;
+        return { userData, token: newAccessToken };
     }
 
-    const revokeToken = async (token) =>{
-        const payload = verifyToken(token,'refresh');
-        if(!payload.sub)
-        {
-            return null;
+    const revokeToken = async (userId, token) => {
+        const hashedRefreshToken = generateHashValue(token);
+        const resp = await authRepo.revokeRefreshToken(userId, hashedRefreshToken);
+        if (resp === 0) {
+            logger.warn(`Unable to revoke refresh token for id:${userId}`);
         }
-        return await authRepo.revokeRefreshToken(payload.name);
+        else {
+            logger.warn(`Refresh Token revoked for id:${userId} sucessfully`);
+        }
+        // Attaching user Email for logging purpose 
+        return {
+            response: resp,
+            user: userId
+        };
     }
-    return { authenticate,refreshAccessToken,revokeToken }
+    return { authenticate, refreshAccessToken, revokeToken }
 }
 
 export default AuthService;

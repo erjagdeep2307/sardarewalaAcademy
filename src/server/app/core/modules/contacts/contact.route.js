@@ -3,7 +3,7 @@ import ContactController from '#controllers/ContactController';
 import ContactRepo from '#contacts/contact.repo';
 import ContactService from '#contacts/contact.service';
 import connectionPool from '#db';
-import { AuthGuard } from '#middleware/AuthMiddleware';
+import { AuthGuard } from '#middleware/VerifyAccessToken';
 const contactRouter = Router();
 const ContactRepoInstance = ContactRepo(connectionPool);
 const ContactServiceInstance = ContactService(ContactRepoInstance);

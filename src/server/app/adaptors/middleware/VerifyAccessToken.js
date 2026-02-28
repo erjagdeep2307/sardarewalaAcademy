@@ -17,7 +17,7 @@ export const AuthGuard = async (req, res, next) => {
                 message:"Invalid token or token expired"
             })
         }
-        req.user = decoded.user;
+        req.user = decoded?.user;
         next();
     } catch (error) {
             next(error);

@@ -14,7 +14,7 @@ const getToken = (type='access') =>{
     }
     return JWT_SECRET;
 }
-export function generateToken(payload, expiresIn = '5m') {
+export function generateToken(payload, expiresIn = '2m') {
     return jwt.sign(payload, getToken(), { expiresIn });
 }
 

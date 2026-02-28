@@ -1,6 +1,5 @@
 import { v2 as cloudinary } from "cloudinary";
 import { Readable } from "stream";
-
 export const createCloudinaryService = (config) => {
   cloudinary.config(config);
 
@@ -28,9 +27,7 @@ export const createCloudinaryService = (config) => {
             imageFeature.gravity="auto"
             imageFeature.quality="80"
           }
-          console.log(imageFeature);
           const optimizedUrl = cloudinary.url(result.public_id,imageFeature);
-          console.log(optimizedUrl);
           resolve({...result,optimizedUrl});
         }
       );
@@ -40,11 +37,11 @@ export const createCloudinaryService = (config) => {
   };
 
   const removeImage = async (publicId) => {
-    try {
+    // try {
       return await cloudinary.uploader.destroy(publicId);
-    } catch (err) {
-      throw new Error("Failed to delete image");
-    }
+    // } catch (err) {
+    //   throw new Error("Failed to delete image");
+    // }
   };
 
   return {
