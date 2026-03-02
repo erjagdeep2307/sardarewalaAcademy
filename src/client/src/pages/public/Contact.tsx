@@ -28,6 +28,7 @@ export const Contact: React.FC = () => {
       toast.error(`Failed to Submit Contact Data`);
     },
   });
+
   const submitHandler = (inputData: ContactFormData) => {
     mutate(inputData);
     // Handle form submission
@@ -154,9 +155,11 @@ export const Contact: React.FC = () => {
                 </label>
                 <input
                   type="tel"
-                  {...register("phone")}
+                  {...register("phone", { min:10, pattern: /^\d{10}$/ })}
+                  onInput={ (e:React.ChangeEvent<HTMLInputElement>)=> {e.target.value = e.target.value.replace(/\D/g, "")}}
+                  maxLength={10}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#FF9933] focus:border-transparent outline-none dark:bg-slate-800 dark:text-white"
-                  placeholder="+91 99999 99999"
+                  placeholder="Enter Phone Number"
                 />
               </div>
 

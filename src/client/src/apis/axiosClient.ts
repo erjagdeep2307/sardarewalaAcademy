@@ -3,8 +3,8 @@ import type { AxiosInstance,AxiosRequestConfig,InternalAxiosRequestConfig } from
 import { getAccessToken, setAccessToken } from "@/contexts/Token";
 // Base Url 
 const BASE_URL =
-  "https://serial-arthritis-hurricane-adrian.trycloudflare.com/api";
-
+  // "https://serial-arthritis-hurricane-adrian.trycloudflare.com/api";
+"https://troubleshooting-passing-actress-authors.trycloudflare.com/api";
 // Create Axios Client Instance
 const api: AxiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -50,7 +50,6 @@ const skipRefreshEndpoints = [
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const token = getAccessToken();
-    console.log(`Access Token in axios client: ${token}`);
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -78,7 +77,7 @@ api.interceptors.response.use(
       !originalRequest._retry &&
       !isAuthRoute
     ) {
-      console.debug(`Recieved 401 and access Token is expired`);
+      // console.debug(`Recieved 401 and access Token is expired`);
       originalRequest._retry = true;
 
       if (isRefreshing) {
@@ -103,8 +102,8 @@ api.interceptors.response.use(
           {},
           { withCredentials: true }
         );
-
-        const newAccessToken = refreshResponse.data.accessToken;
+        // console.debug(`Refresh token response:`, refreshResponse);
+        const newAccessToken = refreshResponse.data?.data?.token;
 
         if (!newAccessToken) {
           throw new Error("No access token returned from refresh");
@@ -112,13 +111,14 @@ api.interceptors.response.use(
 
         // Update token in memory/context
         setAccessToken(newAccessToken);
+        api.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
 
         processQueue(null, newAccessToken);
 
         if (originalRequest.headers) {
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         }
-
+        // console.log(`Api Original Request`,originalRequest)
         return api(originalRequest);
       } catch (refreshError) {
         processQueue(refreshError, null);
@@ -148,7 +148,7 @@ export const axiosHttpClient = async <T>(
     url: endpoint,
     ...options,
   });
-  console.log(`Axios Client Http Response:`)
-  console.log(response.data);
+ // console.log(`Axios Client Http Response:`)
+  // console.log(response.data);
   return response.data;
 };
