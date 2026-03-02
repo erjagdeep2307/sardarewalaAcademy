@@ -13,10 +13,10 @@ const useAuth = () => {
 const useLogout = () =>{
     const queryClient = useQueryClient();
     const navigate = useNavigate();
-    const {setUser,token,setToken} = useAuth();
+    const {setUser,setToken} = useAuth();
     const {mutate:logoutMutation,isPending} = useMutation({
         mutationFn: async() => {
-            return await logout(token);
+            return await logout();
         },
         onSuccess: () => {
             // Invalidate any queries that might have user-specific data
