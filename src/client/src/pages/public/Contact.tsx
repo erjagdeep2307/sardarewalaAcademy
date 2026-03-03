@@ -2,11 +2,13 @@ import React from "react";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/UI/Button";
 import { useForm } from "react-hook-form";
-import type { ContactFormData } from "@/types/types";
+import type { ContactFormData, FormErrors } from "@/types/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createContact } from "@/apis/contacts";
 import { toast } from "react-toastify";
+
 export const Contact: React.FC = () => {
+  const [submissionError, setSubmissionError] = React.useState<FormErrors | null>(null);
   const {
     register,
     reset,
@@ -24,12 +26,20 @@ export const Contact: React.FC = () => {
       reset();
       toast.success(`Contact Data Submitted Successfully`);
     },
-    onError: () => {
-      toast.error(`Failed to Submit Contact Data`);
-    },
+    onError: (error) => {
+      if (error && typeof error === 'object' && 'errors' in error) {
+        toast.error(error.message || `Failed to Submit Contact Data due to validation errors`);
+        const apiErrors = (error as { errors: FormErrors }).errors as FormErrors;
+        setSubmissionError(apiErrors);
+      }
+      else {
+        toast.error(`Failed to Submit Contact Data`);
+      }
+    }
   });
 
   const submitHandler = (inputData: ContactFormData) => {
+    setSubmissionError(null); // Clear previous errors on new submission
     mutate(inputData);
     // Handle form submission
   };
@@ -111,6 +121,11 @@ export const Contact: React.FC = () => {
                       {errors?.firstName?.message}
                     </p>
                   )}
+                  {submissionError?.firstName && submissionError.firstName[0] && (
+                    <p className="text-sm text-red-500 mt-1">
+                      {submissionError.firstName[0]}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -155,12 +170,17 @@ export const Contact: React.FC = () => {
                 </label>
                 <input
                   type="tel"
-                  {...register("phone", { min:10, pattern: /^\d{10}$/ })}
-                  onInput={ (e:React.ChangeEvent<HTMLInputElement>)=> {e.target.value = e.target.value.replace(/\D/g, "")}}
+                  {...register("phone", { min: 10, pattern: /^\d{10}$/ })}
+                  onInput={(e: React.ChangeEvent<HTMLInputElement>) => { e.target.value = e.target.value.replace(/\D/g, "") }}
                   maxLength={10}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#FF9933] focus:border-transparent outline-none dark:bg-slate-800 dark:text-white"
                   placeholder="Enter Phone Number"
                 />
+                {errors.phone && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {errors?.phone?.message}
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -176,6 +196,11 @@ export const Contact: React.FC = () => {
                   <option>General Fitness</option>
                   <option>Other</option>
                 </select>
+                {errors.program && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {errors?.program?.message}
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -184,12 +209,21 @@ export const Contact: React.FC = () => {
                 </label>
                 <textarea
                   rows={4}
-                  {...register("message")}
+                  {...register("message", { maxLength: 255 })}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#FF9933] focus:border-transparent outline-none dark:bg-slate-800 dark:text-white"
                   placeholder="Tell us about your goals..."
                 ></textarea>
+                {errors.message && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {errors?.message?.message}
+                  </p>
+                )}
+                {submissionError?.message && submissionError.message[0] && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {submissionError.message[0]}
+                  </p>
+                )}
               </div>
-
               <Button
                 type="submit"
                 variant="primary"

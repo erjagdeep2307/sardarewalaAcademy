@@ -38,7 +38,7 @@ const httpclient = async <T>(endpoint: string,auth:boolean=false, options: HttpC
 
   // Handle non-ok status
   if (!response.ok) {
-    console.log(response);
+    console.log(`Response from Axios Http:`,response);
     const errorText = response.statusText;
     throw new Error(errorText || `HTTP Error: ${response.status}`);
   }
@@ -51,6 +51,7 @@ const httpclient = async <T>(endpoint: string,auth:boolean=false, options: HttpC
 
   // Parse JSON
   const data = await response.json();
+  console.log(`Data Response from Axios Http:`, data);
   return data as T;
 };
 

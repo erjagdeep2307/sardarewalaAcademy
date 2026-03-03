@@ -6,7 +6,7 @@ const TestomonialController = (testmnlService) => {
         try {
             // Check if file is present
             if (!req.file) {
-                res.status(400).send({
+               return res.status(400).send({
                     success: false,
                     message: "Image file is required",
                     data: null
@@ -22,13 +22,9 @@ const TestomonialController = (testmnlService) => {
                 });
             }
             console.log(validatedData);
-            if (testmnlService) {
-                console.log("Service is present");
-            }
-            else {
-                console.log("Service is absent");
-            }
             const response = await testmnlService.createTestomonial(validatedData.data, req.file);
+            console.log(`Response from create  Testomonial is:`,response);
+            
             return res.status(201).send({
                 success: true,
                 message: "Testomonial created successfully",

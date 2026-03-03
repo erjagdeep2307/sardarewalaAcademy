@@ -18,8 +18,8 @@ interface CardProp {
     itemData?: Testomonial
 }
 const Slider: React.FC<SliderProps> = ({ data, isLoading }) => {
-    const dataCount = data ? data.length : 0;
-    console.log('Data Count:', dataCount);
+    // const dataCount = data ? data.length : 0;
+    // console.log('Data Count:', dataCount);
     return (
         <>
             {/* <style>{customSwiperStyles}</style> */}
@@ -32,7 +32,7 @@ const Slider: React.FC<SliderProps> = ({ data, isLoading }) => {
                     centerInsufficientSlides={true}
                     // centeredSlides={true}
                     pagination={{ clickable: true }}
-                    autoplay={ {
+                    autoplay={{
                         delay: 4000,
                         disableOnInteraction: false,
                     }}
@@ -69,7 +69,7 @@ const Slider: React.FC<SliderProps> = ({ data, isLoading }) => {
                         )))
                         :
                         data && data.map((item) => (
-                            <SwiperSlide key={item.id}>
+                            <SwiperSlide key={item.id} className="!h-auto">
                                 <SliderCard randval={1} itemData={item} />
                             </SwiperSlide>
                         ))}
@@ -81,18 +81,28 @@ const Slider: React.FC<SliderProps> = ({ data, isLoading }) => {
 
 export default Slider;
 const SliderCard: React.FC<CardProp> = ({ itemData }) => {
-    console.log(itemData);
+    // console.log(itemData);
     return (
-        <div className="bg-neutral-primary-soft block flex-col item-center max-w-sm rounded-lg shadow-lg">
-            <div className="flex flex-col items-center my-3">
-                <img className="rounded-full ring-4 ring-white" src={itemData?.image_url} alt="Bonnie image" />
-                <h5 className="mb-0.5 text-xl font-semibold tracking-tight text-heading">{itemData?.client_name}</h5>
-                <span className="text-sm text-body">{itemData?.designation}</span>
-            <p className='p-6 text-center'>
-                {itemData?.testimonial_text}
-            </p>
+        <div className="h-full rounded-2xl border border-orange-100 bg-gradient-to-b from-white to-orange-50/40 p-4 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+            <div className="flex h-full flex-col items-center text-center">
+                <img
+                    className="h-16 w-16 rounded-full object-cover ring-4 ring-white shadow-md"
+                    src={itemData?.image_url}
+                    alt={`${itemData?.client_name} Image`}
+                />
+                <h5 className="mt-3 text-base font-bold tracking-tight text-heading line-clamp-1">
+                    {itemData?.client_name}
+                </h5>
+                <span className="mt-1 text-sm font-medium text-body line-clamp-1">
+                    {itemData?.designation}
+                </span>
+                <div className="mt-3 w-full rounded-xl bg-white/70 px-3 py-3">
+                    {/* <p className="text-3xl leading-none text-orange-400">"</p> */}
+                    <p className="mt-1 min-h-[72px] text-sm leading-relaxed text-body line-clamp-3">
+                        {itemData?.testimonial_text}
+                    </p>
+                </div>
             </div>
         </div>
     );
 }
-

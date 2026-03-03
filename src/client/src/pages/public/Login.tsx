@@ -21,11 +21,9 @@ export const Login: React.FC = () => {
       console.log(data);
       if(data.data && data.status==="success")
       {
-        console.log(data?.data?.userData);
         setUser(data?.data?.userData);
         setToken(data?.data?.token);
         setAccessToken(data?.data.token);
-        console.log("Login Successful");
         navigate('/admin');
       }
       else{
@@ -33,7 +31,7 @@ export const Login: React.FC = () => {
       }
     },  
     onError:(err)=>{
-      console.error(err);
+      toast.error(err?.message || "An error occurred during login");
     }
   });
   const handleLogin = (data: LoginData) => {
@@ -96,13 +94,13 @@ export const Login: React.FC = () => {
               <div className="space-y-1">
                 <div className="flex justify-between items-center px-1">
                   <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Password</label>
-                  <a href="#" className="text-xs font-bold text-[#FF9933] hover:underline">Forgot?</a>
+                  {/* <a href="#" className="text-xs font-bold text-[#FF9933] hover:underline">Forgot?</a> */}
                 </div>
                 <div className="relative">
                   <input 
                     type="password" 
                     {...register('password',{required:"Password is required"})}
-                    defaultValue="password"
+                    // defaultValue="password"
                     className="w-full px-4 py-3 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-[#FF9933] focus:border-transparent transition-all dark:text-white"
                     placeholder="••••••••"
                   />
@@ -114,11 +112,10 @@ export const Login: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex items-center space-x-2 px-1">
+              {/* <div className="flex items-center space-x-2 px-1">
                 <input type="checkbox" id="remember" className="rounded text-[#FF9933] focus:ring-[#FF9933]" />
                 <label htmlFor="remember" className="text-xs text-gray-500 dark:text-gray-400 font-medium cursor-pointer">Remember this device</label>
-              </div>
-
+              </div> */}
               <Button type="submit" className="w-full h-12 text-sm uppercase tracking-widest shadow-lg shadow-[#FF9933]/20">
                 <Lock className="w-4 h-4 mr-2" />
                 {isPending ? "Logging in..." : "Secure Login"}

@@ -9,6 +9,7 @@ const TestomonialService = (testomonialRepo, cloudService) => {
                 throw new Error('Image file is required');
             }
             const uploadResult = await cloudService.uploadImage(image.buffer, "Testomonials");
+            console.log(`Upload result from cloudinary is:`,uploadResult);
             // console.log(...uploadResult);
             if (!uploadResult || !uploadResult.secure_url) {
                 throw new Error('Testomonial Image upload failed');

@@ -1,71 +1,70 @@
 import type { ActionApiResponse, ItemApiResponse, ListApiResponse, Events } from "@/types/types";
 import { axiosHttpClient as httpclient } from "./axiosClient";
-const eventEndpoint = "/events"; 
+import axios from "axios";
+const eventEndpoint = "/events";
 
 // Fetch All Events
-export const fetchEvents = async (): Promise<ListApiResponse<Events>> => {
+const fetchEvents = async (): Promise<ListApiResponse<Events>> => {
     try {
         const apiResponse = await httpclient<ListApiResponse<Events>>(eventEndpoint);
         if (!apiResponse.success) throw new Error(`Failed To Fetch Data`);
         return apiResponse;
     }
     catch (error) {
-        console.log('Api Error:', error);
-        return {
-            success: false,
-            message: "Generic Error",
-            data: []
+        if (axios.isAxiosError(error)) {
+            // throw exact server payload
+            throw error.response?.data ?? { message: error.message, code: error.code };
         }
+        throw error;
     }
 }
 
 // Fetch Event By Id
-export const fetchEventById = async (id: string): Promise<ItemApiResponse<Events>> => {
+const fetchEventById = async (id: string): Promise<ItemApiResponse<Events>> => {
     try {
         const apiResponse = await httpclient<ItemApiResponse<Events>>(`${eventEndpoint}/${id}`);
         return apiResponse;
     }
     catch (error) {
-        console.log(`Error:`, error)
-        return {
-            success: false,
-            message: "Generic Error",
-            data: null
+        if (axios.isAxiosError(error)) {
+            // throw exact server payload
+            throw error.response?.data ?? { message: error.message, code: error.code };
         }
+        throw error;
     }
 }
 
 // Delete Event By Id
-export const deleteEventById = async (id: string): Promise<ActionApiResponse> => {
+const deleteEventById = async (id: string): Promise<ActionApiResponse> => {
     try {
-        const apiResponse = await httpclient<ActionApiResponse>(`${eventEndpoint}/${id}`,{
-            method:'DELETE'
+        const apiResponse = await httpclient<ActionApiResponse>(`${eventEndpoint}/${id}`, {
+            method: 'DELETE'
         });
         return apiResponse;
     } catch (error) {
-        console.log(`Error:`, error)
-        return {
-            success: false,
-            message: "Generic Error",
+        if (axios.isAxiosError(error)) {
+            // throw exact server payload
+            throw error.response?.data ?? { message: error.message, code: error.code };
         }
+        throw error;
     }
 }
 
 // Create New Event
-export const createEvent = async (formData: FormData): Promise<ListApiResponse<Events>> => {
+const createEvent = async (formData: FormData): Promise<ListApiResponse<Events>> => {
     try {
         const config = {
             method: "POST",
             data: formData
         }
-        const apiResponse = await httpclient<ListApiResponse<Events>>(eventEndpoint,config);
+        const apiResponse = await httpclient<ListApiResponse<Events>>(eventEndpoint, config);
         return apiResponse;
     } catch (error) {
-        console.log(`Error:`, error)
-        return {
-            success: false,
-            message: "Generic Error",
-            data: []
+        if (axios.isAxiosError(error)) {
+            // throw exact server payload
+            throw error.response?.data ?? { message: error.message, code: error.code };
         }
+        throw error;
     }
 }
+export { createEvent, fetchEvents, fetchEventById, deleteEventById }

@@ -8,7 +8,7 @@ const BASE_URL =
 // Create Axios Client Instance
 const api: AxiosInstance = axios.create({
   baseURL: BASE_URL,
-  timeout: 5000,
+  timeout: 4000,
   withCredentials: true, // required for refresh cookie
 });
 
@@ -148,7 +148,5 @@ export const axiosHttpClient = async <T>(
     url: endpoint,
     ...options,
   });
- // console.log(`Axios Client Http Response:`)
-  // console.log(response.data);
   return response.data;
 };

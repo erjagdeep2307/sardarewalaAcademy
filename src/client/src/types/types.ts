@@ -100,3 +100,7 @@ export interface ItemApiResponse<T> extends ApiResponseBase{
 export interface ActionApiResponse extends ApiResponseBase{
     data?:never
 } 
+// Type for Form Errors
+export type FormErrors = {
+    [key: string]: string[];
+};

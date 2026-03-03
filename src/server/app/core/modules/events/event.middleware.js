@@ -1,19 +1,20 @@
 
 import multer from "multer";
 import path from "path";
+import AppError from "#utilities/AppError";
 
 const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   if (!file) {
-    return cb(new Error("File not provided"), false);
+    return cb(new AppError("File not provided", 400), false);
   }
 
   const allowedTypes = [".jpg", ".jpeg", ".png", ".webp"];
   const ext = path.extname(file.originalname).toLowerCase();
 
   if (!allowedTypes.includes(ext)) {
-    return cb(new Error("Only images are allowed"), false);
+    return cb(new AppError("Only images are allowed", 400), false);
   }
 
   cb(null, true);

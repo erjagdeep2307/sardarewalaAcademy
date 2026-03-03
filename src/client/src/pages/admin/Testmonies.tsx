@@ -63,8 +63,8 @@ export const AdminTestimonials: React.FC = () => {
       setIsModalOpen(false);
       toast.success(`Testomoinal is Created Successfully`);
     },
-    onError: () => {
-      toast.error(`Failed to create the Testomonial`);
+    onError: (error) => {
+      toast.error(`${error.message || "Failed to create the Testomonial"}`);
     },
   });
 
@@ -212,22 +212,24 @@ export const AdminTestimonials: React.FC = () => {
         {isModalOpen && (
           <>
             {/* Testomonial Add Modal */}
-            <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[60] p-4 backdrop-blur-sm">
-              <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl w-full max-w-xl overflow-hidden border border-gray-100 dark:border-slate-800">
+            <div className="fixed inset-0 bg-black/60 flex items-start sm:items-center justify-center z-[60] p-4 sm:p-6 backdrop-blur-sm overflow-y-auto">
+              <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl w-full max-w-xl border border-gray-100 dark:border-slate-800 max-h-[90dvh] flex flex-col overflow-hidden">
+
                 <div className="bg-[#000080] p-4 flex justify-between items-center text-white">
                   <h3 className="font-bold flex items-center">
                     Create New Testimonial
                   </h3>
-                  <button
-                    className="hover:bg-white/10 p-1 rounded-full transition-colors"
-                    onClick={() => setIsModalOpen(false)}
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
+                    <button
+                      className="hover:bg-white/10 p-1 rounded-full transition-colors"
+                      onClick={() => setIsModalOpen(false)}
+                      disabled={isCreating}
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
                 </div>
 
                 <form
-                  className="p-6 space-y-4"
+                  className="p-6 space-y-4 overflow-y-auto flex-1"
                   onSubmit={handleSubmit(onSubmitTestom)}
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

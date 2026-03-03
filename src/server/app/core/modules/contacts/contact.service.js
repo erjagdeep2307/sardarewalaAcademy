@@ -1,9 +1,15 @@
+import AppError from "#utilities/AppError";
+
 const ContactService = (contactRepo)=>{
     const createContact = async (contactData) => {
-        console.log('Creating contact with data:', contactData);
         // Logic to save contactData to database
-        return await contactRepo.saveContact(contactData);
+        const result = await contactRepo.saveContact(contactData);
+        if (!result) {
+            throw new AppError("Failed to create contact", 400);
+        }
+        return result;
     };
+    
     const listContacts = async () => {
         // Logic to list contacts from database
         return await contactRepo.listContacts();

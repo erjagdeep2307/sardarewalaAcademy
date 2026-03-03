@@ -14,7 +14,7 @@ app.set('trust proxy',1); // Seting up to prevent the unattentional behaviour of
 app.use(cors({
     origin: ['http://172.17.222.128:5173','http://localhost:5173',"https://sardarewala-academy.vercel.app"],
     credentials:true,
-    methods:['GET','POST','PUT','DELETE']
+    methods:['GET','POST','PUT','DELETE','PATCH']
 }));
 app.use(helmet({
     crossOriginResourcePolicy: { policy: "cross-origin" }, // Allows the cookie across ports

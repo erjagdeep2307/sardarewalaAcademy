@@ -1,18 +1,17 @@
 import type { Contact, ContactFormData, ListApiResponse, ItemApiResponse, ActionApiResponse } from '../types/types';
 import { axiosHttpClient as httpclient } from './axiosClient'; 
-
+import axios from 'axios';
 const contactEndpoint = "/contact";
 const fetchContacts = async (): Promise<ListApiResponse<Contact>> => {
     try {
         const apiResponse = await httpclient<ListApiResponse<Contact>>(contactEndpoint); 
         return apiResponse;
     } catch (error) {
-        console.error('API Error:', error);
-        return {
-            success: false,
-            message: "Generic Error",
-            data: []
+        if (axios.isAxiosError(error)) {
+            // throw exact server payload
+            throw error.response?.data ?? { message: error.message, code: error.code };
         }
+        throw error;
     }
 };
 
@@ -27,12 +26,11 @@ const createContact = async (data: ContactFormData): Promise<ItemApiResponse<Con
         });
         return apiResponse;
     } catch (error) {
-        console.error(`Api Error:${error}`)
-        return {
-            success: false,
-            message: "Generic Error",
-            data: null
+       if (axios.isAxiosError(error)) {
+            // throw exact server payload
+            throw error.response?.data ?? { message: error.message, code: error.code };
         }
+        throw error;
     }
 }
 interface ContactUpdatePayload {
@@ -52,11 +50,11 @@ const updateContact = async (payload: ContactUpdatePayload): Promise<ActionApiRe
         return apiResponse;
     }
     catch (error) {
-        console.error(error);
-        return {
-            success: false,
-            message: "Generic Error",
+        if (axios.isAxiosError(error)) {
+            // throw exact server payload
+            throw error.response?.data ?? { message: error.message, code: error.code };
         }
+        throw error;
     }
 }
 export { fetchContacts, createContact, updateContact };

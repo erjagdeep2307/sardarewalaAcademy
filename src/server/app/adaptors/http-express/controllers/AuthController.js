@@ -62,8 +62,7 @@ const AuthController = (authService) => {
             const userEmail = req.user.sub;
             logger.info(`Refresh Token Request Recieved from User:${userEmail}`);
             const result = await authService.refreshAccessToken(userEmail);
-            
-            logger.info(`Token Refreshed for user:${result.userData.user}`);
+            logger.info(`Token Refreshed for user:${result.userData.email}`);
             res.cookie('refreshToken', currRefreshToken, {
                 path: '/',
                 httpOnly: true,
