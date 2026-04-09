@@ -41,8 +41,9 @@ const ContactController = (contactService) => {
 
     const updateContact = async (req, res, next) => {
         try {
-            const recordId = Number(req.params.id);
-            if (Number.isNaN(recordId)) {
+
+            const recordId = req.params.id;
+            if (!recordId) {
                 return res.status(400).json({
                     success: false,
                     message: "Missing contact id or Invalid contact Id"
@@ -52,11 +53,6 @@ const ContactController = (contactService) => {
             if (!payload.success) {
                 console.error("Validation Failed for Contact Update. Errors: ", payload.error.flatten().fieldErrors);
                 return res.status(400).json({ error: 'Invalid contact data', details: validatedData.error.flatten().fieldErrors });
-
-                // return res.status(400).json({
-                //     success: false,
-                //     message: "Payload Validation Failed for Contact Update"
-                // });
             }
             const response = await contactService.updateStatus(recordId, payload.data);
             if (!response) {

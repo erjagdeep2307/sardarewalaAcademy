@@ -6,8 +6,10 @@ import eventRouter from '#events/event.route';
 import contactRouter from '#contacts/contact.route';
 import testomonialRouter from '#testomonial/testomonial.route';
 import authRouter from '#auth/auth.route';
+import analyticsRouter from '#dashboard/analytics.route';
 import { generateHash,compareHash } from '#common/hash.service';
 import { globalErrorHandler } from '../middleware/GlobalErrorHandler.js';
+import programRouter from '#program/program.route';
 
 const app = express();
 app.set('trust proxy',1); // Seting up to prevent the unattentional behaviour of rate-limit in proxy mode
@@ -26,8 +28,10 @@ app.use(cookieParser());
 
 app.use('/api/auth',authRouter);
 app.use('/api/events', eventRouter);
-app.use('/api/testomonials', testomonialRouter);
 app.use('/api/contact', contactRouter);
+app.use('/api/program', programRouter);
+app.use('/api/dashboard', analyticsRouter);
+app.use('/api/testomonials', testomonialRouter);
 app.post('/passhash', async(req, res) => {
     if(req.body.stringToHash){
         const hashedString =await generateHash(req.body.stringToHash);

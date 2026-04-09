@@ -55,7 +55,8 @@ const createEvent = async (formData: FormData): Promise<ListApiResponse<Events>>
     try {
         const config = {
             method: "POST",
-            data: formData
+            data: formData,
+            timeout: 10000 
         }
         const apiResponse = await httpclient<ListApiResponse<Events>>(eventEndpoint, config);
         return apiResponse;

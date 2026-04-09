@@ -2,14 +2,24 @@ import React, { useState } from "react";
 import { Users, TrendingUp, DollarSign, Calendar } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { fetchContacts, updateContact } from "@/apis/contacts";
-import type { Contact,ListApiResponse } from "@/types/types";
+import type {
+  Contact,
+  DashboardData,
+  ItemApiResponse,
+  ListApiResponse,
+} from "@/types/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { StatCard } from "@/components/admin/StatCard";
 import { toast } from "react-toastify";
+import { fetchAnalytics } from "@/apis/dashboard";
 
 export const AdminDashboard: React.FC = () => {
   const [idToUpdate, setIdToUpdate] = useState<number | null>(null);
   const navigate = useNavigate();
+  const { data: analyticsData } = useQuery<ItemApiResponse<DashboardData>>({
+    queryKey: ["dashboard"],
+    queryFn: fetchAnalytics,
+  });
   const { data: contactData } = useQuery<ListApiResponse<Contact>>({
     queryKey: ["contacts"],
     queryFn: fetchContacts,
@@ -29,7 +39,7 @@ export const AdminDashboard: React.FC = () => {
     },
     onSettled: () => {
       setIdToUpdate(null);
-    }
+    },
   });
   const handleApprove = (id: number, status: string) => {
     if (id) {
@@ -42,7 +52,11 @@ export const AdminDashboard: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           label="Total Students"
-          value="1,248"
+          value={
+            analyticsData && analyticsData.data
+              ? analyticsData.data.total_users
+              : "0"
+          }
           icon={Users}
           color={{
             bg: "bg-blue-500",
@@ -62,7 +76,11 @@ export const AdminDashboard: React.FC = () => {
         />
         <StatCard
           label="Pending Enquiries"
-          value="45"
+          value={
+            analyticsData && analyticsData.data
+              ? analyticsData.data.pending_enquiries
+              : "0"
+          }
           icon={Calendar}
           color={{
             bg: "bg-[#FF9933]",
@@ -71,8 +89,12 @@ export const AdminDashboard: React.FC = () => {
           trend="-2%"
         />
         <StatCard
-          label="Website Visits"
-          value="12.5k"
+          label="Top Program"
+          value={
+            analyticsData && analyticsData.data
+              ? analyticsData.data.top_program
+              : "0"
+          }
           icon={TrendingUp}
           color={{
             bg: "bg-purple-500",
@@ -106,11 +128,11 @@ export const AdminDashboard: React.FC = () => {
                       const isApproved = contact.status === "Pending";
                       return (
                         <tr key={idx}>
-
                           <td className="py-3 pl-2 w-6">
                             <span
-                              className={`relative flex h-4 w-4 items-center justify-center ${isApproved ? "opacity-100" : "opacity-0"
-                                }`}
+                              className={`relative flex h-4 w-4 items-center justify-center ${
+                                isApproved ? "opacity-100" : "opacity-0"
+                              }`}
                             >
                               <span className="absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-50 animate-ping" />
                               <span className="relative inline-flex h-3 w-3 rounded-full bg-red-700" />
@@ -128,7 +150,8 @@ export const AdminDashboard: React.FC = () => {
                               className="min-w-[96px] bg-red-100 dark:bg-red-900/30
                               text-red-700 dark:text-red-400
                               px-2 py-1 text-xs rounded-sm font-medium
-                              transition-opacity">
+                              transition-opacity"
+                            >
                               {contact.status}
                             </span>
                           </td>
@@ -138,18 +161,21 @@ export const AdminDashboard: React.FC = () => {
                               text-green-700 dark:text-green-400
                               px-2 py-1 text-xs rounded-sm font-medium
                               transition-opacity border"
-                              disabled={isApproving && idToUpdate === contact.id}
+                              disabled={
+                                isApproving && idToUpdate === contact.id
+                              }
                               onClick={() =>
                                 handleApprove(
                                   contact.id,
-                                  contact.status === "Pending" ? "Approved" : "Pending"
+                                  contact.status === "Pending"
+                                    ? "Approved"
+                                    : "Pending",
                                 )
                               }
-                              >
-                                {(isApproving && (idToUpdate === contact.id))
+                            >
+                              {isApproving && idToUpdate === contact.id
                                 ? "Approving"
-                                : "Approve"
-                              }
+                                : "Approve"}
                             </button>
                           </td>
                         </tr>
@@ -179,12 +205,12 @@ export const AdminDashboard: React.FC = () => {
             >
               + Upload Gallery Images
             </button>
-            <button
+            {/* <button
               onClick={() => navigate("/admin/enquiries")}
               className="w-full py-2 px-4 bg-gray-50 dark:bg-slate-800 hover:bg-gray-100 dark:hover:bg-slate-700 text-left rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 transition-colors"
             >
               View Recent Enquiries
-            </button>
+            </button> */}
             <button
               onClick={() => navigate("/admin/visitors")}
               className="w-full py-2 px-4 bg-gray-50 dark:bg-slate-800 hover:bg-gray-100 dark:hover:bg-slate-700 text-left rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 transition-colors"

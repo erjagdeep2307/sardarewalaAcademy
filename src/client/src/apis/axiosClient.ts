@@ -2,9 +2,9 @@ import axios,{AxiosError,} from "axios";
 import type { AxiosInstance,AxiosRequestConfig,InternalAxiosRequestConfig } from "axios";
 import { getAccessToken, setAccessToken } from "@/contexts/Token";
 // Base Url 
-const BASE_URL =
+const BASE_URL ="https://vocabulary-yield-solaris-pitch.trycloudflare.com/api";
   // "https://serial-arthritis-hurricane-adrian.trycloudflare.com/api";
-"https://troubleshooting-passing-actress-authors.trycloudflare.com/api";
+// "https://troubleshooting-passing-actress-authors.trycloudflare.com/api";
 // Create Axios Client Instance
 const api: AxiosInstance = axios.create({
   baseURL: BASE_URL,

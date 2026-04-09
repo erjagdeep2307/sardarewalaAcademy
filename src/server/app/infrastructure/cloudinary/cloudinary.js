@@ -35,13 +35,9 @@ export const createCloudinaryService = (config) => {
       Readable.from(fileBuffer).pipe(uploadStream);
     });
   };
-
+  
   const removeImage = async (publicId) => {
-    // try {
       return await cloudinary.uploader.destroy(publicId);
-    // } catch (err) {
-    //   throw new Error("Failed to delete image");
-    // }
   };
 
   return {

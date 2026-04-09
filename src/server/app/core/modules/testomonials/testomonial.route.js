@@ -7,8 +7,7 @@ import TestomonialController from "#controllers/TestomonialController";
 import { createCloudinaryService } from "#cloudinary";
 import { uploader } from "#events/event.middleware";
 import { AuthGuard } from "#middleware/VerifyAccessToken";
-// import { publicRateLimiter } from "../../../adaptors/middleware/RateLimiterMiddleware";
-// 
+
 const cloudinaryConfig = {
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.CLOUD_API,

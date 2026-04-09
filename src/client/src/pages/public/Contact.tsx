@@ -48,7 +48,7 @@ export const Contact: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 gap-12 bg-white dark:bg-slate-900 rounded-2xl shadow-xl overflow-hidden">
           {/* Info Side */}
-          <div className="bg-[#000080] dark:bg-blue-950 text-white p-12 flex flex-col justify-between relative overflow-hidden">
+          <div className="bg-[#000080] dark:bg-blue-950 text-white p-12 flex flex-col justify-between relative overflow-hidden order-2 md:order-1">
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#FF9933] rounded-full filter blur-3xl opacity-20 -translate-y-1/2 translate-x-1/2"></div>
 
             <div>
@@ -98,7 +98,7 @@ export const Contact: React.FC = () => {
           </div>
 
           {/* Form Side */}
-          <div className="p-12">
+          <div className="p-12 order-1 md:order-2">
             <h2 className="text-2xl font-bold text-[#000080] dark:text-white mb-6">
               Send us a Message
             </h2>

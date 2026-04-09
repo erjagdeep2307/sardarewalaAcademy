@@ -14,20 +14,8 @@ const EventController = (eventService) => {
                     errors: validatedData.error.flatten().fieldErrors
                 });
             }
-            else {
-                logger.info({validatedData},`Event Create Request payload:`);
-            }
-
-            if (req.file) {
-                const createdEvent = await eventService.create(validatedData.data, req.file);
-                logger.info(`Event Create Succesfull with Id:${createdEvent.id}`);
-                res.status(201).send({
-                    success: true,
-                    message: 'Event created successfully',
-                    data: createdEvent
-                });
-            }
-            else {
+            logger.info({ validatedData }, `Event Create Request payload`);
+            if (!req.file) {
                 logger.warn(`Event Create Request Missing Event Image`);
                 res.status(401).send({
                     success: false,
@@ -35,15 +23,16 @@ const EventController = (eventService) => {
                     data: null
                 });
             }
-
-        } catch (error) {
-            console.log(error);
-            logger.error(`Event Create Request Error:${error.message}`);
-            res.status(501).send({
-                success: false,
-                message: "Generic Error",
-                data: null
+            const createdEvent = await eventService.create(validatedData.data, req.file);
+            logger.info(`Event Create Succesfull with Id:${createdEvent.id}`);
+            res.status(201).send({
+                success: true,
+                message: 'Event created successfully',
+                data: createdEvent
             });
+        } catch (error) {
+            logger.error(`Event Create Request Error:${error.message}`);
+            next(error);
         }
     }
 
@@ -53,7 +42,7 @@ const EventController = (eventService) => {
             const data = await eventService.list(req.log);
             res.status(200).json({
                 success: true,
-                message: `${data.length ? "Event List":"No Event Found"}`,
+                message: `${data.length ? "Event List" : "No Event Found"}`,
                 data: data
             });
         } catch (error) {
@@ -65,12 +54,12 @@ const EventController = (eventService) => {
         }
     }
 
-    
+
     // Get an event by Id
     const getEventById = async (req, res) => {
         try {
             // res.send(`Event details for ID: ${req.params.id}`);
-            const data = await eventService.listById(req.params.id,req.log);
+            const data = await eventService.listById(req.params.id, req.log);
             res.status(200).json({
                 success: true,
                 message: data.message,
@@ -97,20 +86,23 @@ const EventController = (eventService) => {
     const deleteEvent = async (req, res) => {
         try {
             const eventId = req.params.id;
-            const data = await eventService.removeEventById(eventId,req.log);
-            // logger.info(`Event Delete Successfully with Id: ${eventId}`);
+            const data = await eventService.removeEventById(eventId, req.log);
+            if (!data.id) {
+                return res.status(404).json({
+                    success: false,
+                    message: `Event not found with id:${eventId}`,
+                    data: data
+                });
+            }
+            logger.info(`Event Delete Successfully with Id: ${data.id}`);
             res.status(200).json({
                 success: true,
-                message: `${data.result==="ok" ? "Event Delete Succesfully":"Failed to Delete Event Image"}`,
+                message: `Event Delete Succesfully with id:${data.id}`,
                 data: data
             })
         } catch (error) {
-            logger.error({error},`Event Delete Error for ${req.params.id}`);
-            res.status(501).send({
-                success: false,
-                message: error.message,
-                data: []
-            });
+            logger.error({ error: error.message }, `Event Delete Error for ${req.params.id}`);
+            next(error);
         }
     }
     return {

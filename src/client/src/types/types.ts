@@ -81,6 +81,13 @@ export interface NavItem {
   children?:NavChild[];
 }
 
+// 
+export interface DashboardData{
+    total_users:string;
+    pending_enquiries:string;
+    top_program:string;
+}
+
 // Generic Api Response Interface 
  interface ApiResponseBase{
     success:boolean,

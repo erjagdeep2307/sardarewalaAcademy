@@ -150,8 +150,8 @@ export const AdminGallery: React.FC = () => {
                 )}
                 {isModalOpen && (
                     <>
-                        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[60] p-4 backdrop-blur-sm">
-                            <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden border border-gray-100 dark:border-slate-800">
+                        <div className="fixed inset-0 bg-black/60 flex items-start sm:items-center justify-center z-[60] p-4 sm:p-6 backdrop-blur-sm overflow-y-auto">
+                           <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl w-full max-w-xl border border-gray-100 dark:border-slate-800 max-h-[90dvh] flex flex-col overflow-hidden">
                                 <div className="bg-[#000080] p-4 flex justify-between items-center text-white">
                                     <h3 className="font-bold flex items-center">
                                         Create New Event
@@ -165,7 +165,7 @@ export const AdminGallery: React.FC = () => {
                                     </button>
                                 </div>
 
-                                <form onSubmit={handleSubmit(handleEventCreateSubmit)} className="space-y-4 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-6">
+                                <form onSubmit={handleSubmit(handleEventCreateSubmit)} className="p-6 space-y-4 overflow-y-auto flex-1">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-1">
                                             <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Event Title</label>
