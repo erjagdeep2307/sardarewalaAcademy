@@ -13,6 +13,7 @@ import { AdminTestimonials } from "@/pages/admin/Testmonies";
 import { Login } from "@/pages/public/Login";
 import { AuthGuard } from "@/components/admin/AuthGuard";
 import { PublicRoute } from "@/components/LoginGuard";
+import AdminProgram from "@/pages/admin/Program";
 const appRouter = createBrowserRouter([
   // Public Routes
   {
@@ -70,6 +71,10 @@ const appRouter = createBrowserRouter([
           {
             path: "testomonials",
             element: <AdminTestimonials />,
+          },
+          {
+            path: "programs",
+            element: <AdminProgram />,
           },
         ],
       },

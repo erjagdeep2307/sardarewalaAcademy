@@ -9,7 +9,7 @@ export interface EventFormData {
     event_image?: FileList; // For file input
 }
 // Interface for Event List Data for each item
-export interface Events{
+export interface Events {
     id: string,
     title: string,
     slug: string,
@@ -24,20 +24,20 @@ export interface Events{
 }
 
 // Testomonial Type
-export interface Testomonial{
-    id:number,
-    client_name:string,
-    designation:string,
-    department:string,
-    testimonial_text:string,
-    rating:string,
-    image_url:string
-    is_featured:boolean
-} 
+export interface Testomonial {
+    id: number,
+    client_name: string,
+    designation: string,
+    department: string,
+    testimonial_text: string,
+    rating: string,
+    image_url: string
+    is_featured: boolean
+}
 
 // Contact Type
-export interface Contact{
-    id:number,
+export interface Contact {
+    id: number,
     first_name: string,
     last_name: string,
     email: string,
@@ -45,68 +45,92 @@ export interface Contact{
     program: string,
     message: string,
     created_at: string,
-    status:string
+    status: string
+}
+// Program Type
+export interface Program {
+    id: string,
+    title: string,
+    slug: string,
+    description: string,
+    duration: string,
+    price: string,
+    level: string,
+    thumbnail: string,
+    is_active: 'Yes' | 'No'; 
+    created_at: string,
+    updated_at: string
 }
 
 // Contact Form Data
-export interface ContactFormData{
-    firstName:string,
-    lastName:string,
-    email:string,
-    phone?:string,
-    program?:string,
-    message?:string
+export interface ContactFormData {
+    firstName: string,
+    lastName: string,
+    email: string,
+    phone?: string,
+    program?: string,
+    message?: string
 }
 
-export interface TestomonialFormData{
-    id:number,
-    client_name:string,
-    designation:string,
-    department:string,
-    testimonial_text:string,
-    rating:string,
-    image_url:FileList
-    is_featured:boolean
-} 
-interface NavChild{
+export interface TestomonialFormData {
+    id: number,
+    client_name: string,
+    designation: string,
+    department: string,
+    testimonial_text: string,
+    rating: string,
+    image_url: FileList
+    is_featured: boolean
+}
+
+export interface ProgramFormData {
+    title: string,
+    slug: string,
+    description: string,
+    level: string,
+    is_active: string
+    image_url: FileList
+}
+
+interface NavChild {
     label: string;
-    path: string;  
+    path: string;
     icon?: React.ElementType;
 }
 
 export interface NavItem {
-  icon: React.ElementType;
-  label: string;
-  path: string;
-  children?:NavChild[];
+    icon: React.ElementType;
+    label: string;
+    path: string;
+    children?: NavChild[];
 }
 
 // 
-export interface DashboardData{
-    total_users:string;
-    pending_enquiries:string;
-    top_program:string;
+export interface DashboardData {
+    total_users: string;
+    pending_enquiries: string;
+    top_program: string;
 }
 
 // Generic Api Response Interface 
- interface ApiResponseBase{
-    success:boolean,
-    message:string,
- }
+interface ApiResponseBase {
+    success: boolean,
+    message: string,
+}
 
 // Api Response for Returning List in response Data
- export interface ListApiResponse<T> extends ApiResponseBase{
-    data:T[] | []
- }
+export interface ListApiResponse<T> extends ApiResponseBase {
+    data: T[] | []
+}
 
 // Api Response for Return a single data object by Id
-export interface ItemApiResponse<T> extends ApiResponseBase{
-    data:T|null
+export interface ItemApiResponse<T> extends ApiResponseBase {
+    data: T | null
 }
 // Api Response for Actions Delete Patch 
-export interface ActionApiResponse extends ApiResponseBase{
-    data?:never
-} 
+export interface ActionApiResponse extends ApiResponseBase {
+    data?: never
+}
 // Type for Form Errors
 export type FormErrors = {
     [key: string]: string[];

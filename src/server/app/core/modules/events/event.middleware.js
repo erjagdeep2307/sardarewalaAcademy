@@ -6,6 +6,7 @@ import AppError from "#utilities/AppError";
 const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
+  console.log('INside multer');
   if (!file) {
     return cb(new AppError("File not provided", 400), false);
   }
