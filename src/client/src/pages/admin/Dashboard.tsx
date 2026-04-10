@@ -104,8 +104,8 @@ export const AdminDashboard: React.FC = () => {
         />
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-6 transition-colors duration-300">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="col-span-1 lg:col-span-2 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-6 transition-colors duration-300">
           <h3 className="font-bold text-gray-800 dark:text-white mb-4">
             Recent Registrations {contactData?.data.length}
           </h3>
