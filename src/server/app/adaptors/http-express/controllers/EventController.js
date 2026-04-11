@@ -2,7 +2,7 @@ import EventValidationSchema from "#events/event.validation";
 import logger from "#logger";
 // Create a new event
 const EventController = (eventService) => {
-    const createEvent = async (req, res) => {
+    const createEvent = async (req, res, next) => {
         try {
             logger.info(`Event Create Request Recieved`);
             const validatedData = EventValidationSchema.safeParse(req.body);
@@ -37,7 +37,7 @@ const EventController = (eventService) => {
     }
 
     // Get all events
-    const getEvents = async (req, res) => {
+    const getEvents = async (req, res, next) => {
         try {
             const data = await eventService.list(req.log);
             res.status(200).json({
@@ -46,17 +46,14 @@ const EventController = (eventService) => {
                 data: data
             });
         } catch (error) {
-            res.status(501).send({
-                success: false,
-                message: error.message,
-                data: []
-            });
+            logger.error(`Event List Request Error:${error.message}`);
+            next(error);
         }
     }
 
 
     // Get an event by Id
-    const getEventById = async (req, res) => {
+    const getEventById = async (req, res, next) => {
         try {
             // res.send(`Event details for ID: ${req.params.id}`);
             const data = await eventService.listById(req.params.id, req.log);
@@ -66,11 +63,8 @@ const EventController = (eventService) => {
                 data: data.eventData
             });
         } catch (error) {
-            res.status(501).send({
-                success: false,
-                message: error.message,
-                data: []
-            });
+            logger.error(`Event Get by Id Request Error:${error.message}`);
+            next(error);
         }
     }
 

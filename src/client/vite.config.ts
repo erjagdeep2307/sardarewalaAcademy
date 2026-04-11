@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react-swc'
 
 // https://vite.dev/config/
@@ -8,6 +8,11 @@ export default defineConfig({
     host:'0.0.0.0',
   },
   plugins: [react()],
+  test: {
+    environment: 'jsdom',
+    setupFiles: './src/test/setup.ts',
+    css: true,
+  },
   resolve: {
     alias: {
       // This tells Vite that whenever it sees "@", it should look in the "src" folder

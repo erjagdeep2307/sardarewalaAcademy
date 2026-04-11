@@ -211,12 +211,12 @@ export const AdminDashboard: React.FC = () => {
             >
               View Recent Enquiries
             </button> */}
-            <button
+            {/* <button
               onClick={() => navigate("/admin/visitors")}
               className="w-full py-2 px-4 bg-gray-50 dark:bg-slate-800 hover:bg-gray-100 dark:hover:bg-slate-700 text-left rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 transition-colors"
             >
               Check Visitor Logs
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
